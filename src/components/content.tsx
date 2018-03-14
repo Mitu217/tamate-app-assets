@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import {State} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
@@ -43,8 +43,8 @@ export class Content extends React.Component<Props, {}> {
                 <div className={classes['toolbar']} />
                 <Switch>
                     <Route exact path='/' component={Dashboard} />
-                    <Route path='/projects' component={Project} />
                     <Route path='/projects/:id' component={Project} />
+                    <Route path='/tables/:id' component={TableData} />
                     <Route path='/profile' />
                     <Route path='/settings' />
                 </Switch>
@@ -57,12 +57,10 @@ export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
 }
 
-export default withRouter(
-    compose(
-        withStyles(styles, { name: 'Content' }),
-        connect(
-            (state: ReduxState) => ({values: state.tab}),
-            (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
-        )
-    )(Content)
-)
+export default compose(
+    withStyles(styles, { name: 'Content' }),
+    connect(
+        (state: ReduxState) => ({values: state.tab}),
+        (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
+    )
+)(Content)

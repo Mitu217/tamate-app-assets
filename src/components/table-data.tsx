@@ -4,8 +4,7 @@ import {connect, Dispatch} from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import {State} from 'modules/router'
-import {locationChange} from 'modules/router'
+import {State} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
 
 // Material-UI
@@ -42,7 +41,7 @@ const styles = theme => ({
 export class TableData extends React.Component<Props, {}> {
 
     handleLocationChangePath = (path: string) => {
-        this.props.actions.onLocationChangePath(path)
+        
     };
 
     render() {
@@ -99,16 +98,12 @@ export class TableData extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
-
-    public onLocationChangePath(path: string) {        
-        this.dispatch(locationChange({pathName: path}))
-    }
 }
 
 export default compose(
     withStyles(styles, { name: 'Content' }),
     connect(
-        (state: ReduxState) => ({values: state.router}),
+        (state: ReduxState) => ({values: state.tab}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
 )(TableData)
