@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
+import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
 
 import {ReduxState, ReduxAction} from 'store';
 import {State} from 'modules/tab'
@@ -37,11 +38,15 @@ export class Root extends React.Component<Props, {}> {
         const classes = this.props.classes
 
         return (
-            <div className={this.props.classes['root']}>
-                <MenuAppBar />
-                <MenuDrawer />
-                <Content />
-            </div>
+            <BrowserRouter history={browserHistory}>
+                <Route exact path='/'>
+                    <div className={this.props.classes['root']}>
+                        <MenuAppBar />
+                        <MenuDrawer />
+                        <Content />
+                    </div>
+                </Route>
+            </BrowserRouter>
         )
     }
 }
