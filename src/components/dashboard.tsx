@@ -5,8 +5,8 @@ import {connect, Dispatch} from 'react-redux';
 import {select} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
 
-import MenuAppBar from 'containers/menu-app-bar';
-import MenuDrawer from 'containers/menu-drawer';
+import MenuAppBar from 'components/menu-app-bar';
+import MenuDrawer from 'components/menu-drawer';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';

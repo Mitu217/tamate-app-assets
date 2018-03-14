@@ -9,7 +9,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import createPalette from 'material-ui/styles/createPalette';
 import bluegrey from 'material-ui/colors/bluegrey';
 
-import Root from 'containers/root';
+import Root from 'components/root';
 
 const theme = createMuiTheme({
     palette: createPalette({

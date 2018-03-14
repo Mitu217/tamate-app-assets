@@ -1,12 +1,14 @@
 import * as React from 'react';
 import {compose} from 'redux';
-import {State} from 'modules/tab'
 import {connect, Dispatch} from 'react-redux';
-import {select} from 'modules/tab'
+
 import {ReduxState, ReduxAction} from 'store';
+import {State} from 'modules/tab'
+import {select} from 'modules/tab'
 
-
-import Dashboard from 'containers/dashboard';
+import MenuAppBar from 'components/menu-app-bar';
+import MenuDrawer from 'components/menu-drawer';
+import Content from 'components/content';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';
@@ -19,22 +21,27 @@ interface Props {
 }
 
 const styles = theme => ({
-    content: {
+    root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
+        minHeight: '100vh',
+        zIndex: 1,
+        overflow: 'hidden' as 'hidden',
+        position: 'relative' as 'relative',
+        display: 'flex',
+        width: '100%',
     },
-    toolbar: theme.mixins.toolbar,
 });
 
-export class Content extends React.Component<Props, {}> {
+export class Root extends React.Component<Props, {}> {
     render() {
         const classes = this.props.classes
 
         return (
-            <main className={classes['content']}>
-                <div className={classes['toolbar']} />
-                <Dashboard />
-            </main>
+            <div className={this.props.classes['root']}>
+                <MenuAppBar />
+                <MenuDrawer />
+                <Content />
+            </div>
         )
     }
 }
@@ -42,9 +49,11 @@ export class Content extends React.Component<Props, {}> {
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
 
+    /*
     public onSelect(selectedId: number) {
         this.dispatch(select(selectedId))
     }
+    */
 }
 
 export default compose(
@@ -53,4 +62,4 @@ export default compose(
         (state: ReduxState) => ({values: state.tab}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(Content)
+)(Root)

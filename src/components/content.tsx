@@ -5,9 +5,8 @@ import {connect, Dispatch} from 'react-redux';
 import {select} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
 
-import MenuAppBar from 'containers/menu-app-bar';
-import MenuDrawer from 'containers/menu-drawer';
-import Content from 'containers/content';
+
+import Dashboard from 'components/dashboard';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';
@@ -20,27 +19,22 @@ interface Props {
 }
 
 const styles = theme => ({
-    root: {
+    content: {
         flexGrow: 1,
-        minHeight: '100vh',
-        zIndex: 1,
-        overflow: 'hidden' as 'hidden',
-        position: 'relative' as 'relative',
-        display: 'flex',
-        width: '100%',
+        backgroundColor: theme.palette.background.default,
     },
+    toolbar: theme.mixins.toolbar,
 });
 
-export class Root extends React.Component<Props, {}> {
+export class Content extends React.Component<Props, {}> {
     render() {
         const classes = this.props.classes
 
         return (
-            <div className={this.props.classes['root']}>
-                <MenuAppBar />
-                <MenuDrawer />
-                <Content />
-            </div>
+            <main className={classes['content']}>
+                <div className={classes['toolbar']} />
+                <Dashboard />
+            </main>
         )
     }
 }
@@ -48,11 +42,9 @@ export class Root extends React.Component<Props, {}> {
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
 
-    /*
     public onSelect(selectedId: number) {
         this.dispatch(select(selectedId))
     }
-    */
 }
 
 export default compose(
@@ -61,4 +53,4 @@ export default compose(
         (state: ReduxState) => ({values: state.tab}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(Root)
+)(Content)
