@@ -42,9 +42,10 @@ const styles = theme => ({
 });
 
 interface Props {
-    classes: object;
-    values: State;
-    actions: ActionDispatcher;
+    classes: object
+    values: State
+    actions: ActionDispatcher
+    history: PropTypes.historyContext
 }
 
 export class MenuDrawer extends React.Component<Props, {}> {
@@ -53,9 +54,13 @@ export class MenuDrawer extends React.Component<Props, {}> {
         anchorEl: null,
     };
 
-    handleDrawerToggle = () => {
+    handleDrawerToggle() {
         this.props.actions.onToggle(!this.props.values.open)
     };
+
+    handlerChangeMenu(uri: string) {
+        this.props.history.push(uri)
+    }
 
     render() {
         const classes = this.props.classes
@@ -76,13 +81,13 @@ export class MenuDrawer extends React.Component<Props, {}> {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/')}>
                         <ListItemIcon>
                             <InboxIcon />
                         </ListItemIcon>
                         <ListItemText primary="Inbox" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/settings')}>
                         <ListItemIcon>
                             <DraftsIcon />
                         </ListItemIcon>

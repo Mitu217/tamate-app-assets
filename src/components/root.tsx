@@ -1,23 +1,26 @@
 import * as React from 'react';
 import {compose} from 'redux';
-import {connect, Dispatch} from 'react-redux';
+import {connect, Dispatch} from 'react-redux'
+import {Switch, Route, Redirect} from 'react-router'
+import PropTypes from 'prop-types';
 
-import {ReduxState, ReduxAction} from 'store';
+import {ReduxState, ReduxAction} from 'store'
 import {State} from 'modules/tab'
 import {select} from 'modules/tab'
 
-import MenuAppBar from 'components/menu-app-bar';
-import MenuDrawer from 'components/menu-drawer';
-import Content from 'components/content';
+import MenuAppBar from 'components/menu-app-bar'
+import MenuDrawer from 'components/menu-drawer'
+import Content from 'components/content'
 
 // Material-UI
-import {withStyles} from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import {withStyles} from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
 
 interface Props {
-    classes: object;
-    values: State;
-    actions: ActionDispatcher;
+    classes: object
+    values: State
+    actions: ActionDispatcher
+    history: PropTypes.historyContext
 }
 
 const styles = theme => ({
@@ -37,10 +40,17 @@ export class Root extends React.Component<Props, {}> {
         const classes = this.props.classes
 
         return (
+            
             <div className={this.props.classes['root']}>
-                <MenuAppBar />
-                <MenuDrawer />
-                <Content />
+                <Switch>
+                    <Route path='*' component={MenuAppBar} />
+                </Switch>
+                <Switch>
+                    <Route path='*' component={MenuDrawer} />
+                </Switch>
+                <Switch>
+                    <Route path='/' component={Content} />
+                </Switch>
             </div>
         )
     }

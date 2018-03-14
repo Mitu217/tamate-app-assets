@@ -39,7 +39,7 @@ const styles = theme => ({
     },
 });
 
-export class Project extends React.Component<Props, {}> {
+export class TableData extends React.Component<Props, {}> {
 
     handleLocationChangePath = (path: string) => {
         this.props.actions.onLocationChangePath(path)
@@ -111,4 +111,4 @@ export default compose(
         (state: ReduxState) => ({values: state.router}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(Project)
+)(TableData)

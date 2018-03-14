@@ -1,24 +1,25 @@
-import * as React from 'react';
-import {compose} from 'redux';
-import {State} from 'modules/tab'
-import {connect, Dispatch} from 'react-redux';
-import {select} from 'modules/tab'
-import {ReduxState, ReduxAction} from 'store';
+import * as React from 'react'
+import {compose} from 'redux'
+import {connect, Dispatch} from 'react-redux'
+import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 
-import MenuAppBar from 'components/menu-app-bar';
-import MenuDrawer from 'components/menu-drawer';
+import {State} from 'modules/router'
+import {locationChange} from 'modules/router'
+import {ReduxState, ReduxAction} from 'store'
 
 // Material-UI
-import {withStyles} from 'material-ui/styles';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
-import Typography from 'material-ui/Typography';
+import {withStyles} from 'material-ui/styles'
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
+import Typography from 'material-ui/Typography'
 
 
 interface Props {
-    classes: object;
-    values: State;
-    actions: ActionDispatcher;
+    classes: object
+    values: State
+    actions: ActionDispatcher
+    history: PropTypes.historyContext
 }
 
 const styles = theme => ({
@@ -41,8 +42,8 @@ const styles = theme => ({
 
 export class Dashboard extends React.Component<Props, {}> {
 
-    handleDrawerToggle = () => {
-        console.log('test')
+    handleChangeLocation = (uri: string) => {
+        this.props.history.push(uri)
     };
 
     render() {
@@ -54,23 +55,11 @@ export class Dashboard extends React.Component<Props, {}> {
             {
                 key: 1,
             },
-            {
-                key: 2,
-            },
-            {
-                key: 3,
-            },
-            {
-                key: 4,
-            },
-            {
-                key: 5,
-            },
         ]
         return (
             <GridList cols={3} cellHeight={'auto'} className={classes['gridList']} spacing={0}>
                 {tileData.map(tile => (
-                    <GridListTile className={classes['card']} key={tile.key} onClick={this.handleDrawerToggle}>
+                    <GridListTile className={classes['card']} key={tile.key} onClick={this.handleChangeLocation.bind(this, '/projects/' + tile.key)}>
                         <Card className={classes['cardInner']}>
                             <CardMedia
                                 className={classes['media']}
@@ -99,15 +88,15 @@ export class Dashboard extends React.Component<Props, {}> {
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
 
-    public onSelect(selectedId: number) {
-        this.dispatch(select(selectedId))
+    public onLocationChangePath(path: string) {        
+        this.dispatch(locationChange({pathName: path}))
     }
 }
 
 export default compose(
     withStyles(styles, { name: 'Content' }),
     connect(
-        (state: ReduxState) => ({values: state.tab}),
+        (state: ReduxState) => ({values: state.router}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
 )(Dashboard)
