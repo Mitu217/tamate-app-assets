@@ -3,9 +3,13 @@ import * as ReactDOM from 'react-dom';
 import {applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
+import {createBrowserHistory} from 'history';
+
 import {createStore} from 'store';
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/createPalette';
 import bluegrey from 'material-ui/colors/bluegrey';
 
@@ -18,16 +22,22 @@ const theme = createMuiTheme({
     }),
 });
 
+const history = createBrowserHistory();
+
 class Application extends React.Component {
     render() {
         const sagaMiddleware = createSagaMiddleware();
-        const store = createStore(applyMiddleware(
-            sagaMiddleware
-        ))
+        const store = createStore(
+            applyMiddleware(routerMiddleware(history), sagaMiddleware),
+        )
         return (
             <MuiThemeProvider theme={theme}>
                 <Provider store={store}>
-                    <Root />
+                    <ConnectedRouter history={history}>
+                        <Switch>
+                            <Route><Root /></Route>
+                        </Switch>
+                    </ConnectedRouter>
                 </Provider>
             </MuiThemeProvider>
         );

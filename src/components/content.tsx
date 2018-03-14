@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import {State} from 'modules/tab'
 import {select} from 'modules/tab'
@@ -34,18 +34,16 @@ export class Content extends React.Component<Props, {}> {
         const About = () => (
             <div>
                 <h2>About</h2>
-                <p>フレンズに投票するページです</p>
             </div>
         )
 
         return (
             <main className={classes['content']}>
                 <div className={classes['toolbar']} />
-                <Route exact path='/' component={Dashboard} />
-                <Route path='/about' component={Dashboard} />
-                <Route path='/projects' component={Dashboard} />
-                <Route path='/tables' component={Dashboard} />
-                <Dashboard />
+                <Switch>
+                    <Route exact path='/' component={Dashboard} />
+                    <Route path='/about' component={About} />
+                </Switch>
             </main>
         )
     }

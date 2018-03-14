@@ -21,12 +21,13 @@
     "webpack-dev-server": "^3.1.0"
   },
   "dependencies": {
+    "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.37",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
+    "react-router-redux": "^5.0.0-alpha.9",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0"
   }
