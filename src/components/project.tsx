@@ -43,6 +43,7 @@ const styles = theme => ({
     header: {
         width: '100%',
         height: '200px',
+        margin: '16px 0 40px 0',
         overflowY: 'hidden' as 'hidden',
     },
     headerThumbnail: {
@@ -53,20 +54,11 @@ const styles = theme => ({
         height: '180px',
         width: '180px',
         margin: '10px',
-        position: 'absolute' as 'absolute',
-        top: '64px',
-        zIndex: 100,
         boxShadow: '2px 2px 4px gray',
     },
-    headerBackgroundImage: {
-        backgroundImage: `url('https://www.aniplexplus.com/res/g5b92h?w=510&h=510')`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+    headerContent: {
         width: '100%',
         height: '100%',
-        filter: 'blur(10px)',
-        margin: '-10px',  // blurの値と同じ値だけマイナス
     },
 });
 
@@ -99,31 +91,15 @@ export class Project extends React.Component<Props, {}> {
             },
         ]
         if (this.props.match.params.id) {
-            const projectId = this.props.match.id
+            const projectId = this.props.match.projectId
             const project = projectData[projectId]
             return (
                 <div>
                     <div className={classes['header']}>
                         <div className={classes['headerThumbnail']}/>
-                        <div className={classes['headerBackgroundImage']}/>
+                        <div className={classes['headerContent']}/>
                     </div>
-                    <AppBar position="static" color="default">
-                        <Tabs
-                            value={1}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            scrollable
-                            scrollButtons="auto"
-                        >
-                            <Tab label="Item One" />
-                            <Tab label="Item Two" />
-                            <Tab label="Item Three" />
-                            <Tab label="Item Four" />
-                            <Tab label="Item Five" />
-                            <Tab label="Item Six" />
-                            <Tab label="Item Seven" />
-                        </Tabs>
-                    </AppBar>
+                    
                 </div>
             )
         }
