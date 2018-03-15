@@ -59,6 +59,8 @@ export class MenuDrawer extends React.Component<Props, {}> {
     };
 
     handlerChangeMenu(uri: string) {
+        // Close Drawer.
+        this.props.actions.onToggle(false)
         this.props.history.push(uri)
     }
 
