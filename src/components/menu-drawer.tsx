@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import {State, toggle} from 'modules/menu-drawer'
@@ -47,6 +48,10 @@ const styles = theme => ({
         paddingLeft: '24px',
         flexDirection: 'column' as 'column',
         justifyContent: 'center' as 'center',
+    },
+    appTitle: {
+        textDecoration: 'none',
+        color: 'inherit',
     },
 });
 
@@ -96,12 +101,12 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
         const classes = this.props.classes
         const drawer = (
             <div>
-                <div className={classes['appInfo']}>
+                <div className={classes.appInfo}>
                     <Typography
                         color='textSecondary'
                         variant='title'
                     >
-                        tamate
+                        <Link className={classes.appTitle} to='/'>tamate</Link>
                     </Typography>
                     <Typography
                         color='textSecondary'
