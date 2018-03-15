@@ -43,8 +43,12 @@ export class Content extends React.Component<Props, {}> {
                 <div className={classes['toolbar']} />
                 <Switch>
                     <Route exact path='/' component={Dashboard} />
+                    <Route exact path='/projects' component={Project} />
                     <Route path='/projects/:id' component={Project} />
-                    <Route path='/tables/:id' component={TableData} />
+                    <Route exact path='/tables' component={Project} />
+                    <Route path='/tables/:id' component={Project} />
+                    <Route exact path='/datasources' component={Project} />
+                    <Route path='/datasources/:id' component={Project} />
                     <Route path='/profile' />
                     <Route path='/settings' />
                 </Switch>
