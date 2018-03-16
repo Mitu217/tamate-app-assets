@@ -45,7 +45,6 @@ export class TableData extends React.Component<Props, {}> {
     };
 
     render() {
-        console.log(this.props)
         const classes = this.props.classes
         const tileData = [
             {
