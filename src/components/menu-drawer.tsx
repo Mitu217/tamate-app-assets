@@ -17,8 +17,7 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
-import InboxIcon from 'material-ui-icons/Inbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
+import Business from 'material-ui-icons/Business';
 import DashBoard from 'material-ui-icons/Dashboard';
 import Description from 'material-ui-icons/Description';
 import Storage from 'material-ui-icons/Storage';
@@ -116,40 +115,11 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button onClick={this.handleExpandToggle.bind(this, 0)}>
-                        <ListItemIcon>
-                            <InboxIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Inbox" />
-                        {this.state.opens.indexOf(0) > -1 ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={this.state.opens.indexOf(0) > -1} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItem button className={classes.nested} onClick={this.handlerChangeMenu.bind(this, '/projects/0')}>
-                                <ListItemIcon>
-                                    <DashBoard />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Dashboard" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/tables#0')}>
-                                <ListItemIcon>
-                                    <Description />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Table" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#0')}>
-                                <ListItemIcon>
-                                    <Storage />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Data" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
                     <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            <Business />
                         </ListItemIcon>
-                        <ListItemText primary="Drafts" />
+                        <ListItemText primary="Project1" />
                         {this.state.opens.indexOf(1) > -1 ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.opens.indexOf(1) > -1} timeout="auto" unmountOnExit>
@@ -167,6 +137,35 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 <ListItemText inset primary="Table" />
                             </ListItem>
                             <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#1')}>
+                                <ListItemIcon>
+                                    <Storage />
+                                </ListItemIcon>
+                                <ListItemText inset primary="Data" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
+                    <ListItem button onClick={this.handleExpandToggle.bind(this, 2)}>
+                        <ListItemIcon>
+                            <Business />
+                        </ListItemIcon>
+                        <ListItemText primary="Project2" />
+                        {this.state.opens.indexOf(2) > -1 ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse in={this.state.opens.indexOf(2) > -1} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItem button className={classes.nested} onClick={this.handlerChangeMenu.bind(this, '/projects/2')}>
+                                <ListItemIcon>
+                                    <DashBoard />
+                                </ListItemIcon>
+                                <ListItemText inset primary="Dashboard" />
+                            </ListItem>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/tables#2')}>
+                                <ListItemIcon>
+                                    <Description />
+                                </ListItemIcon>
+                                <ListItemText inset primary="Table" />
+                            </ListItem>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#2')}>
                                 <ListItemIcon>
                                     <Storage />
                                 </ListItemIcon>
