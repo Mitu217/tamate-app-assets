@@ -2,23 +2,15 @@ import * as React from 'react';
 import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
 import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-
-import {State} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
-
+import {withStyles} from 'material-ui/styles';
 import Dashboard from 'components/dashboard';
 import Project from 'containers/project';
 import {TableData} from 'components/row-data';
 import SchemaDetail from 'components/schema/detail';
 
-// Material-UI
-import {withStyles} from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
-
 interface Props {
     classes: object;
-    values: State;
-    actions: ActionDispatcher;
 }
 
 const styles = theme => ({
@@ -37,12 +29,16 @@ export class Content extends React.Component<Props, {}> {
                 <div className={classes['toolbar']} />
                 <Switch>
                     <Route exact path='/' component={Dashboard} />
+                    {/* Projects */}
                     <Route exact path='/projects' component={Project} />
                     <Route path='/projects/:id' component={Project} />
-                    <Route exact path='/tables' component={SchemaDetail} />
-                    <Route path='/tables/:id' component={SchemaDetail} />
+                    {/* Schemas */}
+                    <Route exact path='/schemas' component={SchemaDetail} />
+                    <Route path='/schemas/:id' component={SchemaDetail} />
+                    {/* DataSources */}
                     <Route exact path='/datasources' component={TableData} />
                     <Route path='/datasources/:id' component={TableData} />
+                    {/* Other */}
                     <Route path='/profile' />
                     <Route path='/settings' />
                 </Switch>
