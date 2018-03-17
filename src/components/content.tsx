@@ -9,6 +9,7 @@ import {ReduxState, ReduxAction} from 'store';
 import Dashboard from 'components/dashboard';
 import Project from 'components/project';
 import {TableData} from 'components/row-data';
+import SchemaDetail from 'components/schema/detail';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';
@@ -45,10 +46,10 @@ export class Content extends React.Component<Props, {}> {
                     <Route exact path='/' component={Dashboard} />
                     <Route exact path='/projects' component={Project} />
                     <Route path='/projects/:id' component={Project} />
-                    <Route exact path='/tables' component={TableData} />
-                    <Route path='/tables/:id' component={TableData} />
-                    <Route exact path='/datasources' component={Project} />
-                    <Route path='/datasources/:id' component={Project} />
+                    <Route exact path='/tables' component={SchemaDetail} />
+                    <Route path='/tables/:id' component={SchemaDetail} />
+                    <Route exact path='/datasources' component={TableData} />
+                    <Route path='/datasources/:id' component={TableData} />
                     <Route path='/profile' />
                     <Route path='/settings' />
                 </Switch>
