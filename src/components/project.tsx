@@ -1,23 +1,23 @@
-import * as React from 'react'
-import {compose} from 'redux'
-import {connect, Dispatch} from 'react-redux'
-import {RouteComponentProps, withRouter} from 'react-router-dom'
-import PropTypes from 'prop-types'
+import * as React from 'react';
+import {compose} from 'redux';
+import {connect, Dispatch} from 'react-redux';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 // Projects
-import {ReduxState, ReduxAction} from 'store'
+import {ReduxState, ReduxAction} from 'store';
 // Material-UI
-import {withStyles} from 'material-ui/styles'
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
-import Typography from 'material-ui/Typography'
-import AppBar from 'material-ui/AppBar'
-import Tabs, { Tab } from 'material-ui/Tabs'
+import {withStyles} from 'material-ui/styles';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
+import Typography from 'material-ui/Typography';
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 // Custom-UI
-import Header from 'components/header'
+import Header from 'components/header';
 
 interface Props {
     values: ReduxState
