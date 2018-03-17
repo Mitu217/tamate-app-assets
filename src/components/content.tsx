@@ -7,7 +7,7 @@ import {State} from 'modules/tab'
 import {ReduxState, ReduxAction} from 'store';
 
 import Dashboard from 'components/dashboard';
-import Project from 'components/project';
+import Project from 'containers/project';
 import {TableData} from 'components/row-data';
 import SchemaDetail from 'components/schema/detail';
 
@@ -32,13 +32,6 @@ const styles = theme => ({
 export class Content extends React.Component<Props, {}> {
     render() {
         const classes = this.props.classes
-
-        const About = () => (
-            <div>
-                <h2>About</h2>
-            </div>
-        )
-
         return (
             <main className={classes['content']}>
                 <div className={classes['toolbar']} />

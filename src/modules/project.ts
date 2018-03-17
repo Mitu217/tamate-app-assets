@@ -3,7 +3,7 @@ import {Action} from 'redux';
 /********/
 /* Model
 /********/
-interface Project {
+export interface Project {
     id: number
     name: string
     description: string
