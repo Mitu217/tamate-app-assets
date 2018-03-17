@@ -37,7 +37,8 @@ module.exports = {
     devServer: {
         contentBase: dist,
         inline: true,
-        hot: true
+        hot: true,
+        port: 3000,
     },
     plugins: [
         new HtmlWebpackPlugin({
