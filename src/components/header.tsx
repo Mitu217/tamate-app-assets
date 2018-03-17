@@ -5,31 +5,36 @@ import {RouteComponentProps, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 // Material-UI
 import {withStyles, WithStyles} from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
 
 export interface Props {
-    image: string
+    image?: string
+    name?: string
 }
 
 const styles = {
     header: {
         width: '100%',
-        height: '200px',
+        height: '160px',
         margin: '16px 0 40px 0',
-        overflowY: 'hidden' as 'hidden',
+        overflow: 'hidden' as 'hidden',
     },
     headerThumbnail: {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        height: '180px',
-        width: '180px',
-        margin: '10px',
+        height: '140px',
+        width: '140px',
+        margin: '10px 40px 10px 20px',
         boxShadow: '2px 2px 4px gray',
+        float: 'left',
     },
     headerContent: {
-        width: '100%',
-        height: '100%',
+        
     },
+    headerName: {
+        margin: '40px 0 0 0',
+    }
 }
 
 type ClassNames = keyof typeof styles
@@ -41,22 +46,14 @@ const Header = withStyles(styles)<Props>(
         return (
             <div className={classes.header}>
                 <div className={classes.headerThumbnail} style={thumbnailStyle}/>
-                <div className={classes.headerContent}/>
+                <div className={classes.headerContent}>
+                    <Typography className={classes.headerName} variant='display1' component='h1'>
+                        {props.name}
+                    </Typography>
+                </div>
             </div>
         )
     }
 )
 
-/*
-export class Header extends React.Component<Props, {}> {
-
-    render() {
-        const classes = this.props.classes
-        const image = this.props.image
-        return (
-            
-        )
-    }
-}
-*/
 export default Header

@@ -1,23 +1,23 @@
-import * as React from 'react'
-import {compose} from 'redux'
-import {connect, Dispatch} from 'react-redux'
-import { withRouter } from 'react-router'
-import PropTypes from 'prop-types'
+import * as React from 'react';
+import {compose} from 'redux';
+import {connect, Dispatch} from 'react-redux';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
-import {State} from 'modules/tab'
-import {ReduxState, ReduxAction} from 'store'
+import {State} from 'modules/tab';
+import {ReduxState, ReduxAction} from 'store';
 
 // Material-UI
-import {withStyles} from 'material-ui/styles'
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
-import Typography from 'material-ui/Typography'
+import {withStyles} from 'material-ui/styles';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
+import Typography from 'material-ui/Typography';
 
 
 interface Props {
-    classes: object
-    values: State
+    values: ReduxState
     actions: ActionDispatcher
+    classes: PropTypes.classesContext
     history: PropTypes.historyContext
 }
 
@@ -42,36 +42,34 @@ const styles = theme => ({
 export class Dashboard extends React.Component<Props, {}> {
 
     handleChangeLocation = (uri: string) => {
-        this.props.history.push(uri)
+        this.props.history.push(uri);
     };
 
     render() {
-        const classes = this.props.classes
-        const tileData = [
-            {
-                key: 0,
-            },
-            {
-                key: 1,
-            },
-        ]
+        const classes = this.props.classes;
+        const projects = this.props.values.project.projects;
+
+        // ダッシュボードではお気に入りされたプロジェクトのみ表示する
+        const favoriteProject = projects.filter(project => {
+            return project.favorite;
+        })
+
         return (
-            <GridList cols={3} cellHeight={'auto'} className={classes['gridList']} spacing={0}>
-                {tileData.map(tile => (
-                    <GridListTile className={classes['card']} key={tile.key} onClick={this.handleChangeLocation.bind(this, '/projects/' + tile.key)}>
-                        <Card className={classes['cardInner']}>
+            <GridList cols={3} cellHeight={'auto'} className={classes.gridList} spacing={0}>
+                {favoriteProject.map(project => (
+                    <GridListTile className={classes.card} key={project.id} onClick={this.handleChangeLocation.bind(this, '/projects/' + project.id)}>
+                        <Card className={classes.cardInner}>
                             <CardMedia
-                                className={classes['media']}
-                                image='https://www.aniplexplus.com/res/g5b92h?w=510&h=510'
+                                className={classes.media}
+                                image={project.thumbnailUri}
                                 title='Contemplative Reptile'
                             />
                             <CardContent>
                                 <Typography variant='headline' component='h2'>
-                                    Project1
+                                    {project.name}
                                 </Typography>
                                 <Typography component='p'>
-                                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                    across all continents except Antarctica
+                                    {project.description}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -91,7 +89,7 @@ export class ActionDispatcher {
 export default compose(
     withStyles(styles, { name: 'Content' }),
     connect(
-        (state: ReduxState) => ({values: state.tab}),
+        (state: ReduxState) => ({values: state}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
 )(Dashboard)

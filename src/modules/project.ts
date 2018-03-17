@@ -8,6 +8,7 @@ interface Project {
     name: string
     description: string
     thumbnailUri: string
+    favorite: boolean
 }
 
 /****************/
@@ -42,13 +43,15 @@ const initialState: State = {projects: [
         id: 1,
         name: 'dummy project1',
         description: 'Dummyなプロジェクトです',
-        thumbnailUri: 'https://www.aniplexplus.com/res/g5b92h?w=510&h=510'
+        thumbnailUri: 'https://www.aniplexplus.com/res/g5b92h?w=510&h=510',
+        favorite: true,
     },
     {
         id: 2,
         name: 'dummy project2',
         description: 'Dummyなプロジェクトです',
-        thumbnailUri: 'https://images-na.ssl-images-amazon.com/images/I/717qF7gjJAL._SL1110_.jpg'
+        thumbnailUri: 'https://images-na.ssl-images-amazon.com/images/I/717qF7gjJAL._SL1110_.jpg',
+        favorite: false,
     },
 ]}
 

@@ -12,6 +12,10 @@ import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
 import Typography from 'material-ui/Typography'
 import AppBar from 'material-ui/AppBar'
 import Tabs, { Tab } from 'material-ui/Tabs'
+import Drawer from 'material-ui/Drawer';
+import Divider from 'material-ui/Divider';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Paper from 'material-ui/Paper';
 // Custom-UI
 import Header from 'components/header'
 
@@ -20,6 +24,7 @@ interface Props {
     actions: ActionDispatcher
     classes: PropTypes.classesContext
     match: PropTypes.matchContext
+    history: PropTypes.historyContext
 }
 
 const styles = theme => ({
@@ -38,33 +43,23 @@ const styles = theme => ({
         width: `calc(100% - 16px)`,
         overflowY: 'scroll' as 'scroll',
     },
-
-    header: {
-        width: '100%',
-        height: '200px',
-        margin: '16px 0 40px 0',
-        overflowY: 'hidden' as 'hidden',
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing.unit * 3,
     },
-    headerThumbnail: {
-        backgroundImage: `url($image)`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        height: '180px',
-        width: '180px',
-        margin: '10px',
-        boxShadow: '2px 2px 4px gray',
-    },
-    headerContent: {
-        width: '100%',
-        height: '100%',
+    drawerPaper: {
+        position: 'relative' as 'relative',
+        width: drawerWidth,
     },
 });
 
+const drawerWidth = 240
+
 export class Project extends React.Component<Props, {}> {
 
-    handleLocationChangePath = (path: string) => {
-        
+    handleChangeLocation = (uri: string) => {
+        this.props.history.push(uri);
     };
 
     render() {
@@ -76,7 +71,27 @@ export class Project extends React.Component<Props, {}> {
             const project = projects[projectId-1]
             return (
                 <div>
-                    <Header image={project.thumbnailUri} />
+                    <main className={classes.content}>
+                        <Header image={project.thumbnailUri} name={project.name}/> 
+                        <Typography variant='body2' component='h2'>
+                            Latest Activity > 
+                        </Typography>
+                        <Paper>
+                            <List>
+                                <ListItem>
+                                    <ListItemText inset primary="Activity1" />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText inset primary="Activity2" />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText inset primary="Activity3" />
+                                </ListItem>
+                            </List>
+                        </Paper>
+                    </main>
                 </div>
             )
         }
@@ -84,7 +99,7 @@ export class Project extends React.Component<Props, {}> {
         return (
             <GridList cols={3} cellHeight={'auto'} className={classes.gridList} spacing={0}>
                 {projects.map(project => (
-                    <GridListTile className={classes.card} key={project.id} onClick={() => this.handleLocationChangePath('/projects/' + project.id)}>
+                    <GridListTile className={classes.card} key={project.id} onClick={() => this.handleChangeLocation('/projects/' + project.id)}>
                         <Card className={classes.cardInner}>
                             <CardMedia
                                 className={classes.media}
