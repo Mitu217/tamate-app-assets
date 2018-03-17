@@ -19,7 +19,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { lighten } from 'material-ui/styles/colorManipulator';
 
-import {TableToolbar, TableHeader} from 'components/table';
+import {TableToolbar, TableHeader} from 'components/row-data';
 
 
 interface Props {

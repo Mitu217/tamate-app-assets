@@ -8,7 +8,7 @@ import {ReduxState, ReduxAction} from 'store';
 
 import Dashboard from 'components/dashboard';
 import Project from 'components/project';
-import TableData from 'components/table/table-data';
+import {TableData} from 'components/row-data';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';
