@@ -114,7 +114,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                     </Typography>
                 </div>
                 <Divider />
-                <List>
+                <List dense={true}>
                     <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
                         <ListItemIcon>
                             <Business />
@@ -123,7 +123,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                         {this.state.opens.indexOf(1) > -1 ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.opens.indexOf(1) > -1} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
+                        <List component="div" disablePadding dense={true}>
                             <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
                                 <ListItemIcon>
                                     <DashBoard />
@@ -134,13 +134,13 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 <ListItemIcon>
                                     <Description />
                                 </ListItemIcon>
-                                <ListItemText inset primary="Table" />
+                                <ListItemText inset primary="TableSchema" />
                             </ListItem>
                             <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#1')}>
                                 <ListItemIcon>
                                     <Storage />
                                 </ListItemIcon>
-                                <ListItemText inset primary="Data" />
+                                <ListItemText inset primary="TableData" />
                             </ListItem>
                         </List>
                     </Collapse>
@@ -152,7 +152,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                         {this.state.opens.indexOf(2) > -1 ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.opens.indexOf(2) > -1} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
+                        <List component="div" disablePadding dense={true}>
                             <ListItem button className={classes.nested} onClick={this.handlerChangeMenu.bind(this, '/projects/2')}>
                                 <ListItemIcon>
                                     <DashBoard />
