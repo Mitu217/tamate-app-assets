@@ -93,7 +93,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
         } else {
             opens.push(id);
         }
-        this.setState({ opens: opens });        
+        this.setState({ opens: opens });
     };
 
     render() {
@@ -130,7 +130,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 </ListItemIcon>
                                 <ListItemText inset primary="Dashboard" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/tables#1')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/schemas#1')}>
                                 <ListItemIcon>
                                     <Description />
                                 </ListItemIcon>
@@ -159,7 +159,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 </ListItemIcon>
                                 <ListItemText inset primary="Dashboard" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/tables#2')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/schemas#2')}>
                                 <ListItemIcon>
                                     <Description />
                                 </ListItemIcon>
@@ -183,7 +183,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                         variant='temporary'
                         anchor={classes.direction === 'rtl' ? 'right' : 'left'}
                         open={this.props.values.open}
-                        onClose={this.handleDrawerToggle}
+                        onClose={this.handleDrawerToggle.bind(this)}
                         classes={{
                             paper: classes.drawerPaper,
                         }}
