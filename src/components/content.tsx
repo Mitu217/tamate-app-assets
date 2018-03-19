@@ -6,8 +6,8 @@ import {ReduxState, ReduxAction} from 'store';
 import {withStyles} from 'material-ui/styles';
 import Dashboard from 'components/dashboard';
 import Project from 'containers/project';
-import {TableData} from 'components/row-data';
-import SchemaDetail from 'components/schema/detail';
+import Schema from 'containers/schema';
+import {TableData} from 'components/datasource';
 
 interface Props {
     classes: object;
@@ -31,13 +31,17 @@ export class Content extends React.Component<Props, {}> {
                     <Route exact path='/' component={Dashboard} />
                     {/* Projects */}
                     <Route exact path='/projects' component={Project} />
-                    <Route path='/projects/:id' component={Project} />
+                    <Route exact path='/projects/:id' component={Project} />
                     {/* Schemas */}
-                    <Route exact path='/schemas' component={SchemaDetail} />
-                    <Route path='/schemas/:id' component={SchemaDetail} />
+                    <Route exact path='/schemas' component={Schema} />
+                    <Route exact path='/schemas/:id' component={Schema} />
+                    <Route exact path='/projects/:projectId/schemas' component={Schema} />
+                    <Route exact path='/projects/:projectId/schemas/:id' component={Schema} />
                     {/* DataSources */}
                     <Route exact path='/datasources' component={TableData} />
-                    <Route path='/datasources/:id' component={TableData} />
+                    <Route exact path='/datasources/:id' component={TableData} />
+                    <Route exact path='/projects/:projectId/datasources' component={TableData} />
+                    <Route exact path='/projects/:projectId/datasources/:id' component={TableData} />
                     {/* Other */}
                     <Route path='/profile' />
                     <Route path='/settings' />

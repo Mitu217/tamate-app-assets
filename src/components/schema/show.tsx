@@ -3,11 +3,10 @@ import {compose} from 'redux';
 import {connect, Dispatch} from 'react-redux';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-// Projects
-import {ReduxState, ReduxAction} from 'store';
+import {Schema} from 'modules/schema';
 // Material-UI
 import classNames from 'classnames';
-import {withStyles} from 'material-ui/styles';
+import {withStyles, StyledComponentProps} from 'material-ui/styles';
 import Table, {TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel} from 'material-ui/Table';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -19,15 +18,11 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { lighten } from 'material-ui/styles/colorManipulator';
 
-import {TableToolbar, TableHeader} from 'components/row-data';
+import {TableToolbar, TableHeader} from 'components/datasource';
 
 
-interface Props {
-    values: ReduxState
-    actions: ActionDispatcher
-    classes: PropTypes.classesContext
-    match: PropTypes.matchContext
-    history: PropTypes.historyContext
+interface Props extends StyledComponentProps {
+    schema: Schema
 }
 
 const styles = theme => ({
@@ -56,50 +51,39 @@ const styles = theme => ({
     },
 });
 
-export class SchemaDetail extends React.Component<Props, {}> {
-    isSelected(id) {
-        return false
-    }
+const SchemaShow = (props: Props) => {
+    const classes = props.classes
+    const schema = props.schema
 
-    handleClick(event, id) {
-        console.log('handleClick');
-    }
+    let columnNames = schema.columns.map(column => {
+        return column.name;
+    });
+    const values =  schema.columns;
 
-    handleChangePage() {
-        console.log('handleChangePage');
-    }
+    const dense = false;
+    const secondary = true;
 
-    handleChangeRecordsPerPage() {
-        console.log('handleChangeRecordsPerPage');
-    }
-
-    render() {
-        const classes = this.props.classes;
-        const schemas = this.props.values.schema.schemas;
-        
-        let columns = Object.keys(schemas[0].Columns[0]);
-        const values =  schemas[0].Columns;
-
-        return (
+    return (
+        <div>
             <Paper className={classes.root}>
                 <TableToolbar numSelected={0}/>
                 <div className={classes.tableWrapper}>
                 <Table className={classes.table}>
-                    <TableHeader columns={columns}/>
+                    <TableHeader columns={columnNames}/>
                     <TableBody>
                     {values.map(value => {
                         return (
                         <TableRow
                             hover
-                            onClick={event => this.handleClick(event, value.Name)}
+                            onClick={event => this.handleClick(event, value.name)}
                             role="checkbox"
                             tabIndex={-1}
-                            key={value.Name}
+                            key={value.name}
                         >
-                            <TableCell>{value.Name}</TableCell>
-                            <TableCell>{value.Type}</TableCell>
-                            <TableCell>{value.NotNull ? '✔' : ''}</TableCell>
-                            <TableCell>{value.AutoIncrement ? '✔' : ''}</TableCell>
+                            <TableCell>{value.name}</TableCell>
+                            <TableCell>{value.type}</TableCell>
+                            <TableCell>{value.notNull ? '✔' : ''}</TableCell>
+                            <TableCell>{value.autoIncrement ? '✔' : ''}</TableCell>
                         </TableRow>
                         );
                     })}
@@ -107,18 +91,8 @@ export class SchemaDetail extends React.Component<Props, {}> {
                 </Table>
                 </div>
             </Paper>
-        )
-    }
-}
-
-export class ActionDispatcher {
-    constructor(private dispatch: (action: ReduxAction) => void) {}
-}
-
-export default compose(
-    withStyles(styles, { name: 'Content' }),
-    connect(
-        (state: ReduxState) => ({values: state}),
-        (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
+        </div>
     )
-)(SchemaDetail)
+}
+
+export default withStyles(styles)<Props>(SchemaShow)
