@@ -8,6 +8,13 @@ interface Row {
     values: Array<Array<string>>
 }
 
+export interface Datasource {
+    id: number
+    schemaId: number
+    rows: Array<Row>
+}
+
+
 /****************/
 /* ActionCreator
 /****************/
@@ -31,7 +38,7 @@ export const save = (projects: Array<Project>): SaveAction => ({
 /* Reducer
 /**********/
 export interface State {
-    rows: Array<Row>
+    datasources: Array<Datasource>
 }
 
 export type Actions = Action
@@ -71,9 +78,16 @@ const row: Row = {
         ],
     ]
 }
-const initialState: State = {rows: [
-    row
-]}
+
+const datasource: Datasource = {
+    id: 1,
+    schemaId: 1,
+    rows: [row],
+}
+
+const initialState: State = {
+    datasources: [datasource],
+}
 
 export default function reducer(state: State = initialState, action: Actions): State {
     switch (action.type) {
