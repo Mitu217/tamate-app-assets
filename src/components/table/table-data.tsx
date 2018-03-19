@@ -19,7 +19,8 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { lighten } from 'material-ui/styles/colorManipulator';
 
-import {TableToolbar, TableHeader} from 'components/row-data';
+import TableToolbar from 'components/table/table-toolbar';
+import TableHeader from 'components/table/table-header';
 
 
 interface Props {
@@ -75,7 +76,7 @@ export class TableData extends React.Component<Props, {}> {
 
     render() {
         const classes = this.props.classes;
-        const rows = this.props.values.row.rows;
+        const rows = this.props.values.datasource.datasources[0].rows;
         const values = rows[0].values;
 
         const page = 0;
