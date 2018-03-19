@@ -4,24 +4,25 @@ import {Action} from 'redux';
 /* Model
 /********/
 interface Column {
-    Name: string
-    Type: string
-    NotNull: boolean
-    AutoIncrement: boolean
+    name: string
+    type: string
+    notNull: boolean
+    autoIncrement: boolean
 }
 
 interface Table {
-    Name: string
-    PrimaryKey: string
-    UniqueKey: Array<Array<string>>
-    IndexKey: Array<Array<string>>
+    name: string
+    description: string
+    primaryKey: string
+    uniqueKey: Array<Array<string>>
+    indexKey: Array<Array<string>>
 }
 
 export interface Schema {
-    DatabaseName: string
-    Description: string
-    Table: Table
-    Columns: Array<Column>
+    id: number
+    databaseName: string
+    table: Table
+    columns: Array<Column>
 }
 
 /****************/
@@ -54,38 +55,39 @@ export type Actions = Action
 
 // FIXME: APIサーバ側が完成したら空にして読み込むようにする
 const schema: Schema = {
-    DatabaseName: 'Sample',
-    Description: 'サンプルテーブルです',
-    Table: {
-        Name: 'Sample',
-        PrimaryKey: 'id',
-        UniqueKey: [],
-        IndexKey: [],
+    id: 1,
+    databaseName: 'Sample',
+    table: {
+        name: 'Sample',
+        description: 'サンプルテーブルです',
+        primaryKey: 'id',
+        uniqueKey: [],
+        indexKey: [],
     },
-    Columns: [
+    columns: [
         {
-            Name: 'id',
-            Type: 'int',
-            NotNull: true,
-            AutoIncrement: true,
+            name: 'id',
+            type: 'int',
+            notNull: true,
+            autoIncrement: true,
         },
         {
-            Name: 'name',
-            Type: 'varchar',
-            NotNull: true,
-            AutoIncrement: false,
+            name: 'name',
+            type: 'varchar',
+            notNull: true,
+            autoIncrement: false,
         },
         {
-            Name: 'age',
-            Type: 'int',
-            NotNull: true,
-            AutoIncrement: false,
+            name: 'age',
+            type: 'int',
+            notNull: true,
+            autoIncrement: false,
         },
         {
-            Name: 'created_at',
-            Type: 'datetime',
-            NotNull: true,
-            AutoIncrement: false,
+            name: 'created_at',
+            type: 'datetime',
+            notNull: true,
+            autoIncrement: false,
         },
     ]
 }
