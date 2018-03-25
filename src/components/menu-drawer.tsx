@@ -13,6 +13,7 @@ import Drawer from 'material-ui/Drawer';
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import Typography from 'material-ui/Typography';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import ExpandLess from 'material-ui-icons/ExpandLess';
@@ -21,6 +22,8 @@ import Business from 'material-ui-icons/Business';
 import DashBoard from 'material-ui-icons/Dashboard';
 import Description from 'material-ui-icons/Description';
 import Storage from 'material-ui-icons/Storage';
+import CompareArrows from 'material-ui-icons/CompareArrows';
+import FileDownload from 'material-ui-icons/FileDownload';
 
 const drawerWidth = 240;
 
@@ -114,7 +117,24 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                     </Typography>
                 </div>
                 <Divider />
-                <List dense={true}>
+                <List dense={true} subheader={<ListSubheader component="div">Actions</ListSubheader>}>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                        <ListItemIcon>
+                            <CompareArrows />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Diff" />
+                    </ListItem>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                        <ListItemIcon>
+                            <FileDownload />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Dump" />
+                    </ListItem>
+                </List>
+                <List 
+                    dense={true}
+                    subheader={<ListSubheader component="div">Projects</ListSubheader>}
+                >
                     <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
                         <ListItemIcon>
                             <Business />
@@ -130,13 +150,13 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 </ListItemIcon>
                                 <ListItemText inset primary="Dashboard" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/schemas#1')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/schemas')}>
                                 <ListItemIcon>
                                     <Description />
                                 </ListItemIcon>
                                 <ListItemText inset primary="TableSchema" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#1')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/datasources')}>
                                 <ListItemIcon>
                                     <Storage />
                                 </ListItemIcon>
@@ -159,13 +179,13 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                 </ListItemIcon>
                                 <ListItemText inset primary="Dashboard" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/schemas#2')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/2/schemas')}>
                                 <ListItemIcon>
                                     <Description />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Table" />
                             </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/datasources#2')}>
+                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/2/datasources')}>
                                 <ListItemIcon>
                                     <Storage />
                                 </ListItemIcon>

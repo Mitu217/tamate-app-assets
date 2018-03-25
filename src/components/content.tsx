@@ -7,7 +7,7 @@ import {withStyles} from 'material-ui/styles';
 import Dashboard from 'components/dashboard';
 import Project from 'containers/project';
 import Schema from 'containers/schema';
-import {TableData} from 'components/datasource';
+import Datasource from 'containers/datasource';
 
 interface Props {
     classes: object;
@@ -38,10 +38,10 @@ export class Content extends React.Component<Props, {}> {
                     <Route exact path='/projects/:projectId/schemas' component={Schema} />
                     <Route exact path='/projects/:projectId/schemas/:id' component={Schema} />
                     {/* DataSources */}
-                    <Route exact path='/datasources' component={TableData} />
-                    <Route exact path='/datasources/:id' component={TableData} />
-                    <Route exact path='/projects/:projectId/datasources' component={TableData} />
-                    <Route exact path='/projects/:projectId/datasources/:id' component={TableData} />
+                    <Route exact path='/datasources' component={Datasource} />
+                    <Route exact path='/datasources/:id' component={Datasource} />
+                    <Route exact path='/projects/:projectId/datasources' component={Datasource} />
+                    <Route exact path='/projects/:projectId/datasources/:id' component={Datasource} />
                     {/* Other */}
                     <Route path='/profile' />
                     <Route path='/settings' />
