@@ -4,14 +4,14 @@ import {Action} from 'redux';
 /* Model
 /********/
 interface Row {
-    columns: Array<string>
+    columnNames: Array<string>
     values: Array<Array<string>>
 }
 
 export interface Datasource {
     id: number
     schemaId: number
-    rows: Array<Row>
+    row: Row
 }
 
 
@@ -45,7 +45,7 @@ export type Actions = Action
 
 // FIXME: APIサーバ側が完成したら空にして読み込むようにする
 const row: Row = {
-    columns: [
+    columnNames: [
         'id',
         'name',
         'age',
@@ -82,7 +82,7 @@ const row: Row = {
 const datasource: Datasource = {
     id: 1,
     schemaId: 1,
-    rows: [row],
+    row: row,
 }
 
 const initialState: State = {

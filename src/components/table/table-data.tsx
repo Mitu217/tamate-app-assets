@@ -76,7 +76,7 @@ export class TableData extends React.Component<Props, {}> {
 
     render() {
         const classes = this.props.classes;
-        const rows = this.props.values.datasource.datasources[0].rows;
+        const rows = this.props.values.datasource.datasources[0].row;
         const values = rows[0].values;
 
         const page = 0;
