@@ -118,13 +118,13 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                 </div>
                 <Divider />
                 <List dense={true} subheader={<ListSubheader component="div">Actions</ListSubheader>}>
-                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/diff')}>
                         <ListItemIcon>
                             <CompareArrows />
                         </ListItemIcon>
-                        <ListItemText inset primary="Diff" />
+                        <ListItemText inset primary="Compare" />
                     </ListItem>
-                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                    <ListItem button onClick={this.handlerChangeMenu.bind(this, '/dump')}>
                         <ListItemIcon>
                             <FileDownload />
                         </ListItemIcon>

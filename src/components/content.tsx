@@ -8,6 +8,8 @@ import Dashboard from 'components/dashboard';
 import Project from 'containers/project';
 import Schema from 'containers/schema';
 import Datasource from 'containers/datasource';
+import Dump from 'components/dump';
+import Diff from 'components/diff';
 
 interface Props {
     classes: object;
@@ -42,6 +44,9 @@ export class Content extends React.Component<Props, {}> {
                     <Route exact path='/datasources/:id' component={Datasource} />
                     <Route exact path='/projects/:projectId/datasources' component={Datasource} />
                     <Route exact path='/projects/:projectId/datasources/:id' component={Datasource} />
+                    {/* Actions */}
+                    <Route exact path='/diff' component={Diff} />
+                    <Route exact path='/dump' component={Dump} />
                     {/* Other */}
                     <Route path='/profile' />
                     <Route path='/settings' />
