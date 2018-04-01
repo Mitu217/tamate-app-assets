@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {ReduxState, ReduxAction} from 'store';
 import ProjectList from 'components/project/list';
 import ProjectShow from 'components/project/show';
+import {fetch as fetchProjects} from 'modules/project'
 
 interface Props {
     values: ReduxState
@@ -15,6 +16,11 @@ interface Props {
 }
 
 export class Project extends React.Component<Props, {}> {
+
+    componentDidMount() {
+        console.log(this.props.actions);
+        this.props.actions.fetchAllProjects()
+    }
 
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
@@ -41,6 +47,9 @@ export class Project extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
+    public fetchAllProjects() {
+        this.dispatch(fetchProjects([]))
+    }
 }
 
 export default connect(
