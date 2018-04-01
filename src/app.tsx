@@ -1,13 +1,14 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import {applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
-import {Switch, Route, Redirect} from 'react-router-dom'
-import {ConnectedRouter} from 'react-router-redux'
-import {createBrowserHistory} from 'history'
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import {applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {ConnectedRouter} from 'react-router-redux';
+import {createBrowserHistory} from 'history';
 
-import {createStore} from 'store'
+import {createStore} from 'store';
+import Saga from 'saga';
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/createPalette';
@@ -28,10 +29,9 @@ class Application extends React.Component {
     render() {
         const sagaMiddleware = createSagaMiddleware();
         const store = createStore(
-            // sagaMiddleware: redix-saga
-            // TODO: ページ遷移と同時にAPIを発火するMiddlewareも作れるらしい
             applyMiddleware(sagaMiddleware),
         )
+        sagaMiddleware.run(Saga);
         return (
             <MuiThemeProvider theme={theme}>
                 <Provider store={store}>
