@@ -58,7 +58,7 @@ const styles = theme => ({
 });
 
 interface Props {
-    values: State
+    values: ReduxState
     actions: ActionDispatcher
     classes: PropTypes.classesContext
     history: PropTypes.historyContext
@@ -79,7 +79,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
     }
 
     handleDrawerToggle() {
-        this.props.actions.onToggle(!this.props.values.open)
+        this.props.actions.onToggle(!this.props.values.drawer.open)
     };
 
     handlerChangeMenu(uri: string) {
@@ -135,64 +135,41 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                     dense={true}
                     subheader={<ListSubheader component="div">Projects</ListSubheader>}
                 >
-                    <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
-                        <ListItemIcon>
-                            <Business />
-                        </ListItemIcon>
-                        <ListItemText primary="Project1" />
-                        {this.state.opens.indexOf(1) > -1 ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={this.state.opens.indexOf(1) > -1} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding dense={true}>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
-                                <ListItemIcon>
-                                    <DashBoard />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Dashboard" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/schemas')}>
-                                <ListItemIcon>
-                                    <Description />
-                                </ListItemIcon>
-                                <ListItemText inset primary="TableSchema" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/datasources')}>
-                                <ListItemIcon>
-                                    <Storage />
-                                </ListItemIcon>
-                                <ListItemText inset primary="TableData" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
-                    <ListItem button onClick={this.handleExpandToggle.bind(this, 2)}>
-                        <ListItemIcon>
-                            <Business />
-                        </ListItemIcon>
-                        <ListItemText primary="Project2" />
-                        {this.state.opens.indexOf(2) > -1 ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={this.state.opens.indexOf(2) > -1} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding dense={true}>
-                            <ListItem button className={classes.nested} onClick={this.handlerChangeMenu.bind(this, '/projects/2')}>
-                                <ListItemIcon>
-                                    <DashBoard />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Dashboard" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/2/schemas')}>
-                                <ListItemIcon>
-                                    <Description />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Table" />
-                            </ListItem>
-                            <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/2/datasources')}>
-                                <ListItemIcon>
-                                    <Storage />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Data" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
+                    {this.props.values.project.projects.map(project => {
+                        return (
+                            <div key={project.id}>
+                                <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
+                                    <ListItemIcon>
+                                        <Business />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Project1" />
+                                    {this.state.opens.indexOf(1) > -1 ? <ExpandLess /> : <ExpandMore />}
+                                </ListItem>
+                                <Collapse in={this.state.opens.indexOf(1) > -1} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding dense={true}>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                                            <ListItemIcon>
+                                                <DashBoard />
+                                            </ListItemIcon>
+                                            <ListItemText inset primary="Dashboard" />
+                                        </ListItem>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/schemas')}>
+                                            <ListItemIcon>
+                                                <Description />
+                                            </ListItemIcon>
+                                            <ListItemText inset primary="TableSchema" />
+                                        </ListItem>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/datasources')}>
+                                            <ListItemIcon>
+                                                <Storage />
+                                            </ListItemIcon>
+                                            <ListItemText inset primary="TableData" />
+                                        </ListItem>
+                                    </List>
+                                </Collapse>
+                           </div>
+                        )
+                    })}
                 </List>
             </div>
         );
@@ -202,7 +179,7 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                     <Drawer
                         variant='temporary'
                         anchor={classes.direction === 'rtl' ? 'right' : 'left'}
-                        open={this.props.values.open}
+                        open={this.props.values.drawer.open}
                         onClose={this.handleDrawerToggle.bind(this)}
                         classes={{
                             paper: classes.drawerPaper,
@@ -241,7 +218,7 @@ export class ActionDispatcher {
 export default compose(
     withStyles(styles, { withTheme: true }),
     connect(
-        (state: ReduxState) => ({values: state.drawer}),
+        (state: ReduxState) => ({values: state}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
 )(MenuDrawer)
