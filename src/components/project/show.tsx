@@ -33,8 +33,10 @@ interface Props {
 const ProjectShow = (props: Props) => {
     const classes = props.classes;
     const project = props.project;
-    return (
-        <div>
+
+    let content = (<div></div>);
+    if (project) {
+        content = (
             <main className={classes.content}>
                 <Header image={project.thumbnailUri} name={project.name}/> 
                 <Typography variant='body2' component='h2'>
@@ -56,6 +58,12 @@ const ProjectShow = (props: Props) => {
                     </List>
                 </Paper>
             </main>
+        )
+    }
+
+    return (
+        <div>
+            {content}
         </div>
     )
 }
