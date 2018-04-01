@@ -18,7 +18,9 @@ export interface Project {
 /****************/
 enum ActionTypes {
     SAVE = 'project/save',
-    FETCH = 'fetch/project',
+    FETCH_REQUIRE = 'fetch/project/require',
+    FETCH_SUCCESS = 'fetch/project/success',
+    FETCH_FAIL = 'fetch/project/fail',
 }
 
 interface SaveAction extends Action {
@@ -26,9 +28,19 @@ interface SaveAction extends Action {
     projects: Array<Project>
 }
 
-interface FetchAction extends Action {
-    type: ActionTypes.FETCH
+interface FetchRequireAction extends Action {
+    type: ActionTypes.FETCH_REQUIRE
     projectIds: Array<number>
+}
+
+interface FetchSuccessAction extends Action {
+    type: ActionTypes.FETCH_SUCCESS
+    projects: Array<Project>
+}
+
+interface FetchFailAction extends Action {
+    type: ActionTypes.FETCH_FAIL
+    message: string
 }
 
 export const save = (projects: Array<Project>): SaveAction => ({
@@ -36,9 +48,19 @@ export const save = (projects: Array<Project>): SaveAction => ({
     projects: projects,
 })
 
-export const fetch = (projectIds: Array<number>): FetchAction => ({
-    type: ActionTypes.FETCH,
+export const fetchRequire = (projectIds: Array<number>): FetchRequireAction => ({
+    type: ActionTypes.FETCH_REQUIRE,
     projectIds: projectIds,
+})
+
+export const fetchSuccess = (projects: Array<Project>): FetchSuccessAction => ({
+    type: ActionTypes.FETCH_SUCCESS,
+    projects: projects
+})
+
+export const fetchFail = (message: string): FetchFailAction => ({
+    type: ActionTypes.FETCH_FAIL,
+    message: message
 })
 
 /**********/
@@ -48,7 +70,7 @@ export interface State {
     projects: Array<Project>
 }
 
-export type Actions = SaveAction | FetchAction
+export type Actions = SaveAction | FetchRequireAction | FetchSuccessAction | FetchFailAction
 
 const initialState: State = {projects: []}
 
@@ -56,45 +78,36 @@ export default function reducer(state: State = initialState, action: Actions): S
     switch (action.type) {
         case ActionTypes.SAVE:
             return {projects: action.projects}
+        case ActionTypes.FETCH_REQUIRE:
+            return state
+        case ActionTypes.FETCH_SUCCESS:
+            return {projects: action.projects}
+        case ActionTypes.FETCH_FAIL:
+            return state
         default:
             return state
     }
 }
 
-
 /**********/
 /* Saga
 /**********/
 function* fetchProjects(action) {
-    console.log("fetch /api/projects");
     try {
-        const projects = [
-            {
-                id: 1,
-                name: 'dummy project1',
-                description: 'Dummyなプロジェクトです',
-                thumbnailUri: 'https://www.aniplexplus.com/res/g5b92h?w=510&h=510',
-                favorite: true,
-            },
-            {
-                id: 2,
-                name: 'dummy project2',
-                description: 'Dummyなプロジェクトです',
-                thumbnailUri: 'https://images-na.ssl-images-amazon.com/images/I/717qF7gjJAL._SL1110_.jpg',
-                favorite: false,
-            },
-        ];
-        console.log("success /api/projects");
-
-        yield call(delay, 1000);
-        yield put(save(projects));
+        const response = yield call(fetch, 'http://localhost:8090/api/projects', {
+            method: 'GET',
+        });
+        if (response.status === 200) {
+            const projects = yield call([response, response.json]);
+            yield put(fetchSuccess(projects));
+        } else {
+            yield put(fetchFail(response.message))
+        }
     } catch (e) {
-        console.log("failed /api/projects");
-
-        yield put({type: "PROJECT_FETCH_FAILED", message: e.message})
+        yield put(fetchFail(e.message))
     }
 }
 
 export const Saga = [
-    takeEvery(ActionTypes.FETCH, fetchProjects),
+    takeEvery(ActionTypes.FETCH_REQUIRE, fetchProjects),
 ]
