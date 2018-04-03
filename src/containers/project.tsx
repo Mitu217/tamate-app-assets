@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import {ReduxState, ReduxAction} from 'store';
 import ProjectList from 'components/project/list';
 import ProjectShow from 'components/project/show';
-import {fetchRequire as fetchRequireProjects} from 'modules/project'
+import {
+    fetchRequire as fetchRequireProjects, 
+    createRequire as createRequireProject,
+} from 'modules/project'
 
 interface Props {
     values: ReduxState
@@ -25,6 +28,10 @@ export class Project extends React.Component<Props, {}> {
         this.props.history.push(uri);
     };
 
+    handleSubmit = (name: string, description: string) => {
+        this.props.actions.createNewProject(name, description);
+    }
+
     render() {
         const projects = this.props.values.project.projects
 
@@ -39,7 +46,7 @@ export class Project extends React.Component<Props, {}> {
         }
 
         return (
-            <ProjectList projects={projects} onClickItem={this.handleChangeLocation}/>
+            <ProjectList projects={projects} onClickItem={this.handleChangeLocation} onSubmit={this.handleSubmit}/>
         )
     }
 }
@@ -47,7 +54,10 @@ export class Project extends React.Component<Props, {}> {
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
     public fetchAllProjects() {
-        this.dispatch(fetchRequireProjects([]))
+        this.dispatch(fetchRequireProjects([]));
+    }
+    public createNewProject(name: string, description: string) {
+        this.dispatch(createRequireProject(name, description));
     }
 }
 
