@@ -113,14 +113,18 @@ const initialState: State = {projects: []}
 export default function reducer(state: State = initialState, action: Actions): State {
     switch (action.type) {
         case ActionTypes.FETCH_REQUIRE:
-            return state
+            return state;
         case ActionTypes.FETCH_SUCCESS:
-            return {projects: action.projects}
+            return {projects: action.projects};
         case ActionTypes.FETCH_FAIL:
-            return state
+            return state;
         case ActionTypes.CREATE_REQUIRE:
-        console.log('require!!');
-            return state
+            return state;
+        case ActionTypes.CREATE_SUCCESS:
+            state.projects.push(action.project); // TODO: 並び替え
+            return {projects: state.projects};
+        case ActionTypes.CREATE_FAIL:
+            return state;
         default:
             return state
     }
@@ -158,14 +162,12 @@ function* createProject(action) {
                 'Accept': 'application/json'
             },
         });
-        /*
         if (response.status === 200) {
             const project = yield call([response, response.json]);
             yield put(createSuccess(project));
         } else {
             yield put(createFail(response.message));
         }
-        */
     } catch (e) {
         yield put(createFail(e.message));
     }
