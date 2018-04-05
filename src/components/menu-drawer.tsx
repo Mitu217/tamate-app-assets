@@ -24,6 +24,7 @@ import Description from 'material-ui-icons/Description';
 import Storage from 'material-ui-icons/Storage';
 import CompareArrows from 'material-ui-icons/CompareArrows';
 import FileDownload from 'material-ui-icons/FileDownload';
+import Button from 'material-ui/Button';
 
 const drawerWidth = 240;
 
@@ -54,6 +55,16 @@ const styles = theme => ({
     appTitle: {
         textDecoration: 'none',
         color: 'inherit',
+    },
+
+    subHeaderOption: {
+        color: theme.palette.text.secondary,
+        position: 'absolute' as 'absolute',
+        top: 0,
+        fontSize: '0.785rem',
+        lineHeight: '34px',
+        right: theme.spacing.unit * 3,
+        zIndex: 10,
     },
 });
 
@@ -131,35 +142,47 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                         <ListItemText inset primary="Dump" />
                     </ListItem>
                 </List>
-                <List 
+                <List
                     dense={true}
-                    subheader={<ListSubheader component="div">Projects</ListSubheader>}
+                    subheader={
+                        <div className={classes.subHeaderRoot}>
+                            <ListSubheader component="div">Projects</ListSubheader>
+                            <Button
+                                size="small"
+                                className={classes.subHeaderOption}
+                                onClick={this.handlerChangeMenu.bind(this, '/projects/')}
+                            >
+                                もっとみる
+                            </Button>
+                        </div>
+                    }
                 >
                     {this.props.values.project.projects.map(project => {
+                        const id = project.id;
                         return (
-                            <div key={project.id}>
-                                <ListItem button onClick={this.handleExpandToggle.bind(this, 1)}>
+                            <div key={id}>
+                                <ListItem button onClick={this.handleExpandToggle.bind(this, id)}>
                                     <ListItemIcon>
                                         <Business />
                                     </ListItemIcon>
-                                    <ListItemText primary="Project1" />
-                                    {this.state.opens.indexOf(1) > -1 ? <ExpandLess /> : <ExpandMore />}
+                                    <ListItemText primary={project.name} />
+                                    {this.state.opens.indexOf(id) > -1 ? <ExpandLess /> : <ExpandMore />}
                                 </ListItem>
-                                <Collapse in={this.state.opens.indexOf(1) > -1} timeout="auto" unmountOnExit>
+                                <Collapse in={this.state.opens.indexOf(id) > -1} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding dense={true}>
-                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1')}>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/' + id)}>
                                             <ListItemIcon>
                                                 <DashBoard />
                                             </ListItemIcon>
                                             <ListItemText inset primary="Dashboard" />
                                         </ListItem>
-                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/schemas')}>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/' + id +'/schemas')}>
                                             <ListItemIcon>
                                                 <Description />
                                             </ListItemIcon>
                                             <ListItemText inset primary="TableSchema" />
                                         </ListItem>
-                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/1/datasources')}>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/' + id + '/datasources')}>
                                             <ListItemIcon>
                                                 <Storage />
                                             </ListItemIcon>
