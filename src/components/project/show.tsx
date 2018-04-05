@@ -4,12 +4,22 @@ import {connect, Dispatch} from 'react-redux';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Project} from 'modules/project'
+
+import Header from 'components/header';
+
+import DeleteProjectDialog from 'components/project/dialog/delete';
+
+// Material-UI
 import {withStyles} from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
-import Header from 'components/header';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import Dialog, {DialogContent, DialogContentText, DialogTitle, DialogActions} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
     gridList: {
@@ -47,30 +57,74 @@ const styles = theme => ({
 });
 
 interface Props {
-    project: Project
     classes?: PropTypes.classesContext
+    project: Project
+    onSubmitDelete: PropTypes.func
+    onSubmitUpdate: PropTypes.func
 }
 
 interface LocalState {
-    openDialog: boolean
-    inputName: '',
-    inputDescription: '',
+    inputName: string
+    inputDescription: string
+    menuAnchorEl: HTMLElement
+    dialogAnchorEl: HTMLElement
 }
 
 class ProjectShow extends React.Component<Props, LocalState> {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            openDialog: false,
             inputName: '',
             inputDescription: '',
+            menuAnchorEl: null,
+            dialogAnchorEl: null,
         };
     }
-    
+
+    handleOpenMenu = (e: any) => {
+        console.log(e.target);
+        this.setState({
+            ...this.state,
+             menuAnchorEl: e.target,
+        });
+    };
+
+    handleCloseMenu = () => {
+        this.setState({
+            ...this.state,
+            menuAnchorEl: null,
+         });
+    };
+
+    handleOpenDialog = (e: any) => {
+        this.setState({
+            ...this.state,
+            menuAnchorEl: null,
+            dialogAnchorEl: e.target,
+        });
+    }
+
+    handleCloseDialog = () => {
+        this.setState({
+            ...this.state,
+            dialogAnchorEl: null,
+        })
+    }
+
+    submitUpdate = () => {
+        console.log('update!!!');
+        this.submitUpdate()
+    }
+
+    submitDelete = () => {
+        console.log('delete!!!');
+        this.props.onSubmitDelete(this.props.project.id);
+    }
+
     render() {
         const classes = this.props.classes;
         const project = this.props.project;
-        
+
         if (!project) {
             // wait fetching.
             return (
@@ -79,12 +133,12 @@ class ProjectShow extends React.Component<Props, LocalState> {
         }
 
         const thumbnailStyle = {backgroundImage: 'url(' + project.thumbnailUri + ')'}
-       
+
         // FIXME プロジェクトの最新アクションログを表示する
         const activities = (
             <div>
                 <Typography variant='body2' component='h2'>
-                    Latest Activity > 
+                    Latest Activity >
                 </Typography>
                 <Paper>
                     <List>
@@ -104,6 +158,14 @@ class ProjectShow extends React.Component<Props, LocalState> {
             </div>
         )
 
+        const dialogContent = (
+            <DeleteProjectDialog
+                open={Boolean(this.state.dialogAnchorEl)}
+                onSubmit={this.submitDelete}
+                onClose={this.handleCloseDialog}
+            />
+        )
+
         let content = (<div></div>);
         if (project) {
             content = (
@@ -114,17 +176,36 @@ class ProjectShow extends React.Component<Props, LocalState> {
                             <Typography className={classes.headerName} variant='display1' component='h1'>
                                 {project.name}
                             </Typography>
+                            <IconButton
+                                className={classes.button}
+                                aria-label="Delete"
+                                onClick={this.handleOpenMenu}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
                         </div>
                     </div>
+
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.menuAnchorEl}
+                        open={Boolean(this.state.menuAnchorEl)}
+                        onClose={this.handleCloseMenu}
+                    >
+                        <MenuItem onClick={this.handleOpenDialog}>Edit</MenuItem>
+                        <MenuItem onClick={this.handleOpenDialog}>Delete</MenuItem>
+                    </Menu>
+
+                    {dialogContent}
                 </main>
             )
         }
-    
+
         return (
             <div>
                 {content}
             </div>
-        )    
+        )
     }
 }
 
