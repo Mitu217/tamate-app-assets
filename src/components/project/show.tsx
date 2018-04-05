@@ -8,6 +8,7 @@ import {Project} from 'modules/project'
 import Header from 'components/header';
 
 import DeleteProjectDialog from 'components/project/dialog/delete';
+import EditProjectDialog from 'components/project/dialog/edit';
 
 // Material-UI
 import {withStyles} from 'material-ui/styles';
@@ -112,12 +113,10 @@ class ProjectShow extends React.Component<Props, LocalState> {
     }
 
     submitUpdate = () => {
-        console.log('update!!!');
         this.submitUpdate()
     }
 
     submitDelete = () => {
-        console.log('delete!!!');
         this.props.onSubmitDelete(this.props.project.id);
     }
 
@@ -158,13 +157,21 @@ class ProjectShow extends React.Component<Props, LocalState> {
             </div>
         )
 
+        const name = this.state.dialogAnchorEl ? this.state.dialogAnchorEl.getAttribute('name') : '';
         const dialogContent = (
-            <DeleteProjectDialog
-                open={Boolean(this.state.dialogAnchorEl)}
-                onSubmit={this.submitDelete}
-                onClose={this.handleCloseDialog}
-            />
-        )
+            <div>
+                <DeleteProjectDialog
+                    open={name === 'delete'}
+                    onSubmit={this.submitDelete}
+                    onClose={this.handleCloseDialog}
+                />
+                <EditProjectDialog
+                    open={name === 'edit'}
+                    onSubmit={this.submitUpdate}
+                    onClose={this.handleCloseDialog}
+                />
+            </div>
+        );
 
         let content = (<div></div>);
         if (project) {
@@ -192,8 +199,8 @@ class ProjectShow extends React.Component<Props, LocalState> {
                         open={Boolean(this.state.menuAnchorEl)}
                         onClose={this.handleCloseMenu}
                     >
-                        <MenuItem onClick={this.handleOpenDialog}>Edit</MenuItem>
-                        <MenuItem onClick={this.handleOpenDialog}>Delete</MenuItem>
+                        <MenuItem onClick={this.handleOpenDialog} name="edit">Edit</MenuItem>
+                        <MenuItem onClick={this.handleOpenDialog} name="delete">Delete</MenuItem>
                     </Menu>
 
                     {dialogContent}

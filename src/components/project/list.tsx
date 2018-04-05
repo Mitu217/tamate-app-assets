@@ -113,7 +113,7 @@ class ProjectList extends React.Component<Props, State> {
         const props = this.props;
         const classes = props.classes
         const projects = props.projects
-        
+
         return (
             <div>
                 <GridList cols={3} cellHeight={'auto'} className={classes.gridList} spacing={0}>
@@ -122,7 +122,7 @@ class ProjectList extends React.Component<Props, State> {
                             <Card className={classes.cardInner}>
                                 <CardMedia
                                     className={classes.media}
-                                    image="https://img.animatetimes.com/news/visual/2018/1517027781_2_1_5d71676e28808e67725da85e1e4f19d9.jpg"
+                                    image="http://localhost:3000/assets/project.png"
                                 />
                                 <CardContent>
                                     <Typography variant='headline' component='h2'>
@@ -179,7 +179,7 @@ class ProjectList extends React.Component<Props, State> {
                     </DialogActions>
                 </Dialog>
             </div>
-        )    
+        )
     }
 }
 
