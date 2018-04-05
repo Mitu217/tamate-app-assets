@@ -65,7 +65,6 @@ class ProjectList extends React.Component<Props, State> {
             inputName: '',
             inputDescription: '',
         };
-        this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
     }
 
     componentWillReceiveProps(nextProps: Props) {
