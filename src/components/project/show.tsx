@@ -23,6 +23,27 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
     },
+
+    /* Header */
+    header: {
+        width: '100%',
+        height: '160px',
+        margin: '16px 0 40px 0',
+        overflow: 'hidden' as 'hidden',
+    },
+    headerThumbnail: {
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        height: '140px',
+        width: '140px',
+        margin: '10px 40px 10px 20px',
+        boxShadow: '2px 2px 4px gray',
+        float: 'left',
+    },
+    headerName: {
+        margin: '40px 0 0 0',
+    }
 });
 
 interface Props {
@@ -30,15 +51,38 @@ interface Props {
     classes?: PropTypes.classesContext
 }
 
-const ProjectShow = (props: Props) => {
-    const classes = props.classes;
-    const project = props.project;
+interface LocalState {
+    openDialog: boolean
+    inputName: '',
+    inputDescription: '',
+}
 
-    let content = (<div></div>);
-    if (project) {
-        content = (
-            <main className={classes.content}>
-                <Header image={project.thumbnailUri} name={project.name}/> 
+class ProjectShow extends React.Component<Props, LocalState> {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            openDialog: false,
+            inputName: '',
+            inputDescription: '',
+        };
+    }
+    
+    render() {
+        const classes = this.props.classes;
+        const project = this.props.project;
+        
+        if (!project) {
+            // wait fetching.
+            return (
+                <div></div>
+            )
+        }
+
+        const thumbnailStyle = {backgroundImage: 'url(' + project.thumbnailUri + ')'}
+       
+        // FIXME プロジェクトの最新アクションログを表示する
+        const activities = (
+            <div>
                 <Typography variant='body2' component='h2'>
                     Latest Activity > 
                 </Typography>
@@ -57,15 +101,31 @@ const ProjectShow = (props: Props) => {
                         </ListItem>
                     </List>
                 </Paper>
-            </main>
+            </div>
         )
-    }
 
-    return (
-        <div>
-            {content}
-        </div>
-    )
+        let content = (<div></div>);
+        if (project) {
+            content = (
+                <main className={classes.content}>
+                    <div className={classes.header}>
+                        <div className={classes.headerThumbnail} style={thumbnailStyle}/>
+                        <div className={classes.headerContent}>
+                            <Typography className={classes.headerName} variant='display1' component='h1'>
+                                {project.name}
+                            </Typography>
+                        </div>
+                    </div>
+                </main>
+            )
+        }
+    
+        return (
+            <div>
+                {content}
+            </div>
+        )    
+    }
 }
 
-export default withStyles(styles)<Props>(ProjectShow)
+export default withStyles(styles)(ProjectShow)
