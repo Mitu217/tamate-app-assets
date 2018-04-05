@@ -5,7 +5,7 @@ import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-
 import {ReduxState, ReduxAction} from 'store';
 import {withStyles} from 'material-ui/styles';
 import Dashboard from 'components/dashboard';
-import Project from 'containers/project';
+import ProjectRoot from 'containers/project-root';
 import Schema from 'containers/schema';
 import Datasource from 'containers/datasource';
 import Dump from 'components/dump';
@@ -32,8 +32,8 @@ export class Content extends React.Component<Props, {}> {
                 <Switch>
                     <Route exact path='/' component={Dashboard} />
                     {/* Projects */}
-                    <Route exact path='/projects' component={Project} />
-                    <Route exact path='/projects/:id' component={Project} />
+                    <Route exact path='/projects' component={ProjectRoot} />
+                    <Route exact path='/projects/:id' component={ProjectRoot} />
                     {/* Schemas */}
                     <Route exact path='/schemas' component={Schema} />
                     <Route exact path='/schemas/:id' component={Schema} />
