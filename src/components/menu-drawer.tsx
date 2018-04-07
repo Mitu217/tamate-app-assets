@@ -176,6 +176,12 @@ export class MenuDrawer extends React.Component<Props, LocalState> {
                                             </ListItemIcon>
                                             <ListItemText inset primary="Dashboard" />
                                         </ListItem>
+                                        <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/' + id +'/config/list')}>
+                                            <ListItemIcon>
+                                                <Description />
+                                            </ListItemIcon>
+                                            <ListItemText inset primary="Config" />
+                                        </ListItem>
                                         <ListItem button className={classes.nested}  onClick={this.handlerChangeMenu.bind(this, '/projects/' + id +'/schemas')}>
                                             <ListItemIcon>
                                                 <Description />
