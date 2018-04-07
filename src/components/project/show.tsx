@@ -83,7 +83,6 @@ class ProjectShow extends React.Component<Props, LocalState> {
     }
 
     handleOpenMenu = (e: any) => {
-        console.log(e.target);
         this.setState({
             ...this.state,
              menuAnchorEl: e.target,

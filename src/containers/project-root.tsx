@@ -36,7 +36,6 @@ export class ProjectRoot extends React.Component<Props, {}> {
     }
 
     submitDeleteProject = (id: number) => {
-        console.log(id);
         this.props.actions.deleteProject(id);
     }
 
