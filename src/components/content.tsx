@@ -6,6 +6,7 @@ import {ReduxState, ReduxAction} from 'store';
 import {withStyles} from 'material-ui/styles';
 import Dashboard from 'components/dashboard';
 import ProjectRoot from 'containers/project-root';
+import ConfigRoot from 'containers/config-root';
 import Schema from 'containers/schema';
 import Datasource from 'containers/datasource';
 import Dump from 'components/dump';
@@ -34,6 +35,9 @@ export class Content extends React.Component<Props, {}> {
                     {/* Projects */}
                     <Route exact path='/projects' component={ProjectRoot} />
                     <Route exact path='/projects/:id' component={ProjectRoot} />
+                    {/* Config */}
+                    <Route exact path='/configs' component={ConfigRoot} />
+                    <Route exact path='/configs/:id' component={ConfigRoot} />
                     {/* Schemas */}
                     <Route exact path='/schemas' component={Schema} />
                     <Route exact path='/schemas/:id' component={Schema} />
