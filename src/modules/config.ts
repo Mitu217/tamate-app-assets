@@ -6,7 +6,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 /********/
 export interface Config {
     id: number
-    configType: string
+    name: string
+    configType: number
 }
 
 export interface SQLConfig extends Config {
@@ -121,6 +122,8 @@ const initialState: State = {
 
 export default function reducer(state: State = initialState, action: Actions): State {
     switch (action.type) {
+        case ActionTypes.FETCH_SUCCESS:
+            return { configs: action.configs }
         default:
             return state
     }
@@ -139,7 +142,6 @@ function* fetchConfigs(action) {
         const response = yield call(fetch, url.toString(), {method: 'GET',});
         if (response.status === 200) {
             const configs = yield call([response, response.json]);
-            console.log(configs);
             yield put(fetchSuccess(configs));
         } else {
             yield put(fetchFail(response.message))
@@ -153,7 +155,9 @@ function* createConfig(action) {
     try {
         const obj = {
             projectId: action.projectId,
-            config: action.config,
+            type: action.config.configType,
+            name: action.config.name,
+            config: JSON.stringify(action.config),
         }
         const response = yield call(fetch, 'http://localhost:8090/api/config/create', {
             method: 'POST',

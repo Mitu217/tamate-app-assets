@@ -5,6 +5,9 @@ import { Config } from 'modules/config';
 import {withStyles, WithStyles, StyledComponentProps} from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
+import Typography from 'material-ui/Typography';
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 //Dialog
 import EditConfigDialog from 'components/config/dialog/edit';
 import DeleteConfigDialog from 'components/config/dialog/delete';
@@ -25,8 +28,9 @@ interface Props extends StyledComponentProps {
 }
 
 interface State {
-    menuAnchorEl:HTMLElement
-    dialogAnchorEl:HTMLElement
+    menuAnchorEl: HTMLElement
+    dialogAnchorEl: HTMLElement
+    expandListKey: number
 }
 
 class ConfigList extends React.Component<Props, State> {
@@ -35,6 +39,7 @@ class ConfigList extends React.Component<Props, State> {
         this.state = {
             menuAnchorEl: null,
             dialogAnchorEl: null,
+            expandListKey: null,
         };
     }
 
@@ -52,7 +57,7 @@ class ConfigList extends React.Component<Props, State> {
         })
     }
 
-    handleOpenDialog = (e:any) => {
+    handleOpenDialog = (e: any) => {
         this.setState({
             ...this.state,
             dialogAnchorEl: e.target,
@@ -63,6 +68,13 @@ class ConfigList extends React.Component<Props, State> {
         this.setState({
             ...this.state,
             dialogAnchorEl: null,
+        });
+    }
+
+    handleExpandList = (expandListKey: number) => {
+        this.setState({
+            ...this.state,
+            expandListKey: !this.state.expandListKey ? expandListKey : (this.state.expandListKey !== expandListKey ? expandListKey : null),
         });
     }
 
@@ -95,6 +107,21 @@ class ConfigList extends React.Component<Props, State> {
 
         return (
             <div>
+                {this.props.configs.map((config: Config) => {
+                    return (
+                        <ExpansionPanel
+                            expanded={this.state.expandListKey === config.id}
+                            onChange={this.handleExpandList.bind(this, config.id)}
+                        >
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography className={classes.heading}>{config.name}</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                    );
+                })}
                 <Button
                     variant="fab"
                     color="secondary"

@@ -49,10 +49,9 @@ export class ConfigRoot extends React.Component<Props, State> {
 
     render() {
         const configs = this.props.values.config.configs;
-
         return (
             <ConfigList
-                config={configs}
+                configs={configs}
                 onSubmitCreate={this.submitUpdateOrCreateConfig}
                 onSubmitDelete={this.submitDeleteConfig}
                 onSubmitUpdate={this.submitUpdateOrCreateConfig}

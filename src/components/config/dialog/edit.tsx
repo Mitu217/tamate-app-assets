@@ -61,7 +61,8 @@ class EditConfigDialog extends React.Component<Props, State> {
             case Constantiate.CONFIG_TYPE_MYSQL:
                 const sqlConfig: SQLConfig = {
                     id: null,
-                    configType: 'sql',
+                    name: 'サンプル',
+                    configType: Constantiate.CONFIG_TYPE_MYSQL,
                     driverName: 'mysql',
                     dsn: '',
                     databaseName: '',
