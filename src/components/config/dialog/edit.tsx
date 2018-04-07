@@ -1,11 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import Constantiate from 'constantiate';
+
+import { Config, SQLConfig, SpreadSheetsConfig } from 'modules/config';
 
 // Material-UI
 import {withStyles, StyledComponentProps} from 'material-ui/styles';
 import Dialog, {DialogContent, DialogContentText, DialogTitle, DialogActions} from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
+import { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Select from 'material-ui/Select';
 
 const styles = theme => ({
     textField: {
@@ -22,36 +29,49 @@ interface Props extends StyledComponentProps {
 }
 
 interface State {
-    inputName: string
-    inputDescription: string
+    selectType: number
+    inputDSN: string
 }
 
 class EditConfigDialog extends React.Component<Props, State> {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            inputName: '',
-            inputDescription: '',
+            selectType: 0,
+            inputDSN: '',
         };
     }
 
-    handleChangeInputName = (el: React.FormEvent<HTMLInputElement>) => {
+    handleChangeType = (e: any) => {
         this.setState({
             ...this.state,
-            inputName: el.currentTarget.value,
-        })
+            selectType: e.target.value,
+        });
     }
 
-    handleChangeInputDescription = (el: React.FormEvent<HTMLInputElement>) => {
+    handleInputDSN = (el: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
-            inputDescription: el.currentTarget.value,
+            inputDSN: el.currentTarget.value,
         })
     }
 
     onSubmit = () => {
-        // Switch Config
-        this.props.onSubmit();
+        switch(this.state.selectType) {
+            case Constantiate.CONFIG_TYPE_MYSQL:
+                const sqlConfig: SQLConfig = {
+                    id: null,
+                    configType: 'sql',
+                    driverName: 'mysql',
+                    dsn: '',
+                    databaseName: '',
+                    tableName: '',
+                }
+                this.props.onSubmit(sqlConfig);
+                break;
+            case Constantiate.CONFIG_TYPE_SPREAD_SHEETS:
+                break;
+        }
     }
 
     render() {
@@ -63,26 +83,37 @@ class EditConfigDialog extends React.Component<Props, State> {
                 onClose={this.props.onClose}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">Delete Project</DialogTitle>
+                <DialogTitle id="form-dialog-title">
+                    {this.props.isNew ? 'Create' : 'Edit'}
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        To create project, please enter name and description here.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        id="name"
-                        label="Peoject Name"
-                        className={classes.textField}
-                        onChange={this.handleChangeInputName}
-                        fullWidth
-                    />
-                    <TextField
-                        id="name"
-                        label="Description"
-                        className={classes.textField}
-                        onChange={this.handleChangeInputDescription}
-                        fullWidth
-                    />
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>Type</InputLabel>
+                        <Select
+                            value={this.state.selectType}
+                            onChange={this.handleChangeType}
+                        >
+                            {Constantiate.ConfigType.map((configType) => {
+                                return (
+                                    <MenuItem key={configType.index} value={configType.index}>
+                                        {configType.name}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
+                    {(() => {
+                        if (this.state.selectType === 1) {
+                            return (
+                                <TextField
+                                    label="DSN"
+                                    className={classes.textField}
+                                    onChange={this.handleInputDSN}
+                                    fullWidth
+                                />
+                            );
+                        }
+                    })()}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.onClose} color="primary">

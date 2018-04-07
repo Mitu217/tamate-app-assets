@@ -7,6 +7,8 @@ import {ReduxState, ReduxAction} from 'store';
 
 import ConfigList from 'components/config/list';
 import {
+    fetchRequire as fetchConfigsRequire,
+    createRequire as createConfigRequire,
     Config,
 } from 'modules/config'
 
@@ -17,18 +19,28 @@ interface Props {
     history: PropTypes.historyContext
 }
 
-export class ConfigRoot extends React.Component<Props, {}> {
+interface State {
+    projectId: number
+}
+
+export class ConfigRoot extends React.Component<Props, State> {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            projectId: this.props.match.params.projectId,
+        };
+    }
 
     componentDidMount() {
-        this.props.actions.fetchAllConfigs()
+        this.props.actions.fetchConfigs(this.state.projectId);
     }
 
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
     };
 
-    submitUpdateOrCreateConfig = (config: Config) => {
-        this.props.actions.updateOrCreateConfig(config);
+    submitUpdateOrCreateConfig = ( config: Config) => {
+        this.props.actions.updateOrCreateConfig(this.state.projectId, config);
     }
 
     submitDeleteConfig = (id: number) => {
@@ -51,14 +63,18 @@ export class ConfigRoot extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
-    public fetchAllConfigs() {
-        //this.dispatch(fetchProjectsRequire([]));
+    public fetchConfigs(projectId: number) {
+        this.dispatch(fetchConfigsRequire(projectId));
     }
     public deleteConfig(id: number) {
         //this.dispatch(deleteProjectRequire(id));
     }
-    public updateOrCreateConfig(config: Config) {
-        //this.dispatch(updateProjectRequire(project))
+    public updateOrCreateConfig(projectId: number, config: Config) {
+        if (config.id) {
+            //this.dispatch(createConfigRequire(config))
+        } else {
+            this.dispatch(createConfigRequire(projectId, config))
+        }
     }
 }
 

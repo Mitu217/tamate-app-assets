@@ -1,6 +1,5 @@
-import {Action} from 'redux';
-import { delay } from 'redux-saga';
-import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
+import { Action } from 'redux';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 /********/
 /* Model
@@ -166,7 +165,13 @@ export type Actions =
         FetchFailAction |
         CreateRequireAction |
         CreateSuccessAction |
-        CreateFailAction
+        CreateFailAction |
+        UpdateRequireAction |
+        UpdateSuccessAction |
+        UpdateFailAction |
+        DeleteRequireAction |
+        DeleteSuccessAction |
+        DeleteFailAction
 
 const initialState: State = {projects: []}
 
@@ -195,7 +200,7 @@ export default function reducer(state: State = initialState, action: Actions): S
 /**********/
 function* fetchProjects(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/api/project/list', {
+        const response = yield call(fetch, 'http://localhost:8090/api/projects', {
             method: 'GET',
         });
         if (response.status === 200) {

@@ -102,7 +102,7 @@ class ConfigList extends React.Component<Props, State> {
                     onClick={this.handleOpenDialog}
                     name="create"
                 >
-                    <AddIcon name="create"/>
+                    <AddIcon/>
                 </Button>
                 {dialogContent}
             </div>
