@@ -7,7 +7,6 @@ import {ReduxState, ReduxAction} from 'store';
 import ProjectList from 'components/project/list';
 import ProjectShow from 'components/project/show';
 import {
-    fetchRequire as fetchProjectsRequire,
     createRequire as createProjectRequire,
     deleteRequire as deleteProjectRequire,
     updateRequire as updateProjectRequire,
@@ -22,11 +21,6 @@ interface Props {
 }
 
 export class ProjectRoot extends React.Component<Props, {}> {
-
-    componentDidMount() {
-        this.props.actions.fetchAllProjects()
-    }
-
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
     };
@@ -36,7 +30,6 @@ export class ProjectRoot extends React.Component<Props, {}> {
     }
 
     submitDeleteProject = (id: number) => {
-        console.log(id);
         this.props.actions.deleteProject(id);
     }
 
@@ -74,9 +67,6 @@ export class ProjectRoot extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
-    public fetchAllProjects() {
-        this.dispatch(fetchProjectsRequire([]));
-    }
     public createProject(name: string, description: string) {
         this.dispatch(createProjectRequire(name, description));
     }
