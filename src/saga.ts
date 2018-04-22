@@ -1,6 +1,7 @@
-import { Saga as ProjectSaga } from 'modules/project';
+import { Action } from 'redux';
+import { all} from 'redux-saga/effects';
+import { Saga as ProjectSaga } from 'modules/saga/project';
 import { Saga as ConfigSaga } from 'modules/config';
-import { all } from 'redux-saga/effects';
 
 export default function* Saga() {
     yield all([
