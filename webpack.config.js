@@ -10,7 +10,7 @@ module.exports = {
     mode: 'development',
    
     context: src, //TODO:何か調べる
-    entry: path.resolve(__dirname, 'src/app.tsx'),
+    entry: path.resolve(__dirname, 'src/index.tsx'),
     output: {
         path: dist,  // Directory Name.
         filename: 'app.js'
