@@ -16,7 +16,7 @@ import {
 /**********/
 /* Saga
 /**********/
-function* fetchListProject(action) {
+function* fetchListSchema(action) {
     try {
         const response = yield call(fetch, 'http://localhost:8090/schemas/list', {
             method: 'GET',
@@ -32,7 +32,7 @@ function* fetchListProject(action) {
     }
 }
 
-function* fetchShowProject(action) {
+function* fetchShowSchema(action) {
     try {
         const response = yield call(fetch, 'http://localhost:8090/schemas/show', {
             method: 'GET',
@@ -48,7 +48,7 @@ function* fetchShowProject(action) {
     }
 }
 
-function* fetchCreateProject(action) {
+function* fetchCreateSchema(action) {
     try {
         const obj = {
             projectId: action.projectId,
@@ -64,8 +64,8 @@ function* fetchCreateProject(action) {
             },
         });
         if (response.status === 200) {
-            const project = yield call([response, response.json]);
-            yield put(createSuccess(project));
+            const schema = yield call([response, response.json]);
+            yield put(createSuccess(schema));
         } else {
             yield put(createFail(response.message));
         }
@@ -74,7 +74,7 @@ function* fetchCreateProject(action) {
     }
 }
 
-function* fetchUpdateProject(action) {
+function* fetchUpdateSchema(action) {
     try {
         const obj = {
             id: action.id,
@@ -101,7 +101,7 @@ function* fetchUpdateProject(action) {
     }
 }
 
-function* fetchDeleteProject(action) {
+function* fetchDeleteSchema(action) {
     try {
         const obj = {
             id: action.id,
@@ -124,9 +124,9 @@ function* fetchDeleteProject(action) {
 }
 
 export const Saga = [
-    takeLatest(ActionTypes.LIST_REQUEST, fetchListProject),
-    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowProject),
-    takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateProject),
-    takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateProject),
-    takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteProject),
+    takeLatest(ActionTypes.LIST_REQUEST, fetchListSchema),
+    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowSchema),
+    takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateSchema),
+    takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateSchema),
+    takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteSchema),
 ]

@@ -16,7 +16,7 @@ import {
 /**********/
 /* Saga
 /**********/
-function* fetchListProject(action) {
+function* fetchListDatasource(action) {
     try {
         const response = yield call(fetch, 'http://localhost:8090/datasources/list', {
             method: 'GET',
@@ -32,7 +32,7 @@ function* fetchListProject(action) {
     }
 }
 
-function* fetchShowProject(action) {
+function* fetchShowDatasource(action) {
     try {
         const response = yield call(fetch, 'http://localhost:8090/datasources/show', {
             method: 'GET',
@@ -48,7 +48,7 @@ function* fetchShowProject(action) {
     }
 }
 
-function* fetchCreateProject(action) {
+function* fetchCreateDatasource(action) {
     try {
         const obj = {
             id: action.id,
@@ -76,7 +76,7 @@ function* fetchCreateProject(action) {
     }
 }
 
-function* fetchUpdateProject(action) {
+function* fetchUpdateDatasource(action) {
     try {
         const obj = {
             id: action.id,
@@ -104,7 +104,7 @@ function* fetchUpdateProject(action) {
     }
 }
 
-function* fetchDeleteProject(action) {
+function* fetchDeleteDatasource(action) {
     try {
         const obj = {
             id: action.id,
@@ -127,9 +127,9 @@ function* fetchDeleteProject(action) {
 }
 
 export const Saga = [
-    takeLatest(ActionTypes.LIST_REQUEST, fetchListProject),
-    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowProject),
-    takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateProject),
-    takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateProject),
-    takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteProject),
+    takeLatest(ActionTypes.LIST_REQUEST, fetchListDatasource),
+    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowDatasource),
+    takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateDatasource),
+    takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateDatasource),
+    takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteDatasource),
 ]
