@@ -29,10 +29,6 @@ interface Props extends StyledComponentProps {
 }
 
 export class Content extends React.Component<Props, {}> {
-    componentDidMount() {
-        this.props.actions.fetchAllProjects()
-    }
-
     render() {
         const classes = this.props.classes
         return (
