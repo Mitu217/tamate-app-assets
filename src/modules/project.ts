@@ -1,5 +1,4 @@
 import { Action } from 'redux';
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 /********/
 /* Model
@@ -9,46 +8,63 @@ export interface Project {
     name: string
     description: string
     thumbnailUri: string
-    favorite: boolean
 }
 
 /****************/
 /* ActionCreator
 /****************/
-enum ActionTypes {
-    FETCH_REQUIRE = 'fetch/project/require',
-    FETCH_SUCCESS = 'fetch/project/success',
-    FETCH_FAIL = 'fetch/project/fail',
-    CREATE_REQUIRE = 'create/project/require',
+export enum ActionTypes {
+    LIST_REQUEST = 'list/project/request',
+    LIST_SUCCESS = 'list/project/success',
+    LIST_FAIL = 'list/project/fail',
+    SHOW_REQUEST = 'show/project/request',
+    SHOW_SUCCESS = 'show/project/success',
+    SHOW_FAIL = 'show/project/fail',
+    CREATE_REQUEST = 'create/project/request',
     CREATE_SUCCESS = 'create/project/success',
     CREATE_FAIL = 'create/project/fail',
-    UPDATE_REQUIRE = 'update/project/require',
+    UPDATE_REQUEST = 'update/project/request',
     UPDATE_SUCCESS = 'update/project/success',
     UPDATE_FAIL = 'update/project/fail',
-    DELETE_REQUIRE = 'delete/project/require',
+    DELETE_REQUEST = 'delete/project/request',
     DELETE_SUCCESS = 'delete/project/success',
     DELETE_FAIL = 'delete/project/fail',
 }
 
-interface FetchRequireAction extends Action {
-    type: ActionTypes.FETCH_REQUIRE
-    projectIds: Array<number>
+interface FetchListRequestAction extends Action {
+    type: ActionTypes.LIST_REQUEST
 }
 
-interface FetchSuccessAction extends Action {
-    type: ActionTypes.FETCH_SUCCESS
+interface FetchListSuccessAction extends Action {
+    type: ActionTypes.LIST_SUCCESS
     projects: Array<Project>
 }
 
-interface FetchFailAction extends Action {
-    type: ActionTypes.FETCH_FAIL
+interface FetchListFailAction extends Action {
+    type: ActionTypes.LIST_FAIL
     message: string
 }
 
-interface CreateRequireAction extends Action {
-    type: ActionTypes.CREATE_REQUIRE
+interface FetchShowRequestAction extends Action {
+    type: ActionTypes.SHOW_REQUEST
+    projectId: number
+}
+
+interface FetchShowSuccessAction extends Action {
+    type: ActionTypes.SHOW_SUCCESS
+    project: Project
+}
+
+interface FetchShowFailAction extends Action {
+    type: ActionTypes.SHOW_FAIL
+    message: string
+}
+
+interface CreateRequestAction extends Action {
+    type: ActionTypes.CREATE_REQUEST
     name: string
     description: string
+    thumbnailUri: string
 }
 
 interface CreateSuccessAction extends Action {
@@ -61,9 +77,12 @@ interface CreateFailAction extends Action {
     message: string
 }
 
-interface UpdateRequireAction extends Action {
-    type: ActionTypes.UPDATE_REQUIRE
-    project: Project
+interface UpdateRequestAction extends Action {
+    type: ActionTypes.UPDATE_REQUEST
+    id: number
+    name: string
+    description: string
+    thumbnailUri: string
 }
 
 interface UpdateSuccessAction extends Action {
@@ -76,14 +95,14 @@ interface UpdateFailAction extends Action {
     message: string
 }
 
-interface DeleteRequireAction extends Action {
-    type: ActionTypes.DELETE_REQUIRE
+interface DeleteRequestAction extends Action {
+    type: ActionTypes.DELETE_REQUEST
     id: number
 }
 
 interface DeleteSuccessAction extends Action {
     type: ActionTypes.DELETE_SUCCESS
-    project: Project
+    id: number
 }
 
 interface DeleteFailAction extends Action {
@@ -91,65 +110,83 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const fetchRequire = (projectIds: Array<number>): FetchRequireAction => ({
-    type: ActionTypes.FETCH_REQUIRE,
-    projectIds: projectIds,
+export const fetchListRequest = (): FetchListRequestAction => ({
+    type: ActionTypes.LIST_REQUEST,
 })
 
-export const fetchSuccess = (projects: Array<Project>): FetchSuccessAction => ({
-    type: ActionTypes.FETCH_SUCCESS,
-    projects: projects
+export const fetchListSuccess = (projects: Array<Project>): FetchListSuccessAction => ({
+    type: ActionTypes.LIST_SUCCESS,
+    projects: projects,
 })
 
-export const fetchFail = (message: string): FetchFailAction => ({
-    type: ActionTypes.FETCH_FAIL,
-    message: message
+export const fetchListFail = (message: string): FetchListFailAction => ({
+    type: ActionTypes.LIST_FAIL,
+    message: message,
 })
 
-export const createRequire = (name: string, description: string): CreateRequireAction => ({
-    type: ActionTypes.CREATE_REQUIRE,
+export const fetchShowRequest = (projectId: number): FetchShowRequestAction => ({
+    type: ActionTypes.SHOW_REQUEST,
+    projectId: projectId,
+})
+
+export const fetchShowSuccess = (project: Project): FetchShowSuccessAction => ({
+    type: ActionTypes.SHOW_SUCCESS,
+    project: project,
+})
+
+export const fetchShowFail = (message: string): FetchShowFailAction => ({
+    type: ActionTypes.SHOW_FAIL,
+    message: message,
+})
+
+export const createRequest = (name: string, description: string, thumbnailUri: string): CreateRequestAction => ({
+    type: ActionTypes.CREATE_REQUEST,
     name: name,
-    description: description
+    description: description,
+    thumbnailUri: thumbnailUri,
 })
 
 export const createSuccess = (project: Project): CreateSuccessAction => ({
     type: ActionTypes.CREATE_SUCCESS,
-    project: project
+    project: project,
 })
 
 export const createFail = (message: string): CreateFailAction => ({
     type: ActionTypes.CREATE_FAIL,
-    message: message
+    message: message,
 })
 
-export const updateRequire = (project: Project): UpdateRequireAction => ({
-    type: ActionTypes.UPDATE_REQUIRE,
-    project: project
+export const updateRequest = (projectId: number, name: string, description: string, thumbnailUri: string): UpdateRequestAction => ({
+    type: ActionTypes.UPDATE_REQUEST,
+    id: projectId,
+    name: name,
+    description: description,
+    thumbnailUri: thumbnailUri,
 })
 
 export const updateSuccess = (project: Project): UpdateSuccessAction => ({
     type: ActionTypes.UPDATE_SUCCESS,
-    project: project
+    project: project,
 })
 
 export const updateFail = (message: string): UpdateFailAction => ({
     type: ActionTypes.UPDATE_FAIL,
-    message: message
+    message: message,
 })
 
-export const deleteRequire = (id: number): DeleteRequireAction => ({
-    type: ActionTypes.DELETE_REQUIRE,
-    id: id,
+export const deleteRequest = (projectId: number): DeleteRequestAction => ({
+    type: ActionTypes.DELETE_REQUEST,
+    id: projectId,
 })
 
-export const deleteSuccess = (project: Project): DeleteSuccessAction => ({
+export const deleteSuccess = (projectId: number): DeleteSuccessAction => ({
     type: ActionTypes.DELETE_SUCCESS,
-    project: project
+    id: projectId,
 })
 
 export const deleteFail = (message: string): DeleteFailAction => ({
     type: ActionTypes.DELETE_FAIL,
-    message: message
+    message: message,
 })
 
 /**********/
@@ -159,115 +196,82 @@ export interface State {
     projects: Array<Project>
 }
 
+const initialState = {
+    projects: []
+}
+
 export type Actions =
-        FetchRequireAction |
-        FetchSuccessAction |
-        FetchFailAction |
-        CreateRequireAction |
+        FetchListRequestAction |
+        FetchListSuccessAction |
+        FetchListFailAction |
+        FetchShowRequestAction |
+        FetchShowSuccessAction |
+        FetchShowFailAction |
+        CreateRequestAction |
         CreateSuccessAction |
         CreateFailAction |
-        UpdateRequireAction |
+        UpdateRequestAction |
         UpdateSuccessAction |
         UpdateFailAction |
-        DeleteRequireAction |
+        DeleteRequestAction |
         DeleteSuccessAction |
         DeleteFailAction
 
-const initialState: State = {projects: []}
-
 export default function reducer(state: State = initialState, action: Actions): State {
+    var nextProjects = state.projects;
+
     switch (action.type) {
-        case ActionTypes.FETCH_REQUIRE:
-            return state;
-        case ActionTypes.FETCH_SUCCESS:
-            return {projects: action.projects};
-        case ActionTypes.FETCH_FAIL:
-            return state;
-        case ActionTypes.CREATE_REQUIRE:
-            return state;
+
+        case ActionTypes.LIST_SUCCESS:
+            return {
+                ...state,
+                projects: nextProjects,
+            };
+
+        case ActionTypes.SHOW_SUCCESS:
+            for (var i=0; i<nextProjects.length; i++) {
+                if (nextProjects[i].id === action.project.id) {
+                    nextProjects[i] = action.project;
+                    break;
+                }
+            }
+            return {
+                ...state,
+                projects: nextProjects,
+            };
+
         case ActionTypes.CREATE_SUCCESS:
-            state.projects.push(action.project); // TODO: 並び替え
-            return {projects: state.projects};
-        case ActionTypes.CREATE_FAIL:
-            return state;
+            nextProjects.push(action.project);
+            return {
+                ...state,
+                projects: nextProjects,
+            };
+
+        case ActionTypes.UPDATE_SUCCESS:
+            for (var i=0; i<nextProjects.length; i++) {
+                if (nextProjects[i].id === action.project.id) {
+                    nextProjects[i] = action.project;
+                    break;
+                }
+            }
+            return {
+                ...state,
+                projects: nextProjects,
+            }
+
+        case ActionTypes.DELETE_SUCCESS:
+            for (var i=0; i<nextProjects.length; i++) {
+                if (nextProjects[i].id === action.id) {
+                    nextProjects.splice(i, 1);
+                    break;
+                }
+            }
+            return {
+                ...state,
+                projects: nextProjects,
+            }
+
         default:
             return state
     }
 }
-
-/**********/
-/* Saga
-/**********/
-function* fetchProjects(action) {
-    try {
-        const response = yield call(fetch, 'http://localhost:8090/api/projects', {
-            method: 'GET',
-        });
-        if (response.status === 200) {
-            const projects = yield call([response, response.json]);
-            yield put(fetchSuccess(projects));
-        } else {
-            yield put(fetchFail(response.message))
-        }
-    } catch (e) {
-        yield put(fetchFail(e.message))
-    }
-}
-
-function* createProject(action) {
-    try {
-        const obj = {
-            name: action.name,
-            description: action.description,
-        }
-        const response = yield call(fetch, 'http://localhost:8090/api/project/add', {
-            method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
-            headers: {
-                'Accept': 'application/json'
-            },
-        });
-        if (response.status === 200) {
-            const project = yield call([response, response.json]);
-            yield put(createSuccess(project));
-        } else {
-            yield put(createFail(response.message));
-        }
-    } catch (e) {
-        yield put(createFail(e.message));
-    }
-}
-
-function* updateProject(action) {
-    console.log('APIが未完成なため動作しません');
-}
-
-function* deleteProject(action) {
-    try {
-        const obj = {
-            id: action.id,
-        }
-        const response = yield call(fetch, 'http://localhost:8090/api/project/delete', {
-            method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
-            headers: {
-                'Accept': 'application/json'
-            },
-        });
-        if (response.status === 200) {
-            const project = yield call([response, response.json]);
-            yield put(deleteSuccess(project));
-        } else {
-            yield put(deleteFail(response.message));
-        }
-    } catch (e) {
-        yield put(deleteFail(e.message));
-    }
-}
-
-export const Saga = [
-    takeEvery(ActionTypes.FETCH_REQUIRE, fetchProjects),
-    takeEvery(ActionTypes.CREATE_REQUIRE, createProject),
-    takeEvery(ActionTypes.UPDATE_REQUIRE, updateProject),
-    takeEvery(ActionTypes.DELETE_REQUIRE, deleteProject),
-]

@@ -1,10 +1,15 @@
-import { Saga as ProjectSaga } from 'modules/project';
-import { Saga as ConfigSaga } from 'modules/config';
-import { all } from 'redux-saga/effects';
+import { Action } from 'redux';
+import { all} from 'redux-saga/effects';
+import { Saga as ProjectSaga } from 'modules/saga/project';
+import { Saga as SchemaSaga } from 'modules/saga/schema';
+import { Saga as DatasourceSaga } from 'modules/saga/datasource';
+import { Saga as TableSaga } from 'modules/saga/table';
 
 export default function* Saga() {
     yield all([
       ...ProjectSaga,
-      ...ConfigSaga,
+      ...SchemaSaga,
+      ...DatasourceSaga,
+      ...TableSaga
     ])
 }
