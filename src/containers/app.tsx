@@ -18,9 +18,17 @@ interface Props extends StyledComponentProps {
     actions: ActionDispatcher
 }
 
-const styles = {
-    app: {},
-}
+const styles = theme => ({
+    app: {
+        flexGrow: 1,
+        zIndex: 1,
+        overflow: 'hidden' as 'hidden',
+        position: 'relative' as 'relative',
+        display: 'flex' as 'flex',
+        height: '100vh' as '100vh',
+        width: '100vw' as '100vw',
+    },
+});
 
 export class App extends React.Component<Props, {}> {
 
