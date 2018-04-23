@@ -1,18 +1,22 @@
-import { fork, takeEvery, takeLatest, join, put } from 'redux-saga/effects';
+import { fork, takeEvery, takeLatest, join, put, call, take } from 'redux-saga/effects';
 import {
     ActionTypes,
     initSuccess,
     initFail,
 } from 'modules/app'
-import { listRequest as requestProjectList } from 'modules/project';
+import {
+    listRequest as requestProjectList
+} from 'modules/project';
+import { delay } from 'redux-saga';
 
 /**********/
 /* Saga
 /**********/
 function* initialize(action) {
     try {
-        const task = yield fork(requestProjectList, [])
-        const result = yield join(task)
+        yield put(requestProjectList());
+        // TODO: 削除
+        yield call(delay, 1000);
         yield put(initSuccess());
     } catch (e) {
         yield put(initFail());
@@ -20,5 +24,5 @@ function* initialize(action) {
 }
 
 export const Saga = [
-    takeEvery(ActionTypes.INIT_REQUEST, initialize),
+    takeLatest(ActionTypes.INIT_REQUEST, initialize),
 ]

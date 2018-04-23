@@ -8,9 +8,10 @@ import { Saga as TableSaga } from 'modules/saga/table';
 
 export default function* Saga() {
     yield all([
-      ...ProjectSaga,
-      ...SchemaSaga,
-      ...DatasourceSaga,
-      ...TableSaga
+        ...AppSaga,
+        ...ProjectSaga,
+        ...SchemaSaga,
+        ...DatasourceSaga,
+        ...TableSaga
     ])
 }

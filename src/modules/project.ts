@@ -31,31 +31,31 @@ export enum ActionTypes {
     DELETE_FAIL = 'delete/project/fail',
 }
 
-interface FetchListRequestAction extends Action {
+interface ListRequestAction extends Action {
     type: ActionTypes.LIST_REQUEST
 }
 
-interface FetchListSuccessAction extends Action {
+interface ListSuccessAction extends Action {
     type: ActionTypes.LIST_SUCCESS
     projects: Array<Project>
 }
 
-interface FetchListFailAction extends Action {
+interface ListFailAction extends Action {
     type: ActionTypes.LIST_FAIL
     message: string
 }
 
-interface FetchShowRequestAction extends Action {
+interface ShowRequestAction extends Action {
     type: ActionTypes.SHOW_REQUEST
     projectId: number
 }
 
-interface FetchShowSuccessAction extends Action {
+interface ShowSuccessAction extends Action {
     type: ActionTypes.SHOW_SUCCESS
     project: Project
 }
 
-interface FetchShowFailAction extends Action {
+interface ShowFailAction extends Action {
     type: ActionTypes.SHOW_FAIL
     message: string
 }
@@ -110,31 +110,31 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const fetchListRequest = (): FetchListRequestAction => ({
+export const listRequest = (): ListRequestAction => ({
     type: ActionTypes.LIST_REQUEST,
 })
 
-export const fetchListSuccess = (projects: Array<Project>): FetchListSuccessAction => ({
+export const listSuccess = (projects: Array<Project>): ListSuccessAction => ({
     type: ActionTypes.LIST_SUCCESS,
     projects: projects,
 })
 
-export const fetchListFail = (message: string): FetchListFailAction => ({
+export const listFail = (message: string): ListFailAction => ({
     type: ActionTypes.LIST_FAIL,
     message: message,
 })
 
-export const fetchShowRequest = (projectId: number): FetchShowRequestAction => ({
+export const showRequest = (projectId: number): ShowRequestAction => ({
     type: ActionTypes.SHOW_REQUEST,
     projectId: projectId,
 })
 
-export const fetchShowSuccess = (project: Project): FetchShowSuccessAction => ({
+export const showSuccess = (project: Project): ShowSuccessAction => ({
     type: ActionTypes.SHOW_SUCCESS,
     project: project,
 })
 
-export const fetchShowFail = (message: string): FetchShowFailAction => ({
+export const showFail = (message: string): ShowFailAction => ({
     type: ActionTypes.SHOW_FAIL,
     message: message,
 })
@@ -201,12 +201,12 @@ const initialState = {
 }
 
 export type Actions =
-        FetchListRequestAction |
-        FetchListSuccessAction |
-        FetchListFailAction |
-        FetchShowRequestAction |
-        FetchShowSuccessAction |
-        FetchShowFailAction |
+        ListRequestAction |
+        ListSuccessAction |
+        ListFailAction |
+        ShowRequestAction |
+        ShowSuccessAction |
+        ShowFailAction |
         CreateRequestAction |
         CreateSuccessAction |
         CreateFailAction |

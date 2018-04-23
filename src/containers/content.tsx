@@ -12,10 +12,6 @@ import Datasource from 'containers/datasource';
 import Dump from 'components/dump';
 import Diff from 'components/diff';
 
-import {
-    fetchRequire as fetchProjectsRequire,
-} from 'modules/project'
-
 const styles = theme => ({
     content: {
         flexGrow: 1,
@@ -66,9 +62,6 @@ export class Content extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
-    public fetchAllProjects() {
-        this.dispatch(fetchProjectsRequire([]));
-    }
 }
 
 export default compose(

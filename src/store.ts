@@ -5,7 +5,6 @@ import drawer, {State as DrawerState, Actions as DrawerActions} from 'modules/me
 import project, {State as ProjectState, Actions as ProjectActions} from 'modules/project';
 import datasource, {State as DatasourceState, Actions as DatasourceActions} from 'modules/datasource';
 import schema, {State as SchemaState, Actions as SchemaActions} from 'modules/schema';
-import config, {State as ConfigState, Actions as ConfigActions} from 'modules/config';
 
 export type ReduxState = {
     app: AppState
@@ -14,7 +13,6 @@ export type ReduxState = {
     project: ProjectState
     datasource: DatasourceState
     schema: SchemaState
-    config: ConfigState
 }
 
 export type ReduxAction =
@@ -23,8 +21,7 @@ export type ReduxAction =
                 DrawerActions |
                 ProjectActions |
                 SchemaActions |
-                DatasourceActions |
-                ConfigActions
+                DatasourceActions
 
 export function createStore(middleware: GenericStoreEnhancer) {
     const reducer = combineReducers({
@@ -34,7 +31,6 @@ export function createStore(middleware: GenericStoreEnhancer) {
         project,
         datasource,
         schema,
-        config,
     })
     return reduxCreateStore(reducer, middleware)
 }
