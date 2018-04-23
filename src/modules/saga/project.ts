@@ -22,8 +22,8 @@ function* fetchListProject(action) {
             method: 'GET',
         });
         if (response.status === 200) {
-            const projects = yield call([response, response.json]);
-            yield put(listSuccess(projects));
+            const result = yield call([response, response.json]);
+            yield put(listSuccess(result.projects));
         } else {
             yield put(listFail(response.message))
         }
@@ -50,14 +50,13 @@ function* fetchShowProject(action) {
 
 function* fetchCreateProject(action) {
     try {
-        const obj = {
-            name: action.name,
-            description: action.description,
-            thumbnailUri: action.thumbnailUri,
-        }
         const response = yield call(fetch, 'http://localhost:8090/projects/create', {
             method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
+            body: JSON.stringify({
+                name: action.name,
+                description: action.description,
+                thumbnailUri: action.thumbnailUri,
+            }),
             headers: {
                 'Accept': 'application/json'
             },

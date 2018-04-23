@@ -221,8 +221,8 @@ export default function reducer(state: State = initialState, action: Actions): S
     var nextProjects = state.projects;
 
     switch (action.type) {
-
         case ActionTypes.LIST_SUCCESS:
+            nextProjects = action.projects;
             return {
                 ...state,
                 projects: nextProjects,
