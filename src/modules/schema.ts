@@ -236,6 +236,7 @@ export default function reducer(state: State = initialState, action: Actions): S
     switch (action.type) {
 
         case ActionTypes.LIST_SUCCESS:
+            nextSchemas = action.schemas;
             return {
                 ...state,
                 schemas: nextSchemas,
