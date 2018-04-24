@@ -40,31 +40,31 @@ export enum ActionTypes {
 }
 
 
-interface FetchListRequestAction extends Action {
+interface ListRequestAction extends Action {
     type: ActionTypes.LIST_REQUEST
 }
 
-interface FetchListSuccessAction extends Action {
+interface ListSuccessAction extends Action {
     type: ActionTypes.LIST_SUCCESS
     schemas: Array<Schema>
 }
 
-interface FetchListFailAction extends Action {
+interface ListFailAction extends Action {
     type: ActionTypes.LIST_FAIL
     message: string
 }
 
-interface FetchShowRequestAction extends Action {
+interface ShowRequestAction extends Action {
     type: ActionTypes.SHOW_REQUEST
     id: number
 }
 
-interface FetchShowSuccessAction extends Action {
+interface ShowSuccessAction extends Action {
     type: ActionTypes.SHOW_SUCCESS
     schema: Schema
 }
 
-interface FetchShowFailAction extends Action {
+interface ShowFailAction extends Action {
     type: ActionTypes.SHOW_FAIL
     message: string
 }
@@ -121,31 +121,31 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const fetchListRequest = (): FetchListRequestAction => ({
+export const listRequest = (): ListRequestAction => ({
     type: ActionTypes.LIST_REQUEST,
 })
 
-export const fetchListSuccess = (schemas: Array<Schema>): FetchListSuccessAction => ({
+export const listSuccess = (schemas: Array<Schema>): ListSuccessAction => ({
     type: ActionTypes.LIST_SUCCESS,
     schemas: schemas,
 })
 
-export const fetchListFail = (message: string): FetchListFailAction => ({
+export const listFail = (message: string): ListFailAction => ({
     type: ActionTypes.LIST_FAIL,
     message: message,
 })
 
-export const fetchShowRequest = (schemaId: number): FetchShowRequestAction => ({
+export const showRequest = (schemaId: number): ShowRequestAction => ({
     type: ActionTypes.SHOW_REQUEST,
     id: schemaId,
 })
 
-export const fetchShowSuccess = (schema: Schema): FetchShowSuccessAction => ({
+export const showSuccess = (schema: Schema): ShowSuccessAction => ({
     type: ActionTypes.SHOW_SUCCESS,
     schema: schema,
 })
 
-export const fetchShowFail = (message: string): FetchShowFailAction => ({
+export const showFail = (message: string): ShowFailAction => ({
     type: ActionTypes.SHOW_FAIL,
     message: message,
 })
@@ -214,12 +214,12 @@ const initialState: State = {
 }
 
 export type Actions =
-                FetchListRequestAction |
-                FetchListSuccessAction |
-                FetchListFailAction |
-                FetchShowRequestAction |
-                FetchShowSuccessAction |
-                FetchShowFailAction |
+                ListRequestAction |
+                ListSuccessAction |
+                ListFailAction |
+                ShowRequestAction |
+                ShowSuccessAction |
+                ShowFailAction |
                 CreateRequestAction |
                 CreateSuccessAction |
                 CreateFailAction |

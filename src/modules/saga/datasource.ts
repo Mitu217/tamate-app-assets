@@ -1,10 +1,10 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
     ActionTypes,
-    fetchListSuccess,
-    fetchListFail,
-    fetchShowSuccess,
-    fetchShowFail,
+    listSuccess,
+    listFail,
+    showSuccess,
+    showFail,
     createSuccess,
     createFail,
     updateSuccess,
@@ -23,12 +23,12 @@ function* fetchListDatasource(action) {
         });
         if (response.status === 200) {
             const datasources = yield call([response, response.json]);
-            yield put(fetchListSuccess(datasources));
+            yield put(listSuccess(datasources));
         } else {
-            yield put(fetchListFail(response.message))
+            yield put(listFail(response.message))
         }
     } catch (e) {
-        yield put(fetchListFail(e.message))
+        yield put(listFail(e.message))
     }
 }
 
@@ -39,12 +39,12 @@ function* fetchShowDatasource(action) {
         });
         if (response.status === 200) {
             const datasource = yield call([response, response.json]);
-            yield put(fetchShowSuccess(datasource));
+            yield put(showSuccess(datasource));
         } else {
-            yield put(fetchShowFail(response.message))
+            yield put(showFail(response.message))
         }
     } catch (e) {
-        yield put(fetchShowFail(e.message))
+        yield put(showFail(e.message))
     }
 }
 

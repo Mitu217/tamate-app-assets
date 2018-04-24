@@ -52,31 +52,31 @@ export enum ActionTypes {
 }
 
 
-interface FetchListRequestAction extends Action {
+interface ListRequestAction extends Action {
     type: ActionTypes.LIST_REQUEST
 }
 
-interface FetchListSuccessAction extends Action {
+interface ListSuccessAction extends Action {
     type: ActionTypes.LIST_SUCCESS
     datasources: Array<Datasource>
 }
 
-interface FetchListFailAction extends Action {
+interface ListFailAction extends Action {
     type: ActionTypes.LIST_FAIL
     message: string
 }
 
-interface FetchShowRequestAction extends Action {
+interface ShowRequestAction extends Action {
     type: ActionTypes.SHOW_REQUEST
     id: number
 }
 
-interface FetchShowSuccessAction extends Action {
+interface ShowSuccessAction extends Action {
     type: ActionTypes.SHOW_SUCCESS
     datasource: Datasource
 }
 
-interface FetchShowFailAction extends Action {
+interface ShowFailAction extends Action {
     type: ActionTypes.SHOW_FAIL
     message: string
 }
@@ -135,31 +135,31 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const fetchListRequest = (): FetchListRequestAction => ({
+export const listRequest = (): ListRequestAction => ({
     type: ActionTypes.LIST_REQUEST,
 })
 
-export const fetchListSuccess = (datasources: Array<Datasource>): FetchListSuccessAction => ({
+export const listSuccess = (datasources: Array<Datasource>): ListSuccessAction => ({
     type: ActionTypes.LIST_SUCCESS,
     datasources: datasources,
 })
 
-export const fetchListFail = (message: string): FetchListFailAction => ({
+export const listFail = (message: string): ListFailAction => ({
     type: ActionTypes.LIST_FAIL,
     message: message,
 })
 
-export const fetchShowRequest = (datasourceId: number): FetchShowRequestAction => ({
+export const showRequest = (datasourceId: number): ShowRequestAction => ({
     type: ActionTypes.SHOW_REQUEST,
     id: datasourceId,
 })
 
-export const fetchShowSuccess = (datasource: Datasource): FetchShowSuccessAction => ({
+export const showSuccess = (datasource: Datasource): ShowSuccessAction => ({
     type: ActionTypes.SHOW_SUCCESS,
     datasource: datasource,
 })
 
-export const fetchShowFail = (message: string): FetchShowFailAction => ({
+export const showFail = (message: string): ShowFailAction => ({
     type: ActionTypes.SHOW_FAIL,
     message: message,
 })
@@ -230,12 +230,12 @@ const initialState: State = {
 }
 
 export type Actions =
-                FetchListRequestAction |
-                FetchListSuccessAction |
-                FetchListFailAction |
-                FetchShowRequestAction |
-                FetchShowSuccessAction |
-                FetchShowFailAction |
+                ListRequestAction |
+                ListSuccessAction |
+                ListFailAction |
+                ShowRequestAction |
+                ShowSuccessAction |
+                ShowFailAction |
                 CreateRequestAction |
                 CreateSuccessAction |
                 CreateFailAction |
