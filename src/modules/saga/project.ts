@@ -1,10 +1,10 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
     ActionTypes,
-    fetchListSuccess,
-    fetchListFail,
-    fetchShowSuccess,
-    fetchShowFail,
+    listSuccess,
+    listFail,
+    showSuccess,
+    showFail,
     createSuccess,
     createFail,
     updateSuccess,
@@ -22,13 +22,13 @@ function* fetchListProject(action) {
             method: 'GET',
         });
         if (response.status === 200) {
-            const projects = yield call([response, response.json]);
-            yield put(fetchListSuccess(projects));
+            const result = yield call([response, response.json]);
+            yield put(listSuccess(result.projects));
         } else {
-            yield put(fetchListFail(response.message))
+            yield put(listFail(response.message))
         }
     } catch (e) {
-        yield put(fetchListFail(e.message))
+        yield put(listFail(e.message))
     }
 }
 
@@ -39,25 +39,24 @@ function* fetchShowProject(action) {
         });
         if (response.status === 200) {
             const project = yield call([response, response.json]);
-            yield put(fetchShowSuccess(project));
+            yield put(showSuccess(project));
         } else {
-            yield put(fetchShowFail(response.message))
+            yield put(showFail(response.message))
         }
     } catch (e) {
-        yield put(fetchShowFail(e.message))
+        yield put(showFail(e.message))
     }
 }
 
 function* fetchCreateProject(action) {
     try {
-        const obj = {
-            name: action.name,
-            description: action.description,
-            thumbnailUri: action.thumbnailUri,
-        }
         const response = yield call(fetch, 'http://localhost:8090/projects/create', {
             method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
+            body: JSON.stringify({
+                name: action.name,
+                description: action.description,
+                thumbnailUri: action.thumbnailUri,
+            }),
             headers: {
                 'Accept': 'application/json'
             },

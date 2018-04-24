@@ -12,20 +12,18 @@ import Saga from 'saga';
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/createPalette';
-import bluegrey from 'material-ui/colors/bluegrey';
 
-import Root from 'components/root';
+import Root from 'containers/root';
 
 const theme = createMuiTheme({
     palette: createPalette({
-        primary: bluegrey,
-        error: bluegrey,
+
     }),
 });
 
 const history = createBrowserHistory();
 
-class Application extends React.Component {
+class Index extends React.Component {
     render() {
         const sagaMiddleware = createSagaMiddleware();
         const store = createStore(
@@ -47,6 +45,6 @@ class Application extends React.Component {
 }
 
 ReactDOM.render(
-    <Application />,
+    <Index />,
     document.querySelector('.app')
 );
