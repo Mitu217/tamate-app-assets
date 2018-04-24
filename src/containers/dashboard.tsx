@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles, StyledComponentProps } from 'material-ui/styles';
 import { ReduxState, ReduxAction } from 'store';
 
-import ProjectList from 'components/project-list';
+import ProjectList from 'components/lists/project-list';
 
 import Card, { CardHeader, CardContent } from 'material-ui/Card';
 import { cardHeader, card } from 'assets/styles/card';

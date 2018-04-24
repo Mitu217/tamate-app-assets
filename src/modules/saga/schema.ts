@@ -22,8 +22,8 @@ function* fetchListSchema(action) {
             method: 'GET',
         });
         if (response.status === 200) {
-            const schemas = yield call([response, response.json]);
-            yield put(listSuccess(schemas));
+            const result = yield call([response, response.json]);
+            yield put(listSuccess(result.schemas));
         } else {
             yield put(listFail(response.message))
         }
@@ -50,17 +50,17 @@ function* fetchShowSchema(action) {
 
 function* fetchCreateSchema(action) {
     try {
-        const obj = {
-            projectId: action.projectId,
-            name: action.name,
-            primaryKey: action.primaryKey,
-            columns: action.columns,
-        }
         const response = yield call(fetch, 'http://localhost:8090/schemas/create', {
             method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
-            headers: {
-                'Accept': 'application/json'
+            body: JSON.stringify({
+                "project_id": action.projectId,
+                "name": action.name,
+                "primary_key": action.primaryKey,
+                "columns": JSON.stringify(action.columns), //FIXME: 素の状態で送れるようにしたい
+            }),
+            headers : {
+                'Accept'        : 'application/json',
+                'Content-Type'  : 'application/json'
             },
         });
         if (response.status === 200) {
