@@ -6,7 +6,11 @@ import { ReduxState, ReduxAction } from 'store';
 import { withStyles, StyledComponentProps } from 'material-ui/styles';
 
 import Dashboard from 'containers/dashboard';
-import Project from 'views/projects/project';
+import ProjectOverview from 'views/projects/project-overview';
+import ProjectSchemas from 'views/projects/project-schemas';
+import ProjectDatasources from 'views/projects/project-datasources';
+import ProjectDiff from 'views/projects/project-diff';
+import ProjectSettings from 'views/projects/project-settings';
 
 const styles = theme => ({
     content: {
@@ -28,8 +32,11 @@ export class Content extends React.Component<Props, {}> {
                 <div className={classes['toolbar']} />
                 <Switch>
                     <Route exact path='/' component={Dashboard} />
-                    <Route path='/:projectId' component={Project} />
-                    <Route path='/:projectId/:route' component={Project} />
+                    <Route exact path='/:projectId' component={ProjectOverview} />
+                    <Route exact path='/:projectId/schemas' component={ProjectSchemas} />
+                    <Route exact path='/:projectId/datasources' component={ProjectDatasources} />
+                    <Route exact path='/:projectId/diff' component={ProjectDiff} />
+                    <Route exact path='/:projectId/settings' component={ProjectSettings} />
                 </Switch>
             </main>
         )

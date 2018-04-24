@@ -83,7 +83,7 @@ const ProjectDrawer = (props: Props) => {
                     </ListItemIcon>
                     <ListItemText primary="Diff" />
                 </ListItem>
-                <ListItem button onClick={props.onClickItem.bind(this, "setting")}>
+                <ListItem button onClick={props.onClickItem.bind(this, "settings")}>
                     <ListItemIcon>
                         <Settings />
                     </ListItemIcon>
