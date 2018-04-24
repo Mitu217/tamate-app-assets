@@ -5,8 +5,7 @@ import { Switch, Route } from 'react-router'
 import { withStyles, StyledComponentProps } from 'material-ui/styles';
 import { ReduxState, ReduxAction } from 'store'
 import { CircularProgress } from 'material-ui/Progress';
-import MenuAppBar from 'components/menu-app-bar'
-import MenuDrawer from 'components/menu-drawer'
+import Header from 'components/header'
 import Content from 'containers/content'
 
 import {
@@ -48,10 +47,7 @@ export class App extends React.Component<Props, {}> {
         return (
             <div className={this.props.classes.app}>
                 <Switch>
-                    <Route path='*' component={MenuAppBar} />
-                </Switch>
-                <Switch>
-                    <Route path='*' component={MenuDrawer} />
+                    <Route path='*' component={Header} />
                 </Switch>
                 <Switch>
                     <Route path='/' component={Content} />

@@ -21,9 +21,9 @@ export class Root extends React.Component<Props, {}> {
 
     render() {
         return (
-            <div>
-                <App />
-            </div>
+            <Switch>
+                <Route path='*' component={App} />
+            </Switch>
         )
     }
 }

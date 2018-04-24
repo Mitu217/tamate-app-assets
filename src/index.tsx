@@ -12,14 +12,12 @@ import Saga from 'saga';
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/createPalette';
-import bluegrey from 'material-ui/colors/bluegrey';
 
 import Root from 'containers/root';
 
 const theme = createMuiTheme({
     palette: createPalette({
-        primary: bluegrey,
-        error: bluegrey,
+
     }),
 });
 
