@@ -14,12 +14,9 @@ export interface Project {
 /* ActionCreator
 /****************/
 export enum ActionTypes {
-    LIST_REQUEST = 'list/project/request',
-    LIST_SUCCESS = 'list/project/success',
-    LIST_FAIL = 'list/project/fail',
-    SHOW_REQUEST = 'show/project/request',
-    SHOW_SUCCESS = 'show/project/success',
-    SHOW_FAIL = 'show/project/fail',
+    FETCH_REQUEST = 'fetch/project/request',
+    FETCH_SUCCESS = 'fetch/project/success',
+    FETCH_FAIL = 'fetch/project/fail',
     CREATE_REQUEST = 'create/project/request',
     CREATE_SUCCESS = 'create/project/success',
     CREATE_FAIL = 'create/project/fail',
@@ -31,32 +28,17 @@ export enum ActionTypes {
     DELETE_FAIL = 'delete/project/fail',
 }
 
-interface ListRequestAction extends Action {
-    type: ActionTypes.LIST_REQUEST
+interface FetchRequestAction extends Action {
+    type: ActionTypes.FETCH_REQUEST
 }
 
-interface ListSuccessAction extends Action {
-    type: ActionTypes.LIST_SUCCESS
+interface FetchSuccessAction extends Action {
+    type: ActionTypes.FETCH_SUCCESS
     projects: Array<Project>
 }
 
-interface ListFailAction extends Action {
-    type: ActionTypes.LIST_FAIL
-    message: string
-}
-
-interface ShowRequestAction extends Action {
-    type: ActionTypes.SHOW_REQUEST
-    projectId: number
-}
-
-interface ShowSuccessAction extends Action {
-    type: ActionTypes.SHOW_SUCCESS
-    project: Project
-}
-
-interface ShowFailAction extends Action {
-    type: ActionTypes.SHOW_FAIL
+interface FetchFailAction extends Action {
+    type: ActionTypes.FETCH_FAIL
     message: string
 }
 
@@ -110,36 +92,21 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const listRequest = (): ListRequestAction => ({
-    type: ActionTypes.LIST_REQUEST,
+export const fetchRequest = (): FetchRequestAction => ({
+    type: ActionTypes.FETCH_REQUEST,
 })
 
-export const listSuccess = (projects: Array<Project>): ListSuccessAction => ({
-    type: ActionTypes.LIST_SUCCESS,
+export const fetchSuccess = (projects: Array<Project>): FetchSuccessAction => ({
+    type: ActionTypes.FETCH_SUCCESS,
     projects: projects,
 })
 
-export const listFail = (message: string): ListFailAction => ({
-    type: ActionTypes.LIST_FAIL,
+export const fetchFail = (message: string): FetchFailAction => ({
+    type: ActionTypes.FETCH_FAIL,
     message: message,
 })
 
-export const showRequest = (projectId: number): ShowRequestAction => ({
-    type: ActionTypes.SHOW_REQUEST,
-    projectId: projectId,
-})
-
-export const showSuccess = (project: Project): ShowSuccessAction => ({
-    type: ActionTypes.SHOW_SUCCESS,
-    project: project,
-})
-
-export const showFail = (message: string): ShowFailAction => ({
-    type: ActionTypes.SHOW_FAIL,
-    message: message,
-})
-
-export const createRequest = (name: string, description: string, thumbnailUri: string): CreateRequestAction => ({
+export const createRequest = (name: string, description: string, thumbnailUri: string = ""): CreateRequestAction => ({
     type: ActionTypes.CREATE_REQUEST,
     name: name,
     description: description,
@@ -201,12 +168,9 @@ const initialState = {
 }
 
 export type Actions =
-        ListRequestAction |
-        ListSuccessAction |
-        ListFailAction |
-        ShowRequestAction |
-        ShowSuccessAction |
-        ShowFailAction |
+        FetchRequestAction |
+        FetchSuccessAction |
+        FetchFailAction |
         CreateRequestAction |
         CreateSuccessAction |
         CreateFailAction |
@@ -221,20 +185,8 @@ export default function reducer(state: State = initialState, action: Actions): S
     var nextProjects = state.projects;
 
     switch (action.type) {
-        case ActionTypes.LIST_SUCCESS:
+        case ActionTypes.FETCH_SUCCESS:
             nextProjects = action.projects;
-            return {
-                ...state,
-                projects: nextProjects,
-            };
-
-        case ActionTypes.SHOW_SUCCESS:
-            for (var i=0; i<nextProjects.length; i++) {
-                if (nextProjects[i].id === action.project.id) {
-                    nextProjects[i] = action.project;
-                    break;
-                }
-            }
             return {
                 ...state,
                 projects: nextProjects,

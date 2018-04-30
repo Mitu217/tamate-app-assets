@@ -17,10 +17,7 @@ import {
     card,
     cardHeader,
 } from 'assets/styles/card';
-
 import ProjectDrawer from 'components/drawers/project-drawer';
-import SchemaList from 'components/lists/schema-list';
-import PlusFab from 'components/fabs/plus-fab';
 
 interface Props extends StyledComponentProps {
     values: ReduxState
@@ -32,12 +29,12 @@ interface Props extends StyledComponentProps {
 const styles = (theme: any) => ({
     root: {
         flexGrow: 1,
+        height: '100%' as '100%',
         zIndex: 1,
         overflow: 'hidden' as 'hidden',
         position: 'relative' as 'relative',
         display: 'flex',
-        height: `calc(100% - 64px)`, // FIXME: toolbarの高さはthemeから取得する
-        width: '100%' as '100%',
+        width: '100%',
     },
     content: {
         flexGrow: 1,
@@ -46,7 +43,7 @@ const styles = (theme: any) => ({
     },
 });
 
-export class ProjectSchemas extends React.Component<Props, {}> {
+export class ProjectDatasources extends React.Component<Props, {}> {
 
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
@@ -57,18 +54,7 @@ export class ProjectSchemas extends React.Component<Props, {}> {
         this.handleChangeLocation('/' + projectId + '/' + route);
     };
 
-    handleClickListItem = (itemId: string) => {
-        console.log(itemId);
-    };
-
-    handleClickFab = () => {
-        const projectId = this.props.match.params.projectId
-
-        this.handleChangeLocation('/' + projectId + '/schemas/new');
-    };
-
     render() {
-        console.log(this.props.values.schema.schemas);
         const { classes } = this.props;
         return (
             <div className={classes.root}>
@@ -76,12 +62,7 @@ export class ProjectSchemas extends React.Component<Props, {}> {
                     onClickItem={this.handleClickDrawerItem}
                 />
                 <main className={classes.content}>
-                    <SchemaList
-                        schemas={this.props.values.schema.schemas}
-                        dense={false}
-                        onClick={this.handleClickListItem}
-                    />
-                    <PlusFab onClick={this.handleClickFab} />
+                    <p>Datasource</p>
                 </main>
             </div>
         );
@@ -98,4 +79,4 @@ export default compose(
         (state: ReduxState) => ({values: state}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(ProjectSchemas)
+)(ProjectDatasources)

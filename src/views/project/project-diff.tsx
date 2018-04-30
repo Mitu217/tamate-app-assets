@@ -17,15 +17,7 @@ import {
     card,
     cardHeader,
 } from 'assets/styles/card';
-
-import Header from 'components/header'
 import ProjectDrawer from 'components/drawers/project-drawer';
-import SchemaForm from 'components/forms/schema-form';
-import { Column } from 'modules/schema';
-
-import {
-    createRequest as requestCreateSchema,
-} from 'modules/schema'
 
 interface Props extends StyledComponentProps {
     values: ReduxState
@@ -37,11 +29,12 @@ interface Props extends StyledComponentProps {
 const styles = (theme: any) => ({
     root: {
         flexGrow: 1,
+        height: '100%' as '100%',
         zIndex: 1,
         overflow: 'hidden' as 'hidden',
         position: 'relative' as 'relative',
         display: 'flex',
-        width: '100%' as '100%',
+        width: '100%',
     },
     content: {
         flexGrow: 1,
@@ -50,7 +43,7 @@ const styles = (theme: any) => ({
     },
 });
 
-export class ProjectSchemasCreate extends React.Component<Props, {}> {
+export class ProjectDiff extends React.Component<Props, {}> {
 
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
@@ -61,11 +54,6 @@ export class ProjectSchemasCreate extends React.Component<Props, {}> {
         this.handleChangeLocation('/' + projectId + '/' + route);
     };
 
-    handleSubmitForm = (name: string, primaryKey: string, columns: Array<Column>) => {
-        const projectId = Number(this.props.match.params.projectId)
-        this.props.actions.requestCreateSchema(projectId, name, primaryKey, columns)
-    }
-
     render() {
         const { classes } = this.props;
         return (
@@ -74,7 +62,7 @@ export class ProjectSchemasCreate extends React.Component<Props, {}> {
                     onClickItem={this.handleClickDrawerItem}
                 />
                 <main className={classes.content}>
-                    <SchemaForm onSubmit={this.handleSubmitForm}/>
+                    <p>Diff</p>
                 </main>
             </div>
         );
@@ -83,9 +71,6 @@ export class ProjectSchemasCreate extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
-    public requestCreateSchema(projectId: number, name: string, primaryKey: string, columns: Array<Column>) {
-        this.dispatch(requestCreateSchema(projectId, name, primaryKey, columns));
-    }
 }
 
 export default compose(
@@ -94,4 +79,4 @@ export default compose(
         (state: ReduxState) => ({values: state}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(ProjectSchemasCreate)
+)(ProjectDiff)

@@ -1,10 +1,8 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
     ActionTypes,
-    listSuccess,
-    listFail,
-    showSuccess,
-    showFail,
+    fetchSuccess,
+    fetchFail,
     createSuccess,
     createFail,
     updateSuccess,
@@ -16,39 +14,23 @@ import {
 /**********/
 /* Saga
 /**********/
-function* fetchListProject(action) {
+function* fetchProjects(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/projects/list', {
+        const response = yield call(fetch, 'http://localhost:8090/projects', {
             method: 'GET',
         });
         if (response.status === 200) {
             const result = yield call([response, response.json]);
-            yield put(listSuccess(result.projects));
+            yield put(fetchSuccess(result.projects));
         } else {
-            yield put(listFail(response.message))
+            yield put(fetchFail(response.message))
         }
     } catch (e) {
-        yield put(listFail(e.message))
+        yield put(fetchFail(e.message))
     }
 }
 
-function* fetchShowProject(action) {
-    try {
-        const response = yield call(fetch, 'http://localhost:8090/projects/show', {
-            method: 'GET',
-        });
-        if (response.status === 200) {
-            const project = yield call([response, response.json]);
-            yield put(showSuccess(project));
-        } else {
-            yield put(showFail(response.message))
-        }
-    } catch (e) {
-        yield put(showFail(e.message))
-    }
-}
-
-function* fetchCreateProject(action) {
+function* createProject(action) {
     try {
         const response = yield call(fetch, 'http://localhost:8090/projects/create', {
             method: 'POST',
@@ -121,9 +103,8 @@ function* fetchDeleteProject(action) {
 }
 
 export const Saga = [
-    takeLatest(ActionTypes.LIST_REQUEST, fetchListProject),
-    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowProject),
-    takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateProject),
+    takeLatest(ActionTypes.FETCH_REQUEST, fetchProjects),
+    takeLatest(ActionTypes.CREATE_REQUEST, createProject),
     takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateProject),
     takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteProject),
 ]

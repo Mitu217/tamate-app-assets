@@ -5,7 +5,7 @@ import {
     initFail,
 } from 'modules/app'
 import {
-    listRequest as requestProjectList
+    fetchRequest as requestProjectList
 } from 'modules/project';
 import {
     listRequest as requestSchemaList
@@ -20,10 +20,7 @@ import { delay } from 'redux-saga';
 /**********/
 function* initialize(action) {
     try {
-        // TODO: ひとまず何も考えずに全部持ってくる
         yield put(requestProjectList());
-        yield put(requestSchemaList());
-        yield put(requestDatasourceList());
         // TODO: 削除
         yield call(delay, 1000);
         yield put(initSuccess());

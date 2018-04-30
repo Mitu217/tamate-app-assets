@@ -18,7 +18,6 @@ import {
     cardHeader,
 } from 'assets/styles/card';
 import ProjectDrawer from 'components/drawers/project-drawer';
-import dashboard from 'containers/dashboard';
 
 interface Props extends StyledComponentProps {
     values: ReduxState
@@ -44,7 +43,7 @@ const styles = (theme: any) => ({
     },
 });
 
-export class ProjectSettings extends React.Component<Props, {}> {
+export class ProjectOverview extends React.Component<Props, {}> {
 
     handleChangeLocation = (uri: string) => {
         this.props.history.push(uri);
@@ -63,7 +62,7 @@ export class ProjectSettings extends React.Component<Props, {}> {
                     onClickItem={this.handleClickDrawerItem}
                 />
                 <main className={classes.content}>
-                    <p>Settings</p>
+                    <p>Overview</p>
                 </main>
             </div>
         );
@@ -80,4 +79,4 @@ export default compose(
         (state: ReduxState) => ({values: state}),
         (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)})
     )
-)(ProjectSettings)
+)(ProjectOverview)

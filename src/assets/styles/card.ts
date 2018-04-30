@@ -6,11 +6,22 @@ export const card = {
     boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
     borderRadius: "3px",
     color: "rgba(0, 0, 0, 0.87)",
-    background: "#fff"
+    background: "#fff",
 };
 
 export const cardHeader = {
-    margin: "-20px 15px 0",
-    borderRadius: "3px",
-    padding: "15px"
+    display: 'flex',
+    position: 'relative' as 'relative',
+    margin: 0,
+    padding: '0 24px',
+    borderRadius: 0,
+    height: '56px',
+    fontSize: '15px',
+    lineHeight: '24px',
+}
+
+export const cardHeaderAction = {
+    display: 'flex',
+    position: 'relative' as 'relative',
+    marginTop: '8px',
 }
