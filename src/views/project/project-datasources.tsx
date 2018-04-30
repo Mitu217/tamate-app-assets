@@ -45,13 +45,9 @@ const styles = (theme: any) => ({
 
 export class ProjectDatasources extends React.Component<Props, {}> {
 
-    handleChangeLocation = (uri: string) => {
-        this.props.history.push(uri);
-    };
-
     handleClickDrawerItem = (route: string) => {
-        const projectId = this.props.match.params.projectId
-        this.handleChangeLocation('/' + projectId + '/' + route);
+        const projectId = this.props.match.params.id
+        this.props.history.push('/' + projectId + route);
     };
 
     render() {

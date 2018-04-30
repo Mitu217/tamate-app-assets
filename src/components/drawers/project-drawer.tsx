@@ -18,13 +18,8 @@ import {
     ListItemText,
     IconButton,
 } from 'material-ui';
-import {
-    Dashboard,
-    Description,
-    Storage,
-    Settings,
-    CompareArrows,
-} from 'material-ui-icons';
+
+import {routes as ProjectRoutes} from 'routes/project';
 
 const styles = theme => ({
     drawerPaper: {
@@ -59,36 +54,16 @@ const ProjectDrawer = (props: Props) => {
             open={open}
         >
             <List>
-                <ListItem button onClick={props.onClickItem.bind(this, "")}>
-                    <ListItemIcon>
-                        <Dashboard />
-                    </ListItemIcon>
-                    <ListItemText primary="Overview" />
-                </ListItem>
-                <ListItem button onClick={props.onClickItem.bind(this, "schemas")}>
-                    <ListItemIcon>
-                        <Description />
-                    </ListItemIcon>
-                    <ListItemText primary="Schemas" />
-                </ListItem>
-                <ListItem button onClick={props.onClickItem.bind(this, "datasources")}>
-                    <ListItemIcon>
-                        <Storage />
-                    </ListItemIcon>
-                    <ListItemText primary="Datasources" />
-                </ListItem>
-                <ListItem button onClick={props.onClickItem.bind(this, "diff")}>
-                    <ListItemIcon>
-                        <CompareArrows />
-                    </ListItemIcon>
-                    <ListItemText primary="Diff" />
-                </ListItem>
-                <ListItem button onClick={props.onClickItem.bind(this, "settings")}>
-                    <ListItemIcon>
-                        <Settings />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" />
-                </ListItem>
+                {ProjectRoutes.map(route => {
+                    return (
+                        <ListItem button onClick={props.onClickItem.bind(this, route.path)} key={route.path} >
+                            <ListItemIcon>
+                                <route.icon />
+                            </ListItemIcon>
+                            <ListItemText primary={route.primary} />
+                        </ListItem>
+                    );
+                })}
             </List>
         </Drawer>
     );

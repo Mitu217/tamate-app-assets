@@ -1,10 +1,10 @@
-// Dashboard
 import Dashboard from 'views/dashboard/dashboard';
-// Project
 import ProjectCreate from 'views/project/project-create';
 import ProjectOverview from 'views/project/project-overview';
 
-const routes = [
+import { routes as projectRoutes } from 'routes/project';
+
+var routes = [
     {
         path: "/",
         component: Dashboard
@@ -13,10 +13,14 @@ const routes = [
         path: "/project/new",
         component: ProjectCreate
     },
-    {
-        path: "/project/:id",
-        component: ProjectOverview
-    },
 ];
+
+// merge project routes.
+projectRoutes.map(route => {
+    routes.push({
+        path: "/:id" + route.path,
+        component: route.component,
+    })
+});
 
 export default routes;

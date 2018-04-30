@@ -41,7 +41,7 @@ class Index extends React.Component {
                         <Switch>
                             {routes.map((route) => {
                                 return (
-                                    <Route exact path={route.path} component={route.component} />
+                                    <Route exact path={route.path} component={route.component} key={route.path} />
                                 );
                             })}
                         </Switch>
