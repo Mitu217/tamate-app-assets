@@ -11,8 +11,7 @@ import createPalette from 'material-ui/styles/createPalette';
 import {createStore} from 'store';
 import Saga from 'saga';
 
-import Dashboard from 'views/dashboard/dashboard';
-import ProjectCreate from 'views/project/project-create';
+import routes from 'routes';
 
 const theme = createMuiTheme({
     palette: createPalette({
@@ -40,8 +39,11 @@ class Index extends React.Component {
                 <Provider store={store}>
                     <ConnectedRouter history={history}>
                         <Switch>
-                            <Route exact path='/' component={Dashboard} />
-                            <Route exact path='/project/new' component={ProjectCreate} />
+                            {routes.map((route) => {
+                                return (
+                                    <Route exact path={route.path} component={route.component} />
+                                );
+                            })}
                         </Switch>
                     </ConnectedRouter>
                 </Provider>
