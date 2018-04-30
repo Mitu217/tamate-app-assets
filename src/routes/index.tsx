@@ -1,6 +1,6 @@
 import Dashboard from 'views/dashboard/dashboard';
 import ProjectCreate from 'views/project/project-create';
-import ProjectOverview from 'views/project/project-overview';
+import DatasourceCreate from 'views/datasource/datasource-create';
 
 import { routes as projectRoutes } from 'routes/project';
 
@@ -10,8 +10,12 @@ var routes = [
         component: Dashboard
     },
     {
-        path: "/project/new",
+        path: "/projects/new",
         component: ProjectCreate
+    },
+    {
+        path: "/:id/datasources/new",
+        component: DatasourceCreate
     },
 ];
 

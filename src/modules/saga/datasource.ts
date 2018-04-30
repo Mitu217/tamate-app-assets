@@ -1,10 +1,8 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
     ActionTypes,
-    listSuccess,
-    listFail,
-    showSuccess,
-    showFail,
+    fetchSuccess,
+    fetchFail,
     createSuccess,
     createFail,
     updateSuccess,
@@ -16,51 +14,36 @@ import {
 /**********/
 /* Saga
 /**********/
-function* fetchListDatasource(action) {
+function* fetchDatasource(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/datasources/list', {
+        const response = yield call(fetch, 'http://localhost:8090/datasources', {
             method: 'GET',
         });
         if (response.status === 200) {
-            const datasources = yield call([response, response.json]);
-            yield put(listSuccess(datasources));
+            const result = yield call([response, response.json]);
+            console.log(result);
+            yield put(fetchSuccess(result.datasources));
         } else {
-            yield put(listFail(response.message))
+            yield put(fetchFail(response.message))
         }
     } catch (e) {
-        yield put(listFail(e.message))
-    }
-}
-
-function* fetchShowDatasource(action) {
-    try {
-        const response = yield call(fetch, 'http://localhost:8090/datasources/show', {
-            method: 'GET',
-        });
-        if (response.status === 200) {
-            const datasource = yield call([response, response.json]);
-            yield put(showSuccess(datasource));
-        } else {
-            yield put(showFail(response.message))
-        }
-    } catch (e) {
-        yield put(showFail(e.message))
+        yield put(fetchFail(e.message))
     }
 }
 
 function* fetchCreateDatasource(action) {
     try {
-        const obj = {
-            id: action.id,
-            projectId: action.projectId,
-            schemaId: action.schemaId,
-            name: action.name,
-            type: action.sourceType,
-            config: action.config,
-        }
-        const response = yield call(fetch, 'http://localhost:8090/datasources/create', {
+        console.log(action);
+        const response = yield call(fetch, 'http://localhost:8090/datasources/create?type=' + action.sourceType, {
             method: 'POST',
-            body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
+            body: JSON.stringify({
+                project_id: Number(action.projectId),
+                name: action.name,
+                config: {
+                    driver_name: action.config.driverName,
+                    dsn: action.config.dsn,
+                },
+            }),
             headers: {
                 'Accept': 'application/json'
             },
@@ -127,8 +110,7 @@ function* fetchDeleteDatasource(action) {
 }
 
 export const Saga = [
-    takeLatest(ActionTypes.LIST_REQUEST, fetchListDatasource),
-    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowDatasource),
+    takeLatest(ActionTypes.FETCH_REQUEST, fetchDatasource),
     takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateDatasource),
     takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateDatasource),
     takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteDatasource),

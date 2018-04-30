@@ -31,7 +31,7 @@ export class Dashboard extends React.Component<Props, {}> {
     };
 
     handleMoveToNewProject = () => {
-        this.props.history.push('/project/new');
+        this.props.history.push('/projects/new');
     }
 
     render() {

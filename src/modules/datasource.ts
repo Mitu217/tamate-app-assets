@@ -34,12 +34,9 @@ export interface Datasource {
 /* ActionCreator
 /****************/
 export enum ActionTypes {
-    LIST_REQUEST = 'list/datasource/request',
-    LIST_SUCCESS = 'list/datasource/success',
-    LIST_FAIL = 'list/datasource/fail',
-    SHOW_REQUEST = 'show/datasource/request',
-    SHOW_SUCCESS = 'show/datasource/success',
-    SHOW_FAIL = 'show/datasource/fail',
+    FETCH_REQUEST = 'fetch/datasource/request',
+    FETCH_SUCCESS = 'fetch/datasource/success',
+    FETCH_FAIL = 'fetch/datasource/fail',
     CREATE_REQUEST = 'create/datasource/request',
     CREATE_SUCCESS = 'create/datasource/success',
     CREATE_FAIL = 'create/datasource/fail',
@@ -52,39 +49,23 @@ export enum ActionTypes {
 }
 
 
-interface ListRequestAction extends Action {
-    type: ActionTypes.LIST_REQUEST
+interface FetchRequestAction extends Action {
+    type: ActionTypes.FETCH_REQUEST
 }
 
-interface ListSuccessAction extends Action {
-    type: ActionTypes.LIST_SUCCESS
+interface FetchSuccessAction extends Action {
+    type: ActionTypes.FETCH_SUCCESS
     datasources: Array<Datasource>
 }
 
-interface ListFailAction extends Action {
-    type: ActionTypes.LIST_FAIL
-    message: string
-}
-
-interface ShowRequestAction extends Action {
-    type: ActionTypes.SHOW_REQUEST
-    id: number
-}
-
-interface ShowSuccessAction extends Action {
-    type: ActionTypes.SHOW_SUCCESS
-    datasource: Datasource
-}
-
-interface ShowFailAction extends Action {
-    type: ActionTypes.SHOW_FAIL
+interface FetchFailAction extends Action {
+    type: ActionTypes.FETCH_FAIL
     message: string
 }
 
 interface CreateRequestAction extends Action {
     type: ActionTypes.CREATE_REQUEST
-    projectId: number
-    schemaId: number
+    projectId: string
     name: string
     sourceType: string
     config: Config
@@ -135,39 +116,23 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const listRequest = (): ListRequestAction => ({
-    type: ActionTypes.LIST_REQUEST,
+export const fetchRequest = (projectId: string): FetchRequestAction => ({
+    type: ActionTypes.FETCH_REQUEST,
 })
 
-export const listSuccess = (datasources: Array<Datasource>): ListSuccessAction => ({
-    type: ActionTypes.LIST_SUCCESS,
+export const fetchSuccess = (datasources: Array<Datasource>): FetchSuccessAction => ({
+    type: ActionTypes.FETCH_SUCCESS,
     datasources: datasources,
 })
 
-export const listFail = (message: string): ListFailAction => ({
-    type: ActionTypes.LIST_FAIL,
+export const fetchFail = (message: string): FetchFailAction => ({
+    type: ActionTypes.FETCH_FAIL,
     message: message,
 })
 
-export const showRequest = (datasourceId: number): ShowRequestAction => ({
-    type: ActionTypes.SHOW_REQUEST,
-    id: datasourceId,
-})
-
-export const showSuccess = (datasource: Datasource): ShowSuccessAction => ({
-    type: ActionTypes.SHOW_SUCCESS,
-    datasource: datasource,
-})
-
-export const showFail = (message: string): ShowFailAction => ({
-    type: ActionTypes.SHOW_FAIL,
-    message: message,
-})
-
-export const createRequest = (projectId: number, schemaId: number, name: string, sourceType: string, config: Config): CreateRequestAction => ({
+export const createRequest = (projectId: string, name: string, sourceType: string, config: Config): CreateRequestAction => ({
     type: ActionTypes.CREATE_REQUEST,
     projectId: projectId,
-    schemaId: schemaId,
     name: name,
     sourceType: sourceType,
     config: config,
@@ -230,12 +195,9 @@ const initialState: State = {
 }
 
 export type Actions =
-                ListRequestAction |
-                ListSuccessAction |
-                ListFailAction |
-                ShowRequestAction |
-                ShowSuccessAction |
-                ShowFailAction |
+                FetchRequestAction |
+                FetchSuccessAction |
+                FetchFailAction |
                 CreateRequestAction |
                 CreateSuccessAction |
                 CreateFailAction |
@@ -251,22 +213,10 @@ export default function reducer(state: State = initialState, action: Actions): S
 
     switch (action.type) {
 
-        case ActionTypes.LIST_SUCCESS:
+        case ActionTypes.FETCH_SUCCESS:
             return {
                 ...state,
                 datasources: nextDatasources
-            };
-
-        case ActionTypes.SHOW_SUCCESS:
-            for (var i=0; i<nextDatasources.length; i++) {
-                if (nextDatasources[i].id === action.datasource.id) {
-                    nextDatasources[i] = action.datasource;
-                    break;
-                }
-            }
-            return {
-                ...state,
-                datasources: nextDatasources,
             };
 
         case ActionTypes.CREATE_SUCCESS:

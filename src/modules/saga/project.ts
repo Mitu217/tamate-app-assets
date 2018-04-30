@@ -44,8 +44,8 @@ function* createProject(action) {
             },
         });
         if (response.status === 200) {
-            const project = yield call([response, response.json]);
-            yield put(createSuccess(project));
+            const result = yield call([response, response.json]);
+            yield put(createSuccess(result.project));
         } else {
             yield put(createFail(response.message));
         }

@@ -11,7 +11,7 @@ import {
     listRequest as requestSchemaList
 } from 'modules/schema';
 import {
-    listRequest as requestDatasourceList
+    fetchRequest as requestDatasourceList
 } from 'modules/datasource';
 import { delay } from 'redux-saga';
 

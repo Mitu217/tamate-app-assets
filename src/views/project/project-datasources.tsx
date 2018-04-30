@@ -5,19 +5,11 @@ import { withRouter } from 'react-router';
 import { Switch, Route, Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { ReduxState, ReduxAction } from 'store';
-import {
-    withStyles, StyledComponentProps
-} from 'material-ui/styles';
-import {
-    Card,
-    CardHeader,
-    CardContent,
-} from 'material-ui';
-import {
-    card,
-    cardHeader,
-} from 'assets/styles/card';
-import ProjectDrawer from 'components/drawers/project-drawer';
+import { withStyles, StyledComponentProps } from 'material-ui/styles';
+
+
+import { ProjectDrawer, DatasourceCard } from 'components';
+import {fetchRequest as requestDatasourceFetch} from 'modules/datasource';
 
 interface Props extends StyledComponentProps {
     values: ReduxState
@@ -45,11 +37,26 @@ const styles = (theme: any) => ({
 
 export class ProjectDatasources extends React.Component<Props, {}> {
 
+    componentDidMount() {
+        const projectId = this.props.match.params.id;
+        this.props.actions.fetchDatasources(projectId);
+    }
+
     handleClickDrawerItem = (route: string) => {
-        const projectId = this.props.match.params.id
+        const projectId = this.props.match.params.id;
         this.props.history.push('/' + projectId + route);
     };
 
+    handleSelectDatasource = (datasourceId: number) => {
+        console.log(datasourceId);
+    };
+
+    handleMoveToNewDatasource = () => {
+        const projectId = this.props.match.params.id;
+        this.props.history.push('/' + projectId + '/datasources/new');
+    }
+
+    // TODO: Header, Drawerはlayouts以下に移動予定
     render() {
         const { classes } = this.props;
         return (
@@ -58,7 +65,13 @@ export class ProjectDatasources extends React.Component<Props, {}> {
                     onClickItem={this.handleClickDrawerItem}
                 />
                 <main className={classes.content}>
-                    <p>Datasource</p>
+                    <div>
+                        <DatasourceCard
+                            datasources={this.props.values.datasource.datasources}
+                            onClickListItem={this.handleSelectDatasource}
+                            onClickNewButton={this.handleMoveToNewDatasource}
+                        />
+                    </div>
                 </main>
             </div>
         );
@@ -67,6 +80,9 @@ export class ProjectDatasources extends React.Component<Props, {}> {
 
 export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
+    public fetchDatasources(projectId: string) {
+        this.dispatch(requestDatasourceFetch(projectId));
+    }
 }
 
 export default compose(

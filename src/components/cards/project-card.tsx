@@ -80,9 +80,6 @@ const ProjectCard = (props: Props) => {
                         </div>
                     }
                 >
-                    <div className={classes.cardHeaderTool}>
-                        <p>test</p>
-                    </div>
                 </CardHeader>
                 <CardContent>
                     <ProjectList
