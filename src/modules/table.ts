@@ -1,10 +1,11 @@
+import { Rows } from './table';
 import {Action} from 'redux';
 
 /********/
 /* Model
 /********/
 export interface Rows {
-    //TODO
+    Values: Array<Array<string>>
 }
 
 export interface Table {
@@ -22,7 +23,6 @@ export enum ActionTypes {
     DIFF_SUCCESS = 'diff/table/success',
     DIFF_FAIL = 'diff/table/fail',
 }
-
 
 interface FetchShowRequestAction extends Action {
     type: ActionTypes.SHOW_REQUEST
@@ -42,7 +42,9 @@ interface FetchShowFailAction extends Action {
 interface DiffRequestAction extends Action {
     type: ActionTypes.DIFF_REQUEST
     leftDatasourceId: number
+    leftSchemaName: string
     rightDatasourceId: number
+    rightSchemaName: string
 }
 
 interface DiffSuccessAction extends Action {
@@ -72,10 +74,12 @@ export const fetchShowFail = (message: string): FetchShowFailAction => ({
     message: message,
 })
 
-export const diffRequest = (leftDatasourceId: number, rightDatasourceId: number): DiffRequestAction => ({
+export const diffRequest = (leftDatasourceId: number, leftSchemaName: string, rightDatasourceId: number, rightSchemaName: string): DiffRequestAction => ({
     type: ActionTypes.DIFF_REQUEST,
     leftDatasourceId: leftDatasourceId,
+    leftSchemaName: leftSchemaName,
     rightDatasourceId: rightDatasourceId,
+    rightSchemaName: rightSchemaName,
 })
 
 export const diffSuccess = (add: Rows, mod: Rows, del: Rows): DiffSuccessAction => ({
@@ -94,9 +98,21 @@ export const diffFail = (message: string): DiffFailAction => ({
 /* Reducer
 /**********/
 export interface State {
+    add: Rows
+    mod: Rows
+    del: Rows
 }
 
 const initialState: State = {
+    add: {
+        Values: [],
+    },
+    mod: {
+        Values: [],
+    },
+    del: {
+        Values: [],
+    },
 }
 
 export type Actions =
@@ -108,5 +124,32 @@ export type Actions =
                 DiffFailAction
 
 export default function reducer(state: State = initialState, action: Actions): State {
+    switch (action.type) {
+        case ActionTypes.DIFF_SUCCESS:
+            var nextAddValues = []
+            if (action.add.Values !== null) {
+                nextAddValues = action.add.Values
+            }
+            var nextModifyValues = []
+            if (action.modify.Values !== null) {
+                nextModifyValues = action.modify.Values
+            }
+            var nextDeleteValues = []
+            if (action.delete.Values !== null) {
+                nextDeleteValues = action.delete.Values
+            }
+            return {
+                ...state,
+                add: {
+                    Values: nextAddValues,
+                },
+                mod: {
+                    Values: nextModifyValues,
+                },
+                del: {
+                    Values: nextDeleteValues,
+                },
+            };
+    }
     return state
 }

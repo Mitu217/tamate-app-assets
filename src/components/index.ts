@@ -17,6 +17,7 @@ import DatasourceEditForm from 'components/forms/datasource-edit-form';
 
 // Tables
 import ColumnTable from 'components/tables/column-table';
+import RowTable from 'components/tables/row-table';
 
 export {
     // cards
@@ -34,4 +35,5 @@ export {
     DatasourceEditForm,
     // tables
     ColumnTable,
+    RowTable,
 };
