@@ -6,17 +6,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { ReduxState, ReduxAction } from 'store';
 import { withStyles, StyledComponentProps } from 'material-ui/styles';
+import { Grid } from 'material-ui';
 
-
-import { ProjectDrawer, DatasourceCard } from 'components';
+import { ProjectDrawer, DatasourceCard, } from 'components';
 import {fetchRequest as requestDatasourceFetch} from 'modules/datasource';
-
-interface Props extends StyledComponentProps {
-    values: ReduxState
-    actions: ActionDispatcher
-    match: PropTypes.match
-    history: PropTypes.historyContext
-}
 
 const styles = (theme: any) => ({
     root: {
@@ -35,7 +28,25 @@ const styles = (theme: any) => ({
     },
 });
 
-export class ProjectDatasources extends React.Component<Props, {}> {
+interface Props extends StyledComponentProps {
+    values: ReduxState
+    actions: ActionDispatcher
+    match: PropTypes.match
+    history: PropTypes.historyContext
+}
+
+interface State {
+    datasourceId: number
+}
+
+export class ProjectDatasources extends React.Component<Props, State> {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            datasourceId: 0,
+        }
+    }
 
     componentDidMount() {
         const projectId = this.props.match.params.id;
@@ -48,7 +59,10 @@ export class ProjectDatasources extends React.Component<Props, {}> {
     };
 
     handleSelectDatasource = (datasourceId: number) => {
-        console.log(datasourceId);
+        this.setState({
+            ...this.state,
+            datasourceId: datasourceId,
+        })
     };
 
     handleMoveToNewDatasource = () => {
@@ -66,11 +80,33 @@ export class ProjectDatasources extends React.Component<Props, {}> {
                 />
                 <main className={classes.content}>
                     <div>
-                        <DatasourceCard
-                            datasources={this.props.values.datasource.datasources}
-                            onClickListItem={this.handleSelectDatasource}
-                            onClickNewButton={this.handleMoveToNewDatasource}
-                        />
+                    <Grid container spacing={24}>
+                        <Grid item xs={3}>
+                            <DatasourceCard
+                                datasources={this.props.values.datasource.datasources}
+                                onClickListItem={this.handleSelectDatasource}
+                                onClickNewButton={this.handleMoveToNewDatasource}
+                            />
+                        </Grid>
+                        <Grid item xs={9}>
+                        {(() => {
+                            if (this.state.datasourceId === 0) {
+                                return (
+                                    <div>
+                                    </div>
+                                )
+                            } else {
+                                return(
+                                    <DatasourceCard
+                                        datasources={this.props.values.datasource.datasources}
+                                        onClickListItem={this.handleSelectDatasource}
+                                        onClickNewButton={this.handleMoveToNewDatasource}
+                                    />
+                                );
+                            }
+                        })()}
+                        </Grid>
+                    </Grid>
                     </div>
                 </main>
             </div>
