@@ -214,6 +214,7 @@ export default function reducer(state: State = initialState, action: Actions): S
     switch (action.type) {
 
         case ActionTypes.FETCH_SUCCESS:
+            nextDatasources = action.datasources;
             return {
                 ...state,
                 datasources: nextDatasources
