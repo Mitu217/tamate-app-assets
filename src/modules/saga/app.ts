@@ -1,3 +1,4 @@
+import { fetchRequest } from './../project';
 import { fork, takeEvery, takeLatest, join, put, call, take } from 'redux-saga/effects';
 import {
     ActionTypes,
@@ -8,7 +9,7 @@ import {
     fetchRequest as requestProjectList
 } from 'modules/project';
 import {
-    listRequest as requestSchemaList
+    fetchRequest as requestSchemaList
 } from 'modules/schema';
 import {
     fetchRequest as requestDatasourceList

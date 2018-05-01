@@ -6,8 +6,8 @@ import {Action} from 'redux';
 export interface Column {
     name: string
     type: string
-    notNull: boolean
-    autoIncrement: boolean
+    not_null: boolean
+    auto_increment: boolean
 }
 
 export interface Schema {
@@ -22,12 +22,9 @@ export interface Schema {
 /* ActionCreator
 /****************/
 export enum ActionTypes {
-    LIST_REQUEST = 'list/schema/request',
-    LIST_SUCCESS = 'list/schema/success',
-    LIST_FAIL = 'list/schema/fail',
-    SHOW_REQUEST = 'show/schema/request',
-    SHOW_SUCCESS = 'show/schema/success',
-    SHOW_FAIL = 'show/schema/fail',
+    FETCH_REQUEST = 'fetch/schema/request',
+    FETCH_SUCCESS = 'fetch/schema/success',
+    FETCH_FAIL = 'fetch/schema/fail',
     CREATE_REQUEST = 'create/schema/request',
     CREATE_SUCCESS = 'create/schema/success',
     CREATE_FAIL = 'create/schema/fail',
@@ -40,32 +37,18 @@ export enum ActionTypes {
 }
 
 
-interface ListRequestAction extends Action {
-    type: ActionTypes.LIST_REQUEST
+interface FetchRequestAction extends Action {
+    type: ActionTypes.FETCH_REQUEST
+    datasourceId: number
 }
 
-interface ListSuccessAction extends Action {
-    type: ActionTypes.LIST_SUCCESS
+interface FetchSuccessAction extends Action {
+    type: ActionTypes.FETCH_SUCCESS
     schemas: Array<Schema>
 }
 
-interface ListFailAction extends Action {
-    type: ActionTypes.LIST_FAIL
-    message: string
-}
-
-interface ShowRequestAction extends Action {
-    type: ActionTypes.SHOW_REQUEST
-    id: number
-}
-
-interface ShowSuccessAction extends Action {
-    type: ActionTypes.SHOW_SUCCESS
-    schema: Schema
-}
-
-interface ShowFailAction extends Action {
-    type: ActionTypes.SHOW_FAIL
+interface FetchFailAction extends Action {
+    type: ActionTypes.FETCH_FAIL
     message: string
 }
 
@@ -121,32 +104,18 @@ interface DeleteFailAction extends Action {
     message: string
 }
 
-export const listRequest = (): ListRequestAction => ({
-    type: ActionTypes.LIST_REQUEST,
+export const fetchRequest = (datasourceId: number): FetchRequestAction => ({
+    type: ActionTypes.FETCH_REQUEST,
+    datasourceId: datasourceId,
 })
 
-export const listSuccess = (schemas: Array<Schema>): ListSuccessAction => ({
-    type: ActionTypes.LIST_SUCCESS,
+export const fetchSuccess = (schemas: Array<Schema>): FetchSuccessAction => ({
+    type: ActionTypes.FETCH_SUCCESS,
     schemas: schemas,
 })
 
-export const listFail = (message: string): ListFailAction => ({
-    type: ActionTypes.LIST_FAIL,
-    message: message,
-})
-
-export const showRequest = (schemaId: number): ShowRequestAction => ({
-    type: ActionTypes.SHOW_REQUEST,
-    id: schemaId,
-})
-
-export const showSuccess = (schema: Schema): ShowSuccessAction => ({
-    type: ActionTypes.SHOW_SUCCESS,
-    schema: schema,
-})
-
-export const showFail = (message: string): ShowFailAction => ({
-    type: ActionTypes.SHOW_FAIL,
+export const fetchFail = (message: string): FetchFailAction => ({
+    type: ActionTypes.FETCH_FAIL,
     message: message,
 })
 
@@ -214,12 +183,9 @@ const initialState: State = {
 }
 
 export type Actions =
-                ListRequestAction |
-                ListSuccessAction |
-                ListFailAction |
-                ShowRequestAction |
-                ShowSuccessAction |
-                ShowFailAction |
+                FetchRequestAction |
+                FetchSuccessAction |
+                FetchFailAction |
                 CreateRequestAction |
                 CreateSuccessAction |
                 CreateFailAction |
@@ -235,20 +201,8 @@ export default function reducer(state: State = initialState, action: Actions): S
 
     switch (action.type) {
 
-        case ActionTypes.LIST_SUCCESS:
+        case ActionTypes.FETCH_SUCCESS:
             nextSchemas = action.schemas;
-            return {
-                ...state,
-                schemas: nextSchemas,
-            };
-
-        case ActionTypes.SHOW_SUCCESS:
-            for (var i=0; i<nextSchemas.length; i++) {
-                if (nextSchemas[i].id === action.schema.id) {
-                    nextSchemas[i] = action.schema;
-                    break;
-                }
-            }
             return {
                 ...state,
                 schemas: nextSchemas,

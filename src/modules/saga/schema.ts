@@ -1,10 +1,8 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
     ActionTypes,
-    listSuccess,
-    listFail,
-    showSuccess,
-    showFail,
+    fetchSuccess,
+    fetchFail,
     createSuccess,
     createFail,
     updateSuccess,
@@ -16,35 +14,19 @@ import {
 /**********/
 /* Saga
 /**********/
-function* fetchListSchema(action) {
+function* fetchSchema(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/schemas/list', {
+        const response = yield call(fetch, 'http://localhost:8090/schemas?dscId=' + action.datasourceId, {
             method: 'GET',
         });
         if (response.status === 200) {
             const result = yield call([response, response.json]);
-            yield put(listSuccess(result.schemas));
+            yield put(fetchSuccess(result.schemas));
         } else {
-            yield put(listFail(response.message))
+            yield put(fetchFail(response.message))
         }
     } catch (e) {
-        yield put(listFail(e.message))
-    }
-}
-
-function* fetchShowSchema(action) {
-    try {
-        const response = yield call(fetch, 'http://localhost:8090/schemas/show', {
-            method: 'GET',
-        });
-        if (response.status === 200) {
-            const schema = yield call([response, response.json]);
-            yield put(showSuccess(schema));
-        } else {
-            yield put(showFail(response.message))
-        }
-    } catch (e) {
-        yield put(showFail(e.message))
+        yield put(fetchFail(e.message))
     }
 }
 
@@ -124,8 +106,7 @@ function* fetchDeleteSchema(action) {
 }
 
 export const Saga = [
-    takeLatest(ActionTypes.LIST_REQUEST, fetchListSchema),
-    takeLatest(ActionTypes.SHOW_REQUEST, fetchShowSchema),
+    takeLatest(ActionTypes.FETCH_REQUEST, fetchSchema),
     takeLatest(ActionTypes.CREATE_REQUEST, fetchCreateSchema),
     takeLatest(ActionTypes.UPDATE_REQUEST, fetchUpdateSchema),
     takeLatest(ActionTypes.DELETE_REQUEST, fetchDeleteSchema),

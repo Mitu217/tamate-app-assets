@@ -8,8 +8,9 @@ import { ReduxState, ReduxAction } from 'store';
 import { withStyles, StyledComponentProps } from 'material-ui/styles';
 import { Grid } from 'material-ui';
 
-import { ProjectDrawer, DatasourceCard, } from 'components';
-import {fetchRequest as requestDatasourceFetch} from 'modules/datasource';
+import { ProjectDrawer, DatasourceCard, SchemaList } from 'components';
+import { fetchRequest as requestDatasourceFetch } from 'modules/datasource';
+import { fetchRequest as requestSchemaFetch } from 'modules/schema';
 
 const styles = (theme: any) => ({
     root: {
@@ -63,11 +64,16 @@ export class ProjectDatasources extends React.Component<Props, State> {
             ...this.state,
             datasourceId: datasourceId,
         })
+        this.props.actions.fetchSchemas(datasourceId);
     };
 
     handleMoveToNewDatasource = () => {
         const projectId = this.props.match.params.id;
         this.props.history.push('/' + projectId + '/datasources/new');
+    }
+
+    handleSelectSchema = (schemaId: number) => {
+        console.log(schemaId);
     }
 
     // TODO: Header, Drawerはlayouts以下に移動予定
@@ -97,10 +103,10 @@ export class ProjectDatasources extends React.Component<Props, State> {
                                 )
                             } else {
                                 return(
-                                    <DatasourceCard
-                                        datasources={this.props.values.datasource.datasources}
-                                        onClickListItem={this.handleSelectDatasource}
-                                        onClickNewButton={this.handleMoveToNewDatasource}
+                                    <SchemaList
+                                        schemas={this.props.values.schema.schemas}
+                                        dense={false}
+                                        onClick={this.handleSelectSchema}
                                     />
                                 );
                             }
@@ -118,6 +124,9 @@ export class ActionDispatcher {
     constructor(private dispatch: (action: ReduxAction) => void) {}
     public fetchDatasources(projectId: string) {
         this.dispatch(requestDatasourceFetch(projectId));
+    }
+    public fetchSchemas(datasourceId: number) {
+        this.dispatch(requestSchemaFetch(datasourceId));
     }
 }
 

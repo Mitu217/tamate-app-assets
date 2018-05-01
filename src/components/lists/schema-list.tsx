@@ -7,12 +7,21 @@ import { withStyles, StyledComponentProps } from 'material-ui/styles';
 import { ReduxState, ReduxAction } from 'store';
 
 import {
-    List,
-    ListItem,
-    ListItemText,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails,
+    ExpansionPanelActions,
+    Divider,
+    Typography,
+    Button,
 } from 'material-ui';
 
+import {
+    ExpandMore
+} from 'material-ui-icons';
+
 import { Schema } from 'modules/schema';
+import { ColumnTable } from 'components';
 
 interface Props extends StyledComponentProps {
     schemas: Array<Schema>
@@ -23,25 +32,54 @@ interface Props extends StyledComponentProps {
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+  },
+  column: {
+    flexBasis: '33.33%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
   },
 });
 
-const ProjectList = (props: Props) => {
+const SchemaList = (props: Props) => {
+    const { classes, schemas } = props;
     return (
         <div className={props.classes.root}>
-            <List dense={props.dense}>
-                {props.schemas.map((schema: Schema) => {
-                    return (
-                        <ListItem key={schema.id} onClick={props.onClick.bind(this, schema.id)}>
-                            <ListItemText primary={schema.name} secondary={schema.projectId}/>
-                        </ListItem>
-                    );
-                })}
-            </List>
+            {schemas.map(schema => {
+                return (
+                    <ExpansionPanel key={schema.name}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                            <div className={classes.column}>
+                                <Typography className={classes.heading}>{schema.name}</Typography>
+                            </div>
+                            <div className={classes.column}>
+                                <Typography className={classes.secondaryHeading}></Typography>
+                            </div>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails className={classes.details}>
+                            <div className={classes.column} />
+                            <div className={classes.column}>
+                                <ColumnTable
+                                    columns={schema.columns}
+                                />
+                            </div>
+                            <div className={classes.column} />
+                        </ExpansionPanelDetails>
+                        <Divider />
+                        <ExpansionPanelActions>
+                            <Button disabled size="small" color="primary">
+                                Edit
+                            </Button>
+                        </ExpansionPanelActions>
+                    </ExpansionPanel>
+                );
+            })}
         </div>
     );
 }
 
-export default withStyles(styles)<Props>(ProjectList)
+export default withStyles(styles, { withTheme: true })<Props>(SchemaList)
