@@ -21,7 +21,6 @@ function* fetchDatasource(action) {
         });
         if (response.status === 200) {
             const result = yield call([response, response.json]);
-            console.log(result);
             yield put(fetchSuccess(result.datasources));
         } else {
             yield put(fetchFail(response.message))
@@ -33,7 +32,6 @@ function* fetchDatasource(action) {
 
 function* fetchCreateDatasource(action) {
     try {
-        console.log(action);
         const response = yield call(fetch, 'http://localhost:8090/datasources/create?type=' + action.sourceType, {
             method: 'POST',
             body: JSON.stringify({
