@@ -27,8 +27,6 @@ const styles = theme => ({
         ...card,
         display: 'block',
         width: 'calc(100% - ' + (theme.spacing.unit * 4) + 'px)',
-        maxWidth: 750,
-        minWidth: 360,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: theme.spacing.unit * 6,
