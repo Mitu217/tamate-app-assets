@@ -8,7 +8,7 @@ module.exports = {
     // development: Output SourceMap.
     // production:  Optimisation.
     mode: 'development',
-   
+
     context: src, //TODO:何か調べる
     entry: path.resolve(__dirname, 'src/index.tsx'),
     output: {
@@ -38,7 +38,7 @@ module.exports = {
         contentBase: dist,
         inline: true,
         hot: true,
-        port: 3000,
+        port: 9000,
     },
     plugins: [
         new HtmlWebpackPlugin({
