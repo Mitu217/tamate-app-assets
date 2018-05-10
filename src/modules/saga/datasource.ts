@@ -10,13 +10,14 @@ import {
     deleteSuccess,
     deleteFail,
 } from 'modules/datasource'
+import Constantiate from 'constantiate';
 
 /**********/
 /* Saga
 /**********/
 function* fetchDatasource(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/datasources', {
+        const response = yield call(fetch, Constantiate.HOST + '/datasources', {
             method: 'GET',
         });
         if (response.status === 200) {
@@ -32,7 +33,7 @@ function* fetchDatasource(action) {
 
 function* fetchCreateDatasource(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/datasources/create?type=' + action.sourceType, {
+        const response = yield call(fetch, Constantiate.HOST + '/datasources/create?type=' + action.sourceType, {
             method: 'POST',
             body: JSON.stringify({
                 project_id: Number(action.projectId),
@@ -67,7 +68,7 @@ function* fetchUpdateDatasource(action) {
             type: action.sourceType,
             config: action.config,
         }
-        const response = yield call(fetch, 'http://localhost:8090/datasources/update', {
+        const response = yield call(fetch, Constantiate.HOST + '/datasources/update', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {
@@ -90,7 +91,7 @@ function* fetchDeleteDatasource(action) {
         const obj = {
             id: action.id,
         }
-        const response = yield call(fetch, 'http://localhost:8090/datasources/delete', {
+        const response = yield call(fetch, Constantiate.HOST + '/datasources/delete', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {

@@ -10,13 +10,14 @@ import {
     deleteSuccess,
     deleteFail,
 } from 'modules/project'
+import Constantiate from 'constantiate';
 
 /**********/
 /* Saga
 /**********/
 function* fetchProjects(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/projects', {
+        const response = yield call(fetch, Constantiate.HOST + '/projects', {
             method: 'GET',
         });
         if (response.status === 200) {
@@ -32,7 +33,7 @@ function* fetchProjects(action) {
 
 function* createProject(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/projects/create', {
+        const response = yield call(fetch, Constantiate.HOST + '/projects/create', {
             method: 'POST',
             body: JSON.stringify({
                 name: action.name,
@@ -62,7 +63,7 @@ function* fetchUpdateProject(action) {
             description: action.description,
             thumbnailUri: action.thumbnailUri,
         }
-        const response = yield call(fetch, 'http://localhost:8090/projects/update', {
+        const response = yield call(fetch, Constantiate.HOST + '/projects/update', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {
@@ -85,7 +86,7 @@ function* fetchDeleteProject(action) {
         const obj = {
             id: action.id,
         }
-        const response = yield call(fetch, 'http://localhost:8090/projects/delete', {
+        const response = yield call(fetch, Constantiate.HOST + '/projects/delete', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {

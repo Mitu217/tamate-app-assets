@@ -1,4 +1,6 @@
 const Constantiate = {
+    HOST: 'http://localhost:8090',
+
     CONFIG_TYPE_MYSQL: 1,
     CONFIG_TYPE_SPREAD_SHEETS: 2,
     ConfigType: [

@@ -6,13 +6,14 @@ import {
     diffSuccess,
     diffFail,
 } from 'modules/table'
+import Constantiate from 'constantiate';
 
 /**********/
 /* Saga
 /**********/
 function* fetchShowTable(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/tables/show', {
+        const response = yield call(fetch, Constantiate.HOST + '/tables/show', {
             method: 'GET',
         });
         if (response.status === 200) {
@@ -28,7 +29,7 @@ function* fetchShowTable(action) {
 
 function* fetchDiffTable(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/tables/diff', {
+        const response = yield call(fetch, Constantiate.HOST + '/tables/diff', {
             method: 'POST',
             body: JSON.stringify({
                 left_datasource_id: action.leftDatasourceId,

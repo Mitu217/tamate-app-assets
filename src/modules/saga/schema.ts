@@ -10,13 +10,14 @@ import {
     deleteSuccess,
     deleteFail,
 } from 'modules/schema'
+import Constantiate from 'constantiate';
 
 /**********/
 /* Saga
 /**********/
 function* fetchSchema(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/schemas?dscId=' + action.datasourceId, {
+        const response = yield call(fetch, Constantiate.HOST + '/schemas?dscId=' + action.datasourceId, {
             method: 'GET',
         });
         if (response.status === 200) {
@@ -32,7 +33,7 @@ function* fetchSchema(action) {
 
 function* fetchCreateSchema(action) {
     try {
-        const response = yield call(fetch, 'http://localhost:8090/schemas/create', {
+        const response = yield call(fetch, Constantiate.HOST + '/schemas/create', {
             method: 'POST',
             body: JSON.stringify({
                 "project_id": action.projectId,
@@ -65,7 +66,7 @@ function* fetchUpdateSchema(action) {
             primaryKey: action.primaryKey,
             columns: action.columns,
         }
-        const response = yield call(fetch, 'http://localhost:8090/schemas/update', {
+        const response = yield call(fetch, Constantiate.HOST + '/schemas/update', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {
@@ -88,7 +89,7 @@ function* fetchDeleteSchema(action) {
         const obj = {
             id: action.id,
         }
-        const response = yield call(fetch, 'http://localhost:8090/schemas/delete', {
+        const response = yield call(fetch, Constantiate.HOST + '/schemas/delete', {
             method: 'POST',
             body: Object.keys(obj).reduce((o,key)=>(o.set(key, obj[key]), o), new FormData()),
             headers: {
