@@ -19,21 +19,31 @@ import DatasourceEditForm from 'components/forms/datasource-edit-form';
 import ColumnTable from 'components/tables/column-table';
 import RowTable from 'components/tables/row-table';
 
+// Headers
+import Header from 'components/headers/header';
+
 export {
-    // cards
+    // Cards
     ProjectCard,
     DatasourceCard,
     SchemaCard,
-    // drawers
+
+    // Drawers
     ProjectDrawer,
-    // lists
+
+    // Lists
     ProjectList,
     DatasourceList,
     SchemaList,
-    // forms
+
+    // Forms
     ProjectEditForm,
     DatasourceEditForm,
-    // tables
+
+    // Tables
     ColumnTable,
     RowTable,
+
+    // Headers
+    Header,
 };

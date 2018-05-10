@@ -28,13 +28,8 @@ interface Props extends StyledComponentProps {
 
 const styles = (theme: any) => ({
     root: {
-        flexGrow: 1,
-        height: '100%' as '100%',
-        zIndex: 1,
-        overflow: 'hidden' as 'hidden',
-        position: 'relative' as 'relative',
         display: 'flex',
-        width: '100%',
+        overflow: 'hidden' as 'hidden',
     },
     content: {
         flexGrow: 1,

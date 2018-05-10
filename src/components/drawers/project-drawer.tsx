@@ -24,6 +24,7 @@ import {routes as ProjectRoutes} from 'routes/project';
 const styles = theme => ({
     drawerPaper: {
         position: 'relative' as 'relative',
+        height: '100%' as '100%',
         width: 240,
     },
     drawerPaperClose: {
