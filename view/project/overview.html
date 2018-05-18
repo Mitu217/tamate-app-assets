@@ -1,0 +1,36 @@
+{{define "style"}}
+{{end}}
+
+{{define "content"}}
+<div id="project-overview">
+    <project-layout>
+        <app-header slot="header" title="tamate"></app-header>
+        <project-nav slot="nav"></project-nav>
+        <div slot="content">
+            <el-main>
+                    <div>Overview</div>
+            </el-main>
+        </div>
+    </project-layout>
+</div>
+{{end}}
+
+{{define "script"}}
+<script src="/static/layout/project.js"></script>
+<script src="/static/component/header.js"></script>
+<script src="/static/component/project/nav.js"></script>
+<script>
+    new Vue({
+        el: '#project-overview',
+        data: {
+            loading: false,
+        },
+        created: function() {
+
+        },
+        methods: {
+
+        },
+    });
+</script>
+{{end}}

@@ -1,0 +1,13 @@
+{
+  "name": "tamate",
+  "version": "1.0.0",
+  "description": "tamate's frontend",
+  "main": "index.js",
+  "author": "Mitu217",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "element-ui": "^2.3.9",
+    "nuxt": "^1.4.0"
+  }
+}

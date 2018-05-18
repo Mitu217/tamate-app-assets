@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tamate</title>
+    <!-- vue.js -->
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <!-- axios.js -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Element -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="http://unpkg.com/element-ui/lib/umd/locale/ja.js"></script>
+    <link href="/static/style.css" rel="stylesheet">
+    {{template "style" .}}
+</head>
+<body>
+    {{template "content" .}}
+
+    <script>
+        ELEMENT.locale(ELEMENT.lang.ja)
+    </script>
+    {{template "script" .}}
+</body>
+</html>
