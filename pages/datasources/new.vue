@@ -44,13 +44,13 @@
                     </el-form-item>
                     <el-form-item
                         v-if="form.type === 'CSV'"
-                        prop="config.csv.column_row_index"
-                        label="ColumnRowIndex"
+                        prop="config.csv.column_row_number"
+                        label="ColumnRowNumber"
                         :rules="[
-                            { required: true, message: 'ColumnRowIndex is required'},
-                            { type: 'number', message: 'ColumnRowIndex must be a number'}
+                            { required: true, message: 'ColumnRowNumber is required'},
+                            { type: 'number', message: 'ColumnRowNumber must be a number'}
                         ]">
-                        <el-input v-model.number="form.config.csv.column_row_index" auto-complete="off"></el-input>
+                        <el-input v-model.number="form.config.csv.column_row_number" auto-complete="off"></el-input>
                     </el-form-item>
 
                 <!-- SQL -->
@@ -96,13 +96,13 @@
                     </el-form-item>
                     <el-form-item
                         v-if="form.type === 'Spreadsheet'"
-                        prop="config.spreadsheet.column_row_index"
-                        label="ColumnRowIndex"
+                        prop="config.spreadsheet.column_row_number"
+                        label="ColumnRowNumber"
                         :rules="[
-                            { required: true, message: 'ColumnRowIndex is required'},
-                            { type: 'number', message: 'ColumnRowIndex must be a number'}
+                            { required: true, message: 'ColumnRowNumber is required'},
+                            { type: 'number', message: 'ColumnRowNumber must be a number'}
                         ]">
-                        <el-input v-model.number="form.config.spreadsheet.column_row_index" auto-complete="off"></el-input>
+                        <el-input v-model.number="form.config.spreadsheet.column_row_number" auto-complete="off"></el-input>
                     </el-form-item>
 
                 <!-- Spanner -->
@@ -140,7 +140,7 @@ export default {
         config: {
           csv: {
             uri: "",
-            column_row_index: 1
+            column_row_number: 1
           },
           sql: {
             driver_name: "",
@@ -149,7 +149,7 @@ export default {
           spreadsheet: {
             spreadsheet_id: "",
             ranges: "A1:XX",
-            column_row_index: 1
+            column_row_number: 1
           },
           spanner: {
             dsn: ""
@@ -183,12 +183,17 @@ export default {
           let config = "";
           switch (this.form.type) {
             case "CSV":
+              this.form.config.csv.column_row_index =
+                this.form.config.csv.column_row_number - 1;
               config = JSON.stringify(this.form.config.csv);
               break;
             case "SQL":
+              this.form.config.sql.driver_name = this.form.config.sql.driver_name.toLowerCase();
               config = JSON.stringify(this.form.config.sql);
               break;
             case "Spreadsheet":
+              this.form.config.spreadsheet.column_row_index =
+                this.form.config.spreadsheet.column_row_number - 1;
               config = JSON.stringify(this.form.config.spreadsheet);
               break;
             case "Spanner":
@@ -204,7 +209,7 @@ export default {
               config: config
             })
             .then(res => {
-              location.href = "/" + this.projectId + "/tree";
+              location.href = "/" + this.projectId + "/datasources";
               this.loading = false;
             })
             .catch(err => {
