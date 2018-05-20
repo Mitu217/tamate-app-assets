@@ -1,11 +1,26 @@
 <template>
-    <el-main slot="content">
-        <div class="description-header">
-            <el-button type="primary" @click="onClickNew()">New Datasource</el-button>
-        </div>
-        <datasource-list :loading="loading" :datasources="items"></datasource-list>
+    <el-main class="content" v-loading="loading">
+        <el-row type="flex" justify="space-between" class="description-header">
+            <el-col :span="6">
+                <span style="line-height:32px">Datasource List</span>
+            </el-col>
+            <el-col :span="6" style="text-align: right;">
+                <el-button type="primary" size="small" icon="el-icon-plus" @click="onClickNew()">New Datasource</el-button>
+            </el-col>
+        </el-row>
+        <datasource-list  :datasources="items"></datasource-list>
     </el-main>
 </template>
+
+<style scoped>
+.description-header {
+  padding: 4px 20px 8px;
+  border-bottom: solid 1px #e6e6e6;
+}
+.content {
+  padding: 18px 20px;
+}
+</style>
 
 <script>
 import axios from "axios";

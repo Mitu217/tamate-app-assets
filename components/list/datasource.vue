@@ -1,21 +1,47 @@
 <template>
-    <el-menu
-        v-loading="loading"
-        element-loading-text="Loading..."
-        element-loading-spinner="el-icon-loading"
-        class="datasource-list-content">
-        <div v-for="(datasource, index) in datasources" :key="index" class="text item">
-            <el-menu-item  index="datasource.id">
-                <i class="el-icon-goods"></i>
-                <span>{{ datasource.name }}</span>
-            </el-menu-item>
-        </div>
-    </el-menu>
+    <div>
+        <el-table
+            :data="datasources"
+            :show-header="false"
+            class="datasource-list">
+            <el-table-column>
+                <template slot-scope="scope">
+                    <i class="el-icon-goods"></i>
+                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column width="180">
+                <template slot-scope="scope">
+                    <div style="text-align: right;">
+                        <!--
+                        <el-button
+                        size="mini"
+                        @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                        -->
+                        <el-button size="mini" type="danger" @click="onClickDelete(scope.$index, scope.row)">Delete</el-button>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
 </template>
 
+<style scoped>
+.datasource-list {
+  padding: 0;
+}
+</style>
+
 <script>
+import axios from "axios";
 export default {
-  props: ["loading", "datasources"],
+  data() {
+    return {
+      deleteDialogVisible: false,
+      deleteDatasourceID: ""
+    };
+  },
+  props: ["datasources"],
   methods: {
     onClick: id => {
       // FIXME: 遷移だけとは限らない
@@ -27,10 +53,24 @@ export default {
           .join("/") +
         "/" +
         id;
+    },
+    onClickDelete(index, row) {
+      this.deleteDatasourceID = row.id;
+      this.deleteDialogVisible = true;
+
+      // FIXME:
+      axios
+        .post("http://localhost:8090/api/datasources/delete", {
+          id: this.deleteDatasourceID
+        })
+        .then(res => {
+          location.reload();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
 </script>
 
-<style>
-</style>
