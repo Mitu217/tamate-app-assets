@@ -1,10 +1,12 @@
 <template>
     <div>
         <el-menu class="el-menu-vertical-demo" :collapse="isCollapse">
+            <!--
             <el-menu-item index="10" @click="onClickMenuItem('')">
                 <i class="el-icon-menu"></i>
                 <span slot="title">Overview</span>
             </el-menu-item>
+            -->
             <el-menu-item index="20" @click="onClickMenuItem('datasources')">
                 <i class="el-icon-goods"></i>
                 <span slot="title">Datasources</span>

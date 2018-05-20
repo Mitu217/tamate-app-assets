@@ -120,7 +120,8 @@ export default {
       location.href = "/projects/new";
     },
     onClickProject: function(projectId) {
-      location.href = projectId + "/";
+      //location.href = projectId + "/";
+      location.href = projectId + "/datasources";
     }
   }
 };
