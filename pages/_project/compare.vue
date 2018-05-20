@@ -31,6 +31,7 @@
                         <diff-table :data="diff.delete"></diff-table>
                     </el-tab-pane>
                 </el-tabs>
+                <el-button type="danger" @click="onClickImport">Import</el-button>
             </div>
         </div>
     </el-main>
@@ -38,8 +39,12 @@
 
 <script>
 import axios from "axios";
+import DiffTable from "~/components/table/diff.vue";
 export default {
   layout: "project",
+  components: {
+    DiffTable
+  },
   data() {
     return {
       options: [],
@@ -53,7 +58,7 @@ export default {
 
     // TODO: API側がProjectごとのDatasourceに対応してない
     axios
-      .get("http://localhost:8090/api/datasources")
+      .get("http://localhost:8090/api/datasources?projectId=" + projectId)
       .then(res => {
         const datasources = res.data.datasources;
         let options = [];
@@ -75,7 +80,7 @@ export default {
     handleItemChange(val) {
       const datasourceId = val[0];
       axios
-        .get("http://localhost:8090/api/schemas?dscId=" + datasourceId)
+        .get("http://localhost:8090/api/schemas?datasourceId=" + datasourceId)
         .then(res => {
           const self = this;
           const schemas = res.data.schemas;
@@ -114,6 +119,25 @@ export default {
         .then(res => {
           this.diff = res.data;
         })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onClickImport() {
+      if (
+        this.selectedLeftOptions.length == 0 ||
+        this.selectedRightOptions.length == 0
+      ) {
+        return;
+      }
+      axios
+        .post("http://localhost:8090/api/tables/import", {
+          left_datasource_id: this.selectedLeftOptions[0],
+          left_schema_name: this.selectedLeftOptions[1],
+          right_datasource_id: this.selectedRightOptions[0],
+          right_schema_name: this.selectedRightOptions[1]
+        })
+        .then(res => {})
         .catch(err => {
           console.log(err);
         });
