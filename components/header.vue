@@ -6,7 +6,7 @@
 
 <style scoped>
 .header {
-  z-index: 1000;
+  z-index: 100000;
   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
 }
 </style>
