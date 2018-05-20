@@ -1,26 +1,33 @@
 <template>
-    <div class="content">
-        <el-container>
-            <el-header>
-                <tamate-header></tamate-header>
-            </el-header>
-            <el-main>
+    <el-container class="content">
+        <el-header>
+            <tamate-header></tamate-header>
+        </el-header>
+        <el-main>
+            <el-container style="height: 100%">
+                <el-aside style="width: auto;">
+                    <project-nav></project-nav>
+                </el-aside>
                 <el-container>
-                    <el-aside style="width: auto;">
-                        <project-nav></project-nav>
-                    </el-aside>
-                    <el-container>
-                        <nuxt/>
-                    </el-container>
+                    <nuxt/>
                 </el-container>
-            </el-main>
-        </el-container>
-    </div>
+            </el-container>
+        </el-main>
+    </el-container>
 </template>
+
 <style>
 .content {
   height: 100vh;
   width: 100vw;
+  min-width: 760px;
+}
+.el-header {
+  padding: 0;
+}
+.el-main {
+  padding: 0;
+  height: 100%;
 }
 body {
   margin: 0;

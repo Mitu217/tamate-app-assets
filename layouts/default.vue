@@ -10,17 +10,6 @@
 </template>
 
 <style>
-/* color */
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-}
-
 .content {
   height: 100vh;
   width: 100vw;
