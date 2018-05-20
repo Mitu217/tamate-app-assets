@@ -8,7 +8,7 @@
                 <el-button type="primary" size="small" icon="el-icon-plus" @click="onClickNew()">New Datasource</el-button>
             </el-col>
         </el-row>
-        <datasource-list  :datasources="items"></datasource-list>
+        <datasource-list :datasources="datasources"></datasource-list>
     </el-main>
 </template>
 
@@ -33,18 +33,16 @@ export default {
   data() {
     return {
       loading: false,
-      type: "",
       projectId: "",
       datasourceId: "",
       schemaName: "",
       routes: [],
-      items: []
+      datasources: []
     };
   },
   mounted() {
     const paths = location.pathname.split("/");
     const pathLength = paths.length;
-    this.type = "datasources";
     const projectId = paths[1];
     this.projectId = projectId;
     this.routes.push(projectId);
@@ -58,7 +56,7 @@ export default {
           "http://localhost:8090/api/datasources?projectId=" + this.projectId
         )
         .then(res => {
-          this.items = res.data.datasources;
+          this.datasources = res.data.datasources;
         })
         .catch(err => {
           // TODO: エラーハンドリング系のUtil化
