@@ -81,7 +81,7 @@ export default {
       axios
         .get("http://localhost:8090/api/schemas?datasourceId=" + datasourceId)
         .then(res => {
-          this.items = res.data.schemas;
+          this.schemas = res.data.schemas;
         })
         .catch(err => {
           // TODO: エラーハンドリング系のUtil化
