@@ -18,9 +18,9 @@
             <i class="el-icon-news"></i>
             <span slot="title">Rows</span>
         </el-menu-item>
-        <el-menu-item index="50" @click="onClickMenuItem('compare')">
+        <el-menu-item index="50" @click="onClickMenuItem('import')">
                 <i class="el-icon-sort"></i>
-                <span slot="title">Compare</span>
+                <span slot="title">Import</span>
             </el-menu-item>
         <!--
         <el-menu-item index="60" @click="onClickMenuItem('setting')">
