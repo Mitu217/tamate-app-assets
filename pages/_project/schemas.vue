@@ -1,16 +1,38 @@
 <template>
-    <el-main slot="content" :loading="loading">
-        <div class="description-header">
-            <el-cascader
-                :options="options"
-                :props="props"
-                @change="handleItemChange"
-            ></el-cascader>
-        </div>
-
+    <el-main class="content" v-loading="loading">
+        <el-row type="flex" justify="space-between" class="description-header">
+            <el-col :span="12">
+                <span style="line-height:33px;">Schema List</span>
+            </el-col>
+            <el-col :span="12" style="text-align: right;">
+                <el-row>
+                    <el-col :span="12">
+                        <span style="line-height:33px;color:#909399;">Datasource:</span>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-cascader
+                            size="small"
+                            :options="options"
+                            :props="props"
+                            @change="handleItemChange"
+                        ></el-cascader>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
         <schema-list :loading="loading" :schemas="schemas"></schema-list>
     </el-main>
 </template>
+
+<style scoped>
+.description-header {
+  padding: 4px 20px 8px;
+  border-bottom: solid 1px #e6e6e6;
+}
+.content {
+  padding: 18px 20px;
+}
+</style>
 
 <script>
 import axios from "axios";
