@@ -1,17 +1,17 @@
 <template>
     <el-main slot="content">
         <div class="description-header">
-
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item v-for="(route, index) in routes" :key="route">
-                    <span v-if="routes.length-1 !== index"><a href="/">{{route}}</a></span>
-                    <span v-else>{{route}}</span>
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-
+            <div class="description-header">
+                <el-cascader
+                    :options="options"
+                    :props="props"
+                    @active-item-change="handleItemChange"
+                    @change="handleChange"
+                ></el-cascader>
+            </div>
         </div>
 
-        <row-list v-if="type === 'rows'" :loading="loading" :rows="items"></row-list>
+        <row-list :loading="loading" :rows="rows"></row-list>
     </el-main>
 </template>
 
@@ -25,80 +25,100 @@ export default {
   },
   data() {
     return {
-      loading: false,
-
-      type: "",
       projectId: "",
-      datasourceId: "",
-      schemaName: "",
-      routes: [],
-      items: []
+      loading: false,
+      options: [],
+      props: {
+        label: "label",
+        value: "value",
+        children: "children"
+      },
+      rows: []
     };
   },
   mounted() {
-    const paths = location.pathname.split("/");
-    const pathLength = paths.length;
-
-    if (pathLength >= 3) {
-      // datasources
-      this.type = "datasources";
-      const projectId = paths[1];
-      this.projectId = projectId;
-      this.routes.push(projectId);
-    }
-    if (pathLength >= 4) {
-      // schemas
-      this.type = "schemas";
-      const datasourceId = paths[3];
-      this.datasourceId = datasourceId;
-      this.routes.push(datasourceId);
-    }
-    if (pathLength >= 5) {
-      // rows
-      this.type = "rows";
-      const schemaName = paths[4];
-      this.schemaName = paths[4];
-      this.routes.push(paths[4]);
-    }
-
-    switch (this.type) {
-      case "datasources":
-        this.fetchDatasources();
-        break;
-      case "schemas":
-        this.fetchSchemas(this.datasourceId);
-        break;
-      case "rows":
-        this.fetchRows(this.datasourceId, this.schemaName);
-        break;
-    }
+    this.projectId = location.pathname.split("/")[1];
+    this.fetchDatasources();
   },
   methods: {
     fetchDatasources: function() {
       this.loading = true;
-      // TODO: API側がProjectごとのDatasourceに対応してない
       axios
-        .get("http://localhost:8090/api/datasources")
+        .get(
+          "http://localhost:8090/api/datasources?projectId=" + this.projectId
+        )
         .then(res => {
-          this.items = res.data.datasources;
+          const datasources = res.data.datasources;
+          datasources.forEach(datasource => {
+            this.options.push({
+              value: datasource.id,
+              label: datasource.name,
+              children: []
+            });
+          });
           this.loading = false;
         })
         .catch(err => {
-          console.log(err);
+          // TODO: エラーハンドリング系のUtil化
+          if (!err.response) {
+            this.$notify.error({
+              title: "Error",
+              message: "Network Error",
+              duration: 0,
+              position: "bottom-right"
+            });
+          } else {
+            if (err.response.status === 422) {
+              const res = err.response.data;
+              this.$notify.error({
+                title: "Error",
+                message: "[ERROR:" + res.code + "]" + res.message,
+                duration: 0,
+                position: "bottom-right"
+              });
+            }
+          }
           this.loading = false;
         });
     },
     fetchSchemas: function(datasourceId) {
       this.loading = true;
       axios
-        .get("http://localhost:8090/api/schemas?dscId=" + datasourceId)
+        .get("http://localhost:8090/api/schemas?datasourceId=" + datasourceId)
         .then(res => {
-          this.items = res.data.schemas;
+          const schemas = res.data.schemas;
+          this.options.forEach((_, index) => {
+            if (this.options[index].value === datasourceId) {
+              schemas.forEach(schema => {
+                this.options[index].children.push({
+                  value: schema.name,
+                  label: schema.name
+                });
+              });
+            }
+          });
+          this.loading = false;
         })
         .catch(err => {
-          // TODO: エラータイプが認証が必要なやつなら個別に対応
-
-          console.log(err);
+          // TODO: エラーハンドリング系のUtil化
+          if (!err.response) {
+            this.$notify.error({
+              title: "Error",
+              message: "Network Error",
+              duration: 0,
+              position: "bottom-right"
+            });
+          } else {
+            if (err.response.status === 422) {
+              const res = err.response.data;
+              this.$notify.error({
+                title: "Error",
+                message: "[ERROR:" + res.code + "]" + res.message,
+                duration: 0,
+                position: "bottom-right"
+              });
+            }
+          }
         })
         .finally(() => {
           this.loading = false;
@@ -108,14 +128,13 @@ export default {
       this.loading = true;
       axios
         .get(
-          "http://localhost:8090/api/tables/rows?dscId=" +
+          "http://localhost:8090/api/tables/rows?datasourceId=" +
             datasourceId +
-            "&scn=" +
+            "&schemaName=" +
             schemaName
         )
         .then(res => {
-          console.log(res);
-          this.items = res.data.rows.values;
+          this.rows = res.data.rows.values;
         })
         .catch(err => {
           console.log(err);
@@ -123,6 +142,20 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    handleItemChange: function(item) {
+      if (item.length === 1) {
+        const datasourceId = item[0];
+        this.fetchSchemas(datasourceId);
+      }
+    },
+    handleChange: function(item) {
+      if (item.length < 2) {
+        return;
+      }
+      const datasourceId = item[0];
+      const schemaName = item[1];
+      this.fetchRows(datasourceId, schemaName);
     }
   }
 };
