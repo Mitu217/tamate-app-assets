@@ -1,19 +1,39 @@
 <template>
-    <el-main slot="content">
-        <div class="description-header">
-            <div class="description-header">
-                <el-cascader
-                    :options="options"
-                    :props="props"
-                    @active-item-change="handleItemChange"
-                    @change="handleChange"
-                ></el-cascader>
-            </div>
-        </div>
-
+    <el-main class="content"  v-loading="loading">
+        <el-row type="flex" justify="space-between" class="description-header">
+            <el-col :span="12">
+                <span style="line-height:33px;">Rows</span>
+            </el-col>
+            <el-col :span="12" style="text-align: right;">
+                <el-row>
+                    <el-col :span="12">
+                        <span style="line-height:33px;color:#909399;">Schema:</span>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-cascader
+                            size="small"
+                            :options="options"
+                            :props="props"
+                            @active-item-change="handleItemChange"
+                            @change="handleChange"
+                        ></el-cascader>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
         <row-list :loading="loading" :rows="rows"></row-list>
     </el-main>
 </template>
+
+<style scoped>
+.description-header {
+  padding: 4px 20px 8px;
+  border-bottom: solid 1px #e6e6e6;
+}
+.content {
+  padding: 18px 20px;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -146,7 +166,17 @@ export default {
     handleItemChange: function(item) {
       if (item.length === 1) {
         const datasourceId = item[0];
-        this.fetchSchemas(datasourceId);
+
+        // check already fetch
+        let children = [];
+        this.options.forEach((_, index) => {
+          if (this.options[index].value === datasourceId) {
+            children = this.options[index].children;
+          }
+        });
+        if (children.length === 0) {
+          this.fetchSchemas(datasourceId);
+        }
       }
     },
     handleChange: function(item) {
