@@ -6,11 +6,11 @@
         <div class="el-table__header-wrapper">
             <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
                 <colgroup>
-                    <col v-for="(diffColumn, index) in diffColumns" :name="'el-table-diff_column_' + index" v-bind:key="diffColumn.name"/>
+                    <col v-for="(diffColumn, index) in diffColumns" :name="'el-table-diff_column_' + index" v-bind:key="index"/>
                 </colgroup>
                 <thead class="has-gutter">
                     <tr>
-                        <th v-for="(diffColumn, index) in diffColumns" colspan="1" rowspan="1" :class="'el-table-diff_column_' + index + ' is-leaf'" v-bind:key="diffColumn.name">
+                        <th v-for="(diffColumn, index) in diffColumns" colspan="1" rowspan="1" :class="'el-table-diff_column_' + index + ' is-leaf'" v-bind:key="index">
                             <div class="cell">
                                 {{ diffColumn }}
                             </div>
@@ -22,10 +22,10 @@
         <div class="el-table__body-wrapper is-scrolling-none">
             <table v-if="diffColumns.length > 0" cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 100%;">
                 <colgroup>
-                    <col v-for="(diffColumn, index) in diffColumns" :name="'el-table-diff_column_' + index" v-bind:key="diffColumn.name"/>
+                    <col v-for="(diffColumn, index) in diffColumns" :name="'el-table-diff_column_' + index" v-bind:key="index"/>
                 </colgroup>
                 <tbody>
-                    <tr v-for="d in data" class="el-table__row" v-bind:key="d">
+                    <tr v-for="(d, index) in data" class="el-table__row" v-bind:key="index">
                         <td v-for="(diffColumn, columnIndex) in diffColumns" colspan="1" rowspan="1" :class="'el-table-diff_column_' + columnIndex + ' is-leaf'" v-bind:key="diffColumn.name">
                             <div class="cell">
                                 <div v-if="d.left[diffColumn] && d.right[diffColumn]">
@@ -39,12 +39,12 @@
                                 </div>
                                 <div v-else-if="d.left[diffColumn]">
                                     <div>
-                                        <p style="color:red">{{ d.left[diffColumn] }}</p>
+                                        <p style="color:green">{{ d.left[diffColumn] }}</p>
                                     </div>
                                 </div>
                                 <div v-else-if="d.right[diffColumn]">
                                     <div>
-                                        <p style="color:green">{{ d.right[diffColumn] }}</p>
+                                        <p style="color:red">{{ d.right[diffColumn] }}</p>
                                     </div>
                                 </div>
                             </div>
