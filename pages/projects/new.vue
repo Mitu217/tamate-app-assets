@@ -1,5 +1,5 @@
 <template>
-    <div id="content">
+    <div class="content">
         <div class="description-header">
             <div>Create a new Project</div>
         </div>
@@ -11,15 +11,6 @@
                 <el-form-item label="Description">
                     <el-input v-model="form.description"></el-input>
                 </el-form-item>
-                <el-form-item label="Thumbnail">
-                    <el-upload
-                        class="upload-demo"
-                        ref="upload"
-                        action="/"
-                        :auto-upload="false">
-                        <el-button slot="trigger" size="small">select file</el-button>
-                    </el-upload>
-                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit" :loading="loading">Create Project</el-button>
                 </el-form-item>
@@ -27,6 +18,17 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.description-header {
+  padding: 18px 20px 36px;
+}
+.content {
+  max-width: 480px;
+  height: 100%;
+  margin: 0 auto;
+}
+</style>
 
 <script>
 import axios from "axios";
