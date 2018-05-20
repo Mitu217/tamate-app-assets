@@ -2,8 +2,10 @@
 .DS_Store
 
 # node.js
-#
 dist/
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# nuxt.js
+.nuxt/
