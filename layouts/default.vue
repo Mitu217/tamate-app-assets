@@ -40,7 +40,7 @@ body {
 </style>
 
 <script>
-import TamateHeader from "~/components/Header.vue";
+import TamateHeader from "~/components/header.vue";
 export default {
   name: "default",
   components: {
