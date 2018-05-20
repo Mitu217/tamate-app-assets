@@ -30,7 +30,7 @@
     </el-row>
 </template>
 
-<style>
+<style scoped>
 .activity-card-content {
   margin: 20px;
 }
@@ -49,6 +49,9 @@
 
   height: 360px;
   margin: 8px;
+}
+.el-menu {
+  border-right: 0px;
 }
 
 .el-card__body {
