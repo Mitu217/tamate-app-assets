@@ -55,16 +55,18 @@ export default {
     };
   },
   mounted() {
-    this.projectId = location.pathname.split("/")[1];
+    const paths = location.href.split("#");
+    if (paths.length === 0) {
+      location.herf = "/";
+    }
+    this.projectId = paths[1];
     this.fetchDatasources();
   },
   methods: {
     fetchDatasources: function() {
       this.loading = true;
       axios
-        .get(
-          "http://localhost:8090/api/datasources?projectId=" + this.projectId
-        )
+        .get(this.config.host + "/api/datasources?projectId=" + this.projectId)
         .then(res => {
           const datasources = res.data.datasources;
           datasources.forEach(datasource => {
@@ -101,7 +103,7 @@ export default {
     fetchSchemas: function(datasourceId) {
       this.loading = true;
       axios
-        .get("http://localhost:8090/api/schemas?datasourceId=" + datasourceId)
+        .get(this.config.host + "/api/schemas?datasourceId=" + datasourceId)
         .then(res => {
           this.schemas = res.data.schemas;
         })

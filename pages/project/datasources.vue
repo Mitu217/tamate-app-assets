@@ -36,25 +36,22 @@ export default {
       projectId: "",
       datasourceId: "",
       schemaName: "",
-      routes: [],
       datasources: []
     };
   },
   mounted() {
-    const paths = location.pathname.split("/");
-    const pathLength = paths.length;
-    const projectId = paths[1];
-    this.projectId = projectId;
-    this.routes.push(projectId);
+    const paths = location.href.split("#");
+    if (paths.length === 0) {
+      location.herf = "/";
+    }
+    this.projectId = paths[1];
     this.fetchDatasources();
   },
   methods: {
     fetchDatasources: function() {
       this.loading = true;
       axios
-        .get(
-          "http://localhost:8090/api/datasources?projectId=" + this.projectId
-        )
+        .get(this.config.host + "/api/datasources?projectId=" + this.projectId)
         .then(res => {
           this.datasources = res.data.datasources;
         })

@@ -97,11 +97,14 @@ export default {
     };
   },
   mounted: function() {
-    const projectId = location.pathname.split("/")[1];
+    const paths = location.href.split("#");
+    if (paths.length === 0) {
+      location.herf = "/";
+    }
+    const projectId = paths[1];
 
-    // TODO: API側がProjectごとのDatasourceに対応してない
     axios
-      .get("http://localhost:8090/api/datasources?projectId=" + projectId)
+      .get(this.config.host + "/api/datasources?projectId=" + projectId)
       .then(res => {
         const datasources = res.data.datasources;
         let options = [];
@@ -123,7 +126,7 @@ export default {
     handleItemChange(val) {
       const datasourceId = val[0];
       axios
-        .get("http://localhost:8090/api/schemas?datasourceId=" + datasourceId)
+        .get(this.config.host + "/api/schemas?datasourceId=" + datasourceId)
         .then(res => {
           const self = this;
           const schemas = res.data.schemas;
@@ -153,7 +156,7 @@ export default {
         return;
       }
       axios
-        .post("http://localhost:8090/api/tables/diff", {
+        .post(this.config.host + "/api/tables/diff", {
           left_datasource_id: this.selectedLeftOptions[0],
           left_schema_name: this.selectedLeftOptions[1],
           right_datasource_id: this.selectedRightOptions[0],
@@ -176,7 +179,7 @@ export default {
         return;
       }
       axios
-        .post("http://localhost:8090/api/tables/import", {
+        .post("this.config.host + /api/tables/import", {
           left_datasource_id: this.selectedLeftOptions[0],
           left_schema_name: this.selectedLeftOptions[1],
           right_datasource_id: this.selectedRightOptions[0],
