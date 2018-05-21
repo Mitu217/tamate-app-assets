@@ -12,6 +12,6 @@
     "nuxt": "^1.4.0"
   },
   "scripts": {
-    "dev": "nuxt"
+    "dev": "nuxt -c ./nuxt.config.dev.js",
   }
 }

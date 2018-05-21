@@ -17,7 +17,7 @@ module.exports = {
   ],
   plugins: [
     '~plugins/element-ui',
-    '~plugins/global-config',
+    '~plugins/global-config-dev',
  ],
   loading: { color: '#3B8070' },
   build: {
@@ -27,6 +27,6 @@ module.exports = {
     dir: resolve(__dirname, './dist'),
   },
   router: {
-    base: process.env.NODE_ENV === 'dev' ? '/' : '/',
+    base: '/',
   }
 }
