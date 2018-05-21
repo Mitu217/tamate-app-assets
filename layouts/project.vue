@@ -1,9 +1,9 @@
 <template>
     <el-container class="content">
-        <el-header>
+        <el-header class="content-header">
             <tamate-header></tamate-header>
         </el-header>
-        <el-main>
+        <el-main class="content-body">
             <el-container style="height: 100%">
                 <el-aside style="width: auto;">
                     <project-nav></project-nav>
@@ -22,10 +22,10 @@
   width: 100vw;
   min-width: 760px;
 }
-.el-header {
+.content-header {
   padding: 0;
 }
-.el-main {
+.content-body {
   padding: 0;
   height: 100%;
 }
