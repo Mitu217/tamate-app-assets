@@ -1,5 +1,5 @@
 <template>
-    <el-main class="content"  v-loading="loading">
+    <el-main class="content" v-loading="loading">
         <el-row type="flex" justify="space-between" class="description-header">
             <el-col :span="12">
                 <span style="line-height:33px;">Rows</span>
