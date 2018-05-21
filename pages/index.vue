@@ -1,5 +1,5 @@
 <template>
-    <a href="http://localhost:8080/login">ログイン</a>
+    <a :href="this.config.host + '/login'">ログイン</a>
 </template>
 
 <script>

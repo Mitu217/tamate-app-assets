@@ -47,11 +47,14 @@ export default {
     };
   },
   mounted() {
-    this.projectId = location.pathname.split("/")[1];
+    const paths = location.href.split("#");
+    if (paths.length > 0) {
+      this.projectId = paths[1];
+    }
   },
   methods: {
     onClickMenuItem: function(route) {
-      const url = "/" + this.projectId + "/" + route;
+      const url = "/project/" + route + "#" + this.projectId;
       if (url === location.pathname) {
         return;
       }

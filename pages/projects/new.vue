@@ -47,7 +47,7 @@ export default {
       this.loading = true;
       this.submitUpload();
       axios
-        .post("http://localhost:8090/api/projects/create", {
+        .post(this.config.host + "/api/projects/create", {
           name: this.form.name,
           description: this.form.description,
           thumbnail_uri: this.thubmnailFile

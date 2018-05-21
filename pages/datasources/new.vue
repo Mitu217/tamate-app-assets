@@ -202,7 +202,7 @@ export default {
           }
           // post request
           axios
-            .post("http://localhost:8090/api/datasources/create", {
+            .post(this.config.host + "/api/datasources/create", {
               project_id: this.form.project_id,
               name: this.form.name,
               type: this.form.type.toLowerCase(),

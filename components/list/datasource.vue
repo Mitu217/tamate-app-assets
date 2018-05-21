@@ -58,7 +58,7 @@ export default {
 
       // FIXME:
       axios
-        .post("http://localhost:8090/api/datasources/delete", {
+        .post("/api/datasources/delete", {
           id: this.deleteDatasourceID
         })
         .then(res => {

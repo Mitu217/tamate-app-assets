@@ -106,7 +106,7 @@ export default {
   created() {
     this.project.loading = true;
     axios
-      .get("http://localhost:8090/api/projects")
+      .get(this.config.host + "/api/projects")
       .then(res => {
         this.project.items = res.data.projects;
         this.project.loading = false;
@@ -117,11 +117,10 @@ export default {
   },
   methods: {
     onClickNewProject: function() {
-      location.href = "/projects/new";
+      location.href = this.config.host + "/projects/new";
     },
     onClickProject: function(projectId) {
-      //location.href = projectId + "/";
-      location.href = projectId + "/datasources";
+      location.href = "/project/datasources#" + projectId;
     }
   }
 };
