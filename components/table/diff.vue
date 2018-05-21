@@ -6,11 +6,11 @@
         <div class="el-table__header-wrapper">
             <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
                 <colgroup>
-                    <col v-for="(diffColumn, index) in diffColumns" :name="'el-table-diff_column_' + index" v-bind:key="index"/>
+                    <col v-for="(diffColumn, index) in diffColumns" v-bind:name="'el-table-diff_column_' + index" v-bind:key="index"/>
                 </colgroup>
                 <thead class="has-gutter">
                     <tr>
-                        <th v-for="(diffColumn, index) in diffColumns" colspan="1" rowspan="1" :class="'el-table-diff_column_' + index + ' is-leaf'" v-bind:key="index">
+                        <th v-for="(diffColumn, index) in diffColumns" colspan="1" rowspan="1" v-bind:class="'el-table-diff_column_' + index + ' is-leaf'" v-bind:key="index">
                             <div class="cell">
                                 {{ diffColumn }}
                             </div>
@@ -58,28 +58,37 @@
     </div>
 </template>
 
+<style>
+</style>
+
 <script>
 export default {
   data() {
     return {
+      data: [],
       diffColumns: []
     };
   },
-  props: ["data"],
-  methods: {},
-  created: function() {
-    let diffColumns = [];
-    if (this.data !== undefined && this.data !== null && this.data.length > 0) {
-      const data = this.data[0];
-      diffColumns = [...Object.keys(data.left), ...Object.keys(data.right)];
-      diffColumns = diffColumns.filter(function(item, pos) {
-        return diffColumns.indexOf(item) == pos;
-      });
+  props: ["diff"],
+  watch: {
+    diff: function(newDiff) {
+      this.data = newDiff;
+
+      let diffColumns = [];
+      if (
+        this.data !== undefined &&
+        this.data !== null &&
+        this.data.length > 0
+      ) {
+        const data = this.data[0];
+        diffColumns = [...Object.keys(data.left), ...Object.keys(data.right)];
+        diffColumns = diffColumns.filter(function(item, pos) {
+          return diffColumns.indexOf(item) == pos;
+        });
+      }
+      this.diffColumns = diffColumns;
     }
-    this.diffColumns = diffColumns;
   }
 };
 </script>
 
-<style>
-</style>
