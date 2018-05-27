@@ -28,23 +28,23 @@
                     <tr v-for="(d, index) in data" class="el-table__row" v-bind:key="index">
                         <td v-for="(diffColumn, columnIndex) in diffColumns" colspan="1" rowspan="1" :class="'el-table-diff_column_' + columnIndex + ' is-leaf'" v-bind:key="diffColumn.name">
                             <div class="cell">
-                                <div v-if="d.left[diffColumn] && d.right[diffColumn]">
-                                    <div v-if="d.left[diffColumn] === d.right[diffColumn]">
-                                        <p>{{ d.left[diffColumn] }}</p>
+                                <div v-if="d.left !== null && d.right !== null && d.left.values[diffColumn] && d.right.values[diffColumn]">
+                                    <div v-if="d.left.values[diffColumn] === d.right.values[diffColumn]">
+                                        <p>{{ d.left.values[diffColumn] }}</p>
                                     </div>
-                                    <div v-if="d.left[diffColumn] !== d.right[diffColumn]">
-                                        <p style="color:red">{{ d.left[diffColumn] }}</p>
-                                        <p style="color:green">{{ d.right[diffColumn] }}</p>
-                                    </div>
-                                </div>
-                                <div v-else-if="d.left[diffColumn]">
-                                    <div>
-                                        <p style="color:green">{{ d.left[diffColumn] }}</p>
+                                    <div v-if="d.left.values[diffColumn] !== d.right.values[diffColumn]">
+                                        <p style="color:red">{{ d.left.values[diffColumn] }}</p>
+                                        <p style="color:green">{{ d.right.values[diffColumn] }}</p>
                                     </div>
                                 </div>
-                                <div v-else-if="d.right[diffColumn]">
+                                <div v-else-if="d.left !== null && d.left.values[diffColumn]">
                                     <div>
-                                        <p style="color:red">{{ d.right[diffColumn] }}</p>
+                                        <p style="color:green">{{ d.left.values[diffColumn] }}</p>
+                                    </div>
+                                </div>
+                                <div v-else-if="d.right !== null && d.right.values[diffColumn]">
+                                    <div>
+                                        <p style="color:red">{{ d.right.values[diffColumn] }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,10 @@ export default {
         this.data.length > 0
       ) {
         const data = this.data[0];
-        diffColumns = [...Object.keys(data.left), ...Object.keys(data.right)];
+        diffColumns = [
+          ...Object.keys(data.left !== null ? data.left.values : []),
+          ...Object.keys(data.right !== null ? data.right.values : [])
+        ];
         diffColumns = diffColumns.filter(function(item, pos) {
           return diffColumns.indexOf(item) == pos;
         });

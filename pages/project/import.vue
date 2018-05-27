@@ -163,9 +163,9 @@ export default {
           right_schema_name: this.selectedRightOptions[1]
         })
         .then(res => {
-          this.add = res.data.add;
-          this.modify = res.data.modify;
-          this.del = res.data.delete;
+          this.add = res.data.diff.add;
+          this.modify = res.data.diff.modify;
+          this.del = res.data.diff.delete;
         })
         .catch(err => {
           console.log(err);

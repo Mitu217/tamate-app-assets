@@ -209,7 +209,7 @@ export default {
               config: config
             })
             .then(res => {
-              location.href = "/" + this.projectId + "/datasources";
+              location.href = "/project/datasources#" + this.projectId;
               this.loading = false;
             })
             .catch(err => {

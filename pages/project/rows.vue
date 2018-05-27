@@ -157,7 +157,7 @@ export default {
             schemaName
         )
         .then(res => {
-          this.rows = res.data.rows.values;
+          this.rows = res.data.rows;
         })
         .catch(err => {
           console.log(err);
