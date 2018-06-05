@@ -21,7 +21,7 @@
                 </el-row>
             </el-col>
         </el-row>
-        <row-list :loading="loading" :rows="rows"></row-list>
+        <row-table :loading="loading" :rows="rows"></row-table>
     </el-main>
 </template>
 
@@ -41,7 +41,7 @@ import RowList from "~/components/list/row.vue";
 export default {
   layout: "project",
   components: {
-    RowList
+    RowTable
   },
   data() {
     return {
@@ -151,7 +151,7 @@ export default {
       axios
         .get(
           this.config.host +
-            "/api/tables/rows?datasourceId=" +
+            "/api/rows?datasourceId=" +
             datasourceId +
             "&schemaName=" +
             schemaName

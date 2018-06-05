@@ -23,10 +23,7 @@ export default {
   },
   watch: {
     rows: function(newRows) {
-      this.data = [];
-      newRows.forEach(newRow => {
-        this.data.push(newRow.values);
-      });
+      this.data = newRows;
     }
   }
 };
