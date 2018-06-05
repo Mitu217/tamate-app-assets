@@ -1,5 +1,5 @@
 <template>
-    <div id="content">
+    <div class="content content-new-datasource">
         <div class="description-header">
             <div>Create a new Datasource</div>
         </div>
@@ -8,6 +8,7 @@
                 <el-form-item
                     prop="project_id"
                     label="ProjectID"
+                    hidden="true"
                     :rules="[
                         { required: true, message: 'ProjectID is required.' },
                     ]">
@@ -114,6 +115,17 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.description-header {
+  padding: 18px 20px 36px;
+}
+.content-new-datasource {
+  max-width: 480px;
+  height: 100%;
+  margin: 0 auto;
+}
+</style>
 
 <script>
 import axios from "axios";
