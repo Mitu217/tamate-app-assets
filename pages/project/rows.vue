@@ -37,7 +37,7 @@
 
 <script>
 import axios from "axios";
-import RowList from "~/components/list/row.vue";
+import RowTable from "~/components/table/row.vue";
 export default {
   layout: "project",
   components: {
