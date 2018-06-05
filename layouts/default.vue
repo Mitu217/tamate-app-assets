@@ -1,5 +1,5 @@
 <template>
-    <el-container class="content" >
+    <el-container class="content">
         <el-header>
             <tamate-header></tamate-header>
         </el-header>
