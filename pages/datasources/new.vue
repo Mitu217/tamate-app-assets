@@ -87,15 +87,6 @@
                     </el-form-item>
                     <el-form-item
                         v-if="form.type === 'Spreadsheet'"
-                        prop="config.spreadsheet.ranges"
-                        label="Ranges"
-                        :rules="[
-                            { required: true, message: 'Ranges is required.' },
-                        ]">
-                        <el-input v-model="form.config.spreadsheet.ranges" placeholder="A1:XX"></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        v-if="form.type === 'Spreadsheet'"
                         prop="config.spreadsheet.column_row_number"
                         label="ColumnRowNumber"
                         :rules="[
@@ -148,7 +139,6 @@ export default {
           },
           spreadsheet: {
             spreadsheet_id: "",
-            ranges: "A1:XX",
             column_row_number: 1
           },
           spanner: {
