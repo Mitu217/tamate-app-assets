@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content content-new-project">
         <div class="description-header">
             <div>Create a new Project</div>
         </div>
@@ -23,7 +23,7 @@
 .description-header {
   padding: 18px 20px 36px;
 }
-.content {
+.content-new-project {
   max-width: 480px;
   height: 100%;
   margin: 0 auto;
