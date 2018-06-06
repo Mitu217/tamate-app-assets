@@ -59,6 +59,7 @@
             </el-form-item>
             <el-form-item style="text-align:right; padding:0 20px">
                 <el-button type="primary" @click="onClickImport">Import</el-button>
+                <el-button type="error" @click="onClickExportJson">ExportJSON</el-button>
             </el-form-item>
         </el-form>
     </el-main>
@@ -186,6 +187,39 @@ export default {
           right_schema_name: this.selectedRightOptions[1]
         })
         .then(res => {})
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onClickExportJson() {
+      if (
+        this.selectedLeftOptions.length == 0 ||
+        this.selectedRightOptions.length == 0
+      ) {
+        return;
+      }
+      const query =
+        "leftDatasourceId=" +
+        this.selectedLeftOptions[0] +
+        "&rightDatasourceId=" +
+        this.selectedRightOptions[0] +
+        "&leftSchemaName=" +
+        this.selectedLeftOptions[1] +
+        "&rightSchemaName=" +
+        this.selectedRightOptions[1];
+      axios
+        .get(this.config.host + "/api/tables/export-json?" + query, {
+          responseType: "blob"
+        })
+        .then(res => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "sample.json");
+          document.body.appendChild(link);
+          link.click();
+          console.log(res);
+        })
         .catch(err => {
           console.log(err);
         });
